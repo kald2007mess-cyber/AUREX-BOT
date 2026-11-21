@@ -227,6 +227,14 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 .account-quick-chip{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:31px;padding:5px 12px;border-radius:10px;border:1px solid rgba(22,228,154,.32);background:linear-gradient(145deg,rgba(22,228,154,.11),rgba(0,0,0,.18));box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 0 10px rgba(22,228,154,.06);color:#d8ffea;font-size:11px;font-weight:800;white-space:nowrap}
 .account-quick-chip .quick-icon{font-size:13px;line-height:1}
 
+
+.account-header{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:nowrap}
+.account-header .brand{flex:0 0 auto;font-size:19px;letter-spacing:2px}
+.account-header .pill{flex:0 0 auto;padding:7px 9px;font-size:10px}
+.account-quick-actions{display:flex;align-items:center;justify-content:center;gap:6px;margin:0;flex:1;min-width:0}
+.account-quick-chip{min-height:36px;padding:6px 9px;gap:6px;border-radius:11px;font-size:12px;flex:0 0 auto}
+.account-quick-chip svg{width:17px;height:17px;fill:none;stroke:#8dffc0;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
 </style>
 </head>
 <body>
@@ -248,11 +256,14 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 
 
 <section class="app account-page" id="accountPage" hidden>
-<div class="account-quick-actions">
- <span class="account-quick-chip"><span class="quick-icon">🌐</span> AR</span>
- <span class="account-quick-chip"><span class="quick-icon">💬</span> دعم فني</span>
-</div>
-<header><div class="brand">AUREX <span style="color:#18d58a">◆</span></div><div class="pill">ARX · ACCOUNT</div></header>
+<header class="account-header">
+ <div class="brand">AUREX <span style="color:#18d58a">◆</span></div>
+ <div class="account-quick-actions">
+  <span class="account-quick-chip"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg> AR</span>
+  <span class="account-quick-chip"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a7.5 7.5 0 0 1-7.5 7.5H7l-3 2v-5.2A7.5 7.5 0 1 1 20 11.5Z"/><path d="M8 11h8M8 14h5"/></svg> دعم فني</span>
+ </div>
+ <div class="pill">ARX · ACCOUNT</div>
+</header>
 <div class="account-card">
  <div class="account-top"><span class="account-chip">ملفك الشخصي</span><span class="account-chip">AUREX MEMBER</span></div>
  <div class="account-emblem"><img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="عملة AUREX"></div>
