@@ -154,6 +154,37 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 .account-status{margin-top:14px;border-radius:17px;padding:15px;background:var(--panel);border:1px solid rgba(22,228,154,.17);display:flex;align-items:center;gap:10px;color:#b8d8c7;font-size:12px;line-height:1.7}
 .account-status i{width:9px;height:9px;border-radius:50%;background:#f1cb69;box-shadow:0 0 10px #f1cb69;flex:0 0 9px}
 
+
+.vip-status-card{margin:14px 0 15px;padding:18px 16px;border-radius:23px;background:linear-gradient(145deg,rgba(35,27,67,.78),rgba(15,22,31,.88));border:1px solid rgba(22,228,154,.2);box-shadow:inset 0 1px 0 #ffffff12,0 10px 26px #0004;backdrop-filter:blur(14px)}
+.vip-status-head{display:flex;align-items:center;gap:12px;padding:2px 0 18px}
+.vip-gem{width:58px;height:48px;display:grid;place-items:center;font-size:40px;color:#7c8588;text-shadow:0 4px 8px #000}
+.vip-status-head small{display:block;color:#a3b6aa;font-size:11px;font-weight:800}
+.vip-status-head strong{display:block;color:#e9f8ef;font-size:18px;margin-top:5px}
+.vip-info{margin-left:auto;width:23px;height:23px;border-radius:50%;display:grid;place-items:center;background:#ffffff20;color:#c4d6cc;font-weight:900}
+.vip-progress-label{display:flex;justify-content:space-between;gap:8px;align-items:center;color:#e4f4e9;font-size:12px;margin:3px 0 11px}
+.vip-progress-label span{color:#c0d3c8}
+.vip-progress-track{height:14px;border-radius:20px;background:rgba(255,255,255,.13);overflow:hidden}
+.vip-progress-track span{display:block;width:0;height:100%;border-radius:20px;background:linear-gradient(90deg,#14b879,#70f5b5)}
+.vip-progress-foot{display:flex;justify-content:space-between;color:#9bb5a7;font-size:11px;margin-top:11px}
+.vip-bonus-card{margin:0 0 22px;padding:18px 16px;border-radius:21px;background:rgba(24,29,27,.88);border:1px solid rgba(255,255,255,.07);box-shadow:0 9px 24px #0003}
+.vip-bonus-title{font-size:16px;font-weight:900;color:#e8fff1}
+.vip-bonus-value{display:flex;align-items:center;gap:8px;font-size:32px;font-weight:900;color:#f5fff8;margin:15px 0 17px}
+.vip-bonus-value img{width:30px;height:30px;object-fit:contain}
+.vip-claim-locked{height:54px;border-radius:15px;background:rgba(255,255,255,.09);display:flex;align-items:center;justify-content:center;gap:9px;color:#8f9a94;font-weight:850}
+.vip-bonus-card p{font-size:11px;line-height:1.6;color:#9eaaa3;margin:12px 0 0}
+.vip-levels-title{display:flex;align-items:center;justify-content:space-between;margin:0 4px 13px;color:#e9fff1}
+.vip-levels-title small{font-size:11px;color:#9fb6a8}
+.vip-level-list{display:flex;flex-direction:column;gap:12px}
+.vip-level{min-height:88px;padding:13px 15px;border-radius:19px;background:rgba(26,31,29,.88);border:1px solid rgba(255,255,255,.055);display:flex;align-items:center;gap:13px;box-shadow:0 7px 20px #0003}
+.vip-level-gem{width:55px;text-align:center;font-size:36px;color:#7d8982;filter:drop-shadow(0 3px 3px #000)}
+.vip-level-gem.bronze{color:#9b7455}.vip-level-gem.silver{color:#aeb9bb}.vip-level-gem.gold{color:#a9955d}
+.vip-level-info{flex:1;min-width:0}
+.vip-level-info strong{display:block;color:#d6e2da;font-size:16px}
+.vip-level-info strong span{font-size:12px;color:#87928b}
+.vip-level-info small{display:block;margin-top:5px;color:#a9c4b4;font-size:12px}
+.vip-chevron{color:#87968d;font-size:24px}
+.vip-note{text-align:center;color:#86a797;font-size:10px;line-height:1.6;margin:14px 6px}
+
 </style>
 </head>
 <body>
@@ -183,15 +214,26 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
  <div class="account-subtitle">ملخص نشاطك ورصيدك</div>
  <div class="account-balance"><div class="account-balance-label">إجمالي رصيدك</div><div class="account-balance-value"><span id="accountBalance">0.00</span><img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX"><small style="font-size:12px;color:#a8ffd4">ARX</small></div></div>
 </div>
-<div class="account-section-title">إحصائيات الحساب</div>
-<div class="account-grid">
- <div class="account-stat"><span>إجمالي الضغطات</span><strong id="accountTaps">0</strong></div>
- <div class="account-stat"><span>الطاقة المتبقية</span><strong id="accountEnergy">1000 / 1000</strong></div>
- <div class="account-stat"><span>قيمة الضغطة</span><strong>0.01 ARX</strong></div>
- <div class="account-stat"><span>المكافآت من الدعوات</span><strong>0 ARX</strong></div>
+<section class="vip-status-card">
+ <div class="vip-status-head"><div class="vip-gem">◆</div><div><small>VIP STATUS</small><strong>لا يوجد مستوى بعد</strong></div><span class="vip-info">i</span></div>
+ <div class="vip-progress-label"><strong>0 / 1,000 ARX</strong><span>للوصول إلى <b>Iron</b></span></div>
+ <div class="vip-progress-track"><span></span></div>
+ <div class="vip-progress-foot"><span>إجمالي التداول</span><span>1,000 ARX متبقية</span></div>
+</section>
+<section class="vip-bonus-card">
+ <div class="vip-bonus-title">♧ PLAYBONUS</div>
+ <div class="vip-bonus-value">0.00 <img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX"></div>
+ <div class="vip-claim-locked"><span>🔒</span> افتح مستوى Silver للمطالبة</div>
+ <p>تتراكم مكافآت PLAYBONUS تلقائياً ويمكن المطالبة بها بعد الوصول إلى مستوى Silver.</p>
+</section>
+<div class="vip-levels-title"><strong>مستويات VIP</strong><small>حجم التداول بـ ARX</small></div>
+<div class="vip-level-list">
+ <div class="vip-level"><div class="vip-level-gem">◆</div><div class="vip-level-info"><strong>Iron <span>🔒</span></strong><small>🪙 1,000 ARX</small></div><span class="vip-chevron">⌄</span></div>
+ <div class="vip-level"><div class="vip-level-gem bronze">◆</div><div class="vip-level-info"><strong>Bronze <span>🔒</span></strong><small>🪙 5,000 ARX</small></div><span class="vip-chevron">⌄</span></div>
+ <div class="vip-level"><div class="vip-level-gem silver">◆</div><div class="vip-level-info"><strong>Silver <span>🔒</span></strong><small>🪙 10,000 ARX</small></div><span class="vip-chevron">⌄</span></div>
+ <div class="vip-level"><div class="vip-level-gem gold">◆</div><div class="vip-level-info"><strong>Gold <span>🔒</span></strong><small>🪙 25,000 ARX</small></div><span class="vip-chevron">⌄</span></div>
 </div>
-<div class="account-section-title">حالة الحساب</div>
-<div class="account-status"><i></i><span>الحساب يعمل محلياً على هذا الجهاز. ربط الحساب والتحقق من بياناته سيتاحان عند تجهيز نظام المستخدمين.</span></div>
+<div class="vip-note">مستويات VIP والمكافآت ستُفعّل بعد إطلاق نظام التداول والمكافآت.</div>
 </section>
 
 <section class="app referral-page" id="referralPage" hidden>
@@ -267,8 +309,6 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
    leaderboardPage.hidden=index!==rankingIndex;
    if(index===accountIndex){
      document.getElementById('accountBalance').textContent=balance.toFixed(2);
-     document.getElementById('accountTaps').textContent=taps.toLocaleString('en-US');
-     document.getElementById('accountEnergy').textContent=energy+' / '+maxEnergy;
    }
    navButtons.forEach((button,i)=>button.classList.toggle('active',i===index));
    window.scrollTo({top:0,behavior:'smooth'});
