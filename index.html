@@ -103,8 +103,10 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
    coin.classList.remove('pulse');wrap.classList.remove('glow');void coin.offsetWidth;coin.classList.add('pulse');wrap.classList.add('glow');
    const rect=wrap.getBoundingClientRect(),fx=document.createElement('span');
    fx.className='float';fx.innerHTML='<span>+0.01</span><img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX">';
-   wrap.appendChild(fx);fx.addEventListener('animationend',()=>fx.remove(),{once:true});
-   wrap.addEventListener('animationend',()=>wrap.classList.remove('glow'),{once:true});
+   fx.style.position='fixed';fx.style.left=(rect.left+rect.width/2)+'px';fx.style.top=(rect.top+rect.height*.18)+'px';fx.style.zIndex='99999';
+   document.body.appendChild(fx);fx.addEventListener('animationend',()=>fx.remove(),{once:true});
+   const clearGlow=(e)=>{if(e.target===wrap){wrap.classList.remove('glow');wrap.removeEventListener('animationend',clearGlow);}};
+   wrap.addEventListener('animationend',clearGlow);
  });
 })();
 </script>
