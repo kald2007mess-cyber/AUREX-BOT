@@ -320,13 +320,26 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 </section>
 
 <section class="app leaderboard-page" id="leaderboardPage" hidden>
-<header><div class="brand">AUREX <span style="color:#18d58a">◆</span></div><div class="pill">ARX · RANKING</div></header>
+<header><div class="brand">AUREX <span style="color:#18d58a">◆</span></div><div class="pill">ARX · HUB</div></header>
+<div class="hub-tabs" style="display:flex;gap:10px;margin:18px 0 22px;padding:6px;border:1px solid #35d99a44;border-radius:18px;background:rgba(3,24,17,.62);backdrop-filter:blur(14px)">
+<button type="button" class="hub-tab active" data-hub="tasks" style="flex:1;border:1px solid #35e6a080;border-radius:13px;padding:12px 8px;color:#dffff0;background:linear-gradient(135deg,#0b8b5a66,#063d2c88);font:inherit;font-weight:700">المهمات</button>
+<button type="button" class="hub-tab" data-hub="ranking" style="flex:1;border:1px solid transparent;border-radius:13px;padding:12px 8px;color:#b9d9ca;background:transparent;font:inherit;font-weight:700">الترتيب</button>
+</div>
+<div id="hubTasks">
+<div class="lb-heading"><h2>المهمات</h2></div>
+<div class="glass" style="padding:24px 18px;border:1px solid #35d99a44;border-radius:18px;text-align:center;background:rgba(3,24,17,.58);backdrop-filter:blur(14px)">
+<div style="font-size:30px;margin-bottom:10px">✦</div>
+<strong style="display:block;color:#e4fff1;margin-bottom:7px">المهمات قادمة قريباً</strong>
+<span style="color:#a8cbbb;font-size:13px">ستظهر هنا المهمات ومكافآت ARX عند تفعيلها.</span>
+</div>
+</div>
+<div id="hubRanking" hidden>
 <div class="lb-heading">
 <h2><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M5 4h14v4a7 7 0 0 1-14 0V4Z"/><path d="M5 6H2v2a5 5 0 0 0 5 5m12-7h3v2a5 5 0 0 1-5 5"/></svg>أفضل اللاعبين</h2>
-
 </div>
 <div class="lb-list" id="leaderboardList"></div>
 <div class="lb-demo-note">سيتم ملء المراكز تلقائياً عند توفر بيانات اللاعبين الحقيقية.</div>
+</div>
 </section>
 
 
@@ -370,7 +383,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 <button><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.8-3.3 3.1-5 7-5s6.2 1.7 7 5"/></svg><span>حسابي</span></button>
 <button><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3 20c.5-3 2.4-4.5 6-4.5M16 5a3 3 0 0 1 0 6m1 4c2.5.4 3.8 2 4 5M14 16c3.5 0 5.5 1.3 6 4"/></svg><span>دعوة</span></button>
 <button class="active"><svg viewBox="0 0 24 24"><path d="M12 3 21 20H3Z"/><path d="m12 9 4 8H8Z"/></svg><span>الرئيسية</span></button>
-<button><svg viewBox="0 0 24 24"><path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9Z"/></svg><span>ترتيب</span></button>
+<button><svg viewBox="0 0 24 24"><path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9Z"/></svg><span>مهمات</span></button>
 <button><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18m-13 5h4"/></svg><span>محفظة</span></button>
 </nav>
 <script>
@@ -408,6 +421,21 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
    window.scrollTo({top:0,behavior:'smooth'});
  };
  document.getElementById('leaderboardList').innerHTML=Array.from({length:10},(_,i)=>'<div class="lb-slot"><div class="lb-slot-rank">'+(i+1)+'</div><div class="lb-slot-space"></div></div>').join('');
+ const hubTabs=[...document.querySelectorAll('.hub-tab')];
+ const hubTasks=document.getElementById('hubTasks'),hubRanking=document.getElementById('hubRanking');
+ hubTabs.forEach(btn=>btn.addEventListener('click',()=>{
+   const showRanking=btn.dataset.hub==='ranking';
+   hubTasks.hidden=showRanking;
+   hubRanking.hidden=!showRanking;
+   hubTabs.forEach(tab=>{
+     const active=tab===btn;
+     tab.classList.toggle('active',active);
+     tab.style.background=active?'linear-gradient(135deg,#0b8b5a66,#063d2c88)':'transparent';
+     tab.style.borderColor=active?'#35e6a080':'transparent';
+     tab.style.color=active?'#dffff0':'#b9d9ca';
+   });
+   window.scrollTo({top:0,behavior:'smooth'});
+ }));
  navButtons.forEach((button,index)=>button.addEventListener('click',()=>showTab(index)));
  const withdrawInput=document.getElementById('withdrawAmount');
  const presetButtons=[...document.querySelectorAll('#withdrawPresets [data-amount]')];
