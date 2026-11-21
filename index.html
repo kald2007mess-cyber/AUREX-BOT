@@ -179,12 +179,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 <span class="lb-points-label">النقاط</span>
 </div>
 <div class="lb-list" id="leaderboardList"></div>
-<div class="lb-you">
-<div class="lb-rank">—</div><div class="lb-avatar">A</div>
-<div class="lb-name">أنت <span class="lb-you-tag">YOU</span></div>
-<div class="lb-score" id="myRankScore">0.00</div>
-</div>
-<div class="lb-demo-note">ترتيب تجريبي للواجهة — ستظهر المراكز الحقيقية بعد ربط حسابات اللاعبين والخادم.</div>
+<div class="lb-demo-note">لن تظهر أسماء أو نقاط وهمية. سيُعرض ترتيبك الحقيقي بعد ربط حسابك بقاعدة البيانات.</div>
 </section>
 
 <nav class="nav" aria-label="التنقل">
@@ -215,15 +210,9 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
    referralPage.hidden=index!==inviteIndex;
    leaderboardPage.hidden=index!==rankingIndex;
    navButtons.forEach((button,i)=>button.classList.toggle('active',i===index));
-   if(index===rankingIndex) document.getElementById('myRankScore').textContent=balance.toFixed(2)+' ARX';
    window.scrollTo({top:0,behavior:'smooth'});
  };
- const demoPlayers=[
-  ['A','Player 01','41.4M'],['C','Player 02','19.0M'],['T','Player 03','16.7M'],
-  ['Z','Player 04','16.4M'],['S','Player 05','14.8M'],['M','Player 06','11.3M'],
-  ['I','Player 07','11.2M'],['N','Player 08','10.0M'],['P','Player 09','9.7M'],['Q','Player 10','9.2M']
- ];
- document.getElementById('leaderboardList').innerHTML=demoPlayers.map((p,i)=>'<div class="lb-row"><div class="lb-rank">'+(i+1)+'</div><div class="lb-avatar">'+p[0]+'</div><div class="lb-name">'+p[1]+'</div><div class="lb-score">'+p[2]+'</div></div>').join('');
+ document.getElementById('leaderboardList').innerHTML='<div class="ref-empty"><div class="ref-empty-icon">♧</div><strong>لا توجد بيانات ترتيب حالياً</strong><span>سيظهر ترتيب اللاعبين الحقيقي بعد ربط قاعدة البيانات.</span></div>';
  navButtons.forEach((button,index)=>button.addEventListener('click',()=>showTab(index)));
  const referralCode=localStorage.getItem('aurex_ref_code')||('ARX'+Math.random().toString(36).slice(2,9).toUpperCase());
  localStorage.setItem('aurex_ref_code',referralCode);
