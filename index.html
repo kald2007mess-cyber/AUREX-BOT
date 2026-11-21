@@ -13,12 +13,12 @@ body:before,body:after{content:"";position:fixed;inset:0;pointer-events:none;z-i
 body:before{opacity:.65;background-image:radial-gradient(1px 1px at 12% 21%,#fff 99%,transparent),radial-gradient(2px 2px at 72% 15%,#ffe8a0 99%,transparent),radial-gradient(1px 1px at 39% 72%,#fff 99%,transparent),radial-gradient(1px 1px at 88% 61%,#fff 99%,transparent),radial-gradient(2px 2px at 24% 84%,#50ffc1 99%,transparent);background-size:260px 220px;animation:twinkle 5s ease-in-out infinite alternate}
 body:after{background:radial-gradient(ellipse at 50% 100%,#00e99b22,transparent 48%),linear-gradient(180deg,#01080630,transparent 35%,#01080655)}
 @keyframes twinkle{to{opacity:1;filter:brightness(1.8)}}
-.space-photo{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(180deg,rgba(1,9,8,.45),rgba(1,15,10,.34) 45%,rgba(1,8,6,.72)),linear-gradient(90deg,rgba(0,20,13,.3),rgba(0,18,12,.04),rgba(0,15,10,.32)),url("https://commons.wikimedia.org/wiki/Special:FilePath/Bennu%27s_Journey_Resource_Page_(SVS20218_-_Nebula_Supernova).jpg");background-size:cover;background-position:center;background-repeat:no-repeat;filter:saturate(1.18) hue-rotate(24deg)}
-.space-planet{position:fixed;z-index:0;pointer-events:none;border-radius:50%;box-shadow:inset -22px -16px 38px #000b,0 0 34px #27d9a044}
+.space-photo{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(180deg,rgba(1,9,8,.45),rgba(1,15,10,.34) 45%,rgba(1,8,6,.72)),linear-gradient(90deg,rgba(0,20,13,.3),rgba(0,18,12,.04),rgba(0,15,10,.32)),url("./file_00000000affc821093544e5ebf264740.png");background-size:cover;background-position:center;background-repeat:no-repeat;filter:saturate(1.08)}
+.space-planet{display:none;position:fixed;z-index:0;pointer-events:none;border-radius:50%;box-shadow:inset -22px -16px 38px #000b,0 0 34px #27d9a044}
 .planet-a{width:clamp(105px,24vw,230px);height:clamp(105px,24vw,230px);right:-7%;top:9%;background:radial-gradient(circle at 32% 28%,#9dc9b1 0,#3f8777 17%,#174a45 42%,#071b20 72%);opacity:.72}
 .planet-a:after{content:"";position:absolute;width:155%;height:32%;left:-27%;top:35%;border:8px solid #b6d3b077;border-left-color:#d4d8b088;border-right-color:#5e9b8b99;border-radius:50%;transform:rotate(-19deg)}
 .planet-b{width:clamp(45px,11vw,95px);height:clamp(45px,11vw,95px);left:5%;top:39%;background:radial-gradient(circle at 32% 28%,#b9c9b1,#527b69 35%,#152c28 75%);opacity:.58}
-.meteor{position:fixed;width:100px;height:2px;z-index:0;pointer-events:none;background:linear-gradient(90deg,transparent,#ffe6a0,transparent);transform:rotate(-35deg);opacity:0;animation:shoot 8s linear infinite}
+.meteor{display:none;position:fixed;width:100px;height:2px;z-index:0;pointer-events:none;background:linear-gradient(90deg,transparent,#ffe6a0,transparent);transform:rotate(-35deg);opacity:0;animation:shoot 8s linear infinite}
 .m1{top:12%;left:-15%;animation-delay:1s}.m2{top:44%;left:-20%;animation-delay:5s}.m3{top:72%;left:-15%;animation-delay:9s}
 @keyframes shoot{0%,75%{opacity:0;transform:translate(0,0) rotate(-35deg)}78%{opacity:.9}100%{opacity:0;transform:translate(125vw,65vh) rotate(-35deg)}}
 .app{position:relative;z-index:1;max-width:520px;margin:auto;min-height:100svh;padding:calc(22px + env(safe-area-inset-top)) 18px calc(110px + env(safe-area-inset-bottom))}
@@ -31,7 +31,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 .coin-wrap:before{content:"";position:absolute;inset:5%;border-radius:50%;background:#00f5a02c;filter:blur(32px);z-index:-1;animation:aura 3.4s ease-in-out infinite}
 .coin-wrap:after{content:"";position:absolute;inset:-2%;border:1px solid #19f5a055;border-radius:50%;box-shadow:0 0 28px #00e99b2c,inset 0 0 25px #00e99b18;z-index:-1}
 .coin{width:100%;height:100%;border:0;padding:0;background:transparent;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;filter:drop-shadow(0 0 15px #00ffa05c) drop-shadow(0 18px 24px #000b);transition:transform .12s ease;outline:none}
-.coin:active{transform:scale(.95)}.coin svg{width:100%;height:100%;overflow:visible}
+.coin:active{transform:scale(.95)}.coin svg,.coin img{width:100%;height:100%;object-fit:contain;display:block}.coin img{filter:drop-shadow(0 0 10px #00ffa055)}
 .coin.pulse{animation:tap .27s ease}
 .float{position:absolute;z-index:5;pointer-events:none;font-weight:950;font-size:21px;color:#fff0a8;text-shadow:0 0 10px #ffcb4b,0 2px 12px #000;animation:floatUp 1.05s ease-out forwards;white-space:nowrap}
 .tap-hint{text-align:center;color:#e8d89e;font-size:13px;margin:0 0 20px}
@@ -61,28 +61,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 <section class="balance" aria-live="polite"><div class="caption">إجمالي رصيدك</div><div class="amount"><span id="balance">0.00</span> <small style="font-size:14px">🪙 ARX</small></div></section>
 <div class="coin-wrap" id="coinWrap">
 <button class="coin" id="tap" type="button" aria-label="اضغط على عملة AUREX لجمع المكافآت">
-<svg viewBox="0 0 400 400" role="img" aria-label="عملة AUREX الذهبية والخضراء">
-<defs>
- <linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff3a8"/><stop offset=".2" stop-color="#b87919"/><stop offset=".42" stop-color="#ffe68a"/><stop offset=".65" stop-color="#8e5a12"/><stop offset=".84" stop-color="#ffdf70"/><stop offset="1" stop-color="#75430c"/></linearGradient>
- <linearGradient id="face" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#075b3c"/><stop offset=".48" stop-color="#021b17"/><stop offset="1" stop-color="#087448"/></linearGradient>
- <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff5b5"/><stop offset=".35" stop-color="#e5a52d"/><stop offset=".65" stop-color="#fff0a0"/><stop offset="1" stop-color="#9a5d0a"/></linearGradient>
- <linearGradient id="emerald" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8dffd0"/><stop offset=".3" stop-color="#00b86c"/><stop offset=".7" stop-color="#00633f"/><stop offset="1" stop-color="#31ffc0"/></linearGradient>
- <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-</defs>
-<circle cx="200" cy="200" r="188" fill="#03100c" stroke="url(#rim)" stroke-width="13"/>
-<circle cx="200" cy="200" r="174" fill="url(#face)" stroke="#f5d16b" stroke-width="3"/>
-<circle cx="200" cy="200" r="158" fill="none" stroke="url(#rim)" stroke-width="5"/>
-<circle cx="200" cy="200" r="145" fill="none" stroke="#00e99b" stroke-opacity=".5" stroke-width="2" stroke-dasharray="3 8"/>
-<path d="M67 145L91 119 76 99 108 84M333 145L309 119 324 99 292 84M67 255L91 281 76 301 108 316M333 255L309 281 324 301 292 316" fill="none" stroke="url(#gold)" stroke-width="5"/>
-<text x="200" y="76" text-anchor="middle" fill="url(#gold)" stroke="#542f08" stroke-width="1" paint-order="stroke" font-size="37" font-weight="900" letter-spacing="5">AUREX</text>
-<text x="200" y="342" text-anchor="middle" fill="url(#gold)" stroke="#542f08" stroke-width="1" paint-order="stroke" font-size="30" font-weight="900" letter-spacing="6">ARX</text>
-<g fill="url(#gold)"><path d="M91 91l5 11 12 1-9 8 3 12-11-6-10 6 2-12-9-8 12-1z"/><path d="M309 91l5 11 12 1-9 8 3 12-11-6-10 6 2-12-9-8 12-1z"/></g>
-<circle cx="200" cy="203" r="101" fill="#02120e" stroke="#00d98b" stroke-width="3"/>
-<path d="M105 244L163 180 196 205 247 139 225 138 283 94 278 158 263 143 199 232 165 207 121 258Z" fill="url(#emerald)" stroke="#7affc5" stroke-width="3" filter="url(#glow)"/>
-<path d="M184 263L235 211 258 230 305 173 283 174 329 137 322 193 308 181 260 247 235 229 205 264Z" fill="url(#gold)" stroke="#fff0a0" stroke-width="2" filter="url(#glow)"/>
-<circle cx="200" cy="200" r="119" fill="none" stroke="#f4c75c" stroke-opacity=".7" stroke-width="2"/>
-<g fill="#fff0a0"><circle cx="200" cy="16" r="3"/><circle cx="200" cy="384" r="3"/><circle cx="16" cy="200" r="3"/><circle cx="384" cy="200" r="3"/></g>
-</svg>
+<img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="عملة AUREX ثلاثية الأبعاد">
 </button>
 </div>
 <div class="tap-hint">اضغط على العملة واجمع مكافآت AUREX</div>
