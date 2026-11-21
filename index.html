@@ -210,10 +210,10 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
  const leaderboardPage=document.getElementById('leaderboardPage');
  const inviteIndex=1, homeIndex=2, rankingIndex=3;
  const showTab=(index)=>{
+   if(index!==homeIndex&&index!==inviteIndex&&index!==rankingIndex)return;
    homePage.hidden=index!==homeIndex;
    referralPage.hidden=index!==inviteIndex;
    leaderboardPage.hidden=index!==rankingIndex;
-   if(index!==homeIndex&&index!==inviteIndex&&index!==rankingIndex)return;
    navButtons.forEach((button,i)=>button.classList.toggle('active',i===index));
    if(index===rankingIndex) document.getElementById('myRankScore').textContent=balance.toFixed(2)+' ARX';
    window.scrollTo({top:0,behavior:'smooth'});
