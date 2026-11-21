@@ -101,10 +101,12 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
    localStorage.setItem('aurex_taps',String(taps));
    localStorage.setItem('aurex_energy',String(energy));render();
    coin.classList.remove('pulse');wrap.classList.remove('glow');void coin.offsetWidth;coin.classList.add('pulse');wrap.classList.add('glow');
-   const rect=wrap.getBoundingClientRect(),fx=document.createElement('span');
-   fx.className='float';fx.innerHTML='<span>+0.01</span><img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX">';
-   fx.style.position='fixed';fx.style.left=(rect.left+rect.width/2)+'px';fx.style.top=(rect.top+rect.height*.18)+'px';fx.style.zIndex='99999';
-   document.body.appendChild(fx);fx.addEventListener('animationend',()=>fx.remove(),{once:true});
+   const fx=document.createElement('div');
+   fx.innerHTML='<span>+0.01</span><img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX">';
+   fx.style.cssText='position:fixed!important;left:50%!important;top:38%!important;transform:translate(-50%,-50%)!important;z-index:2147483647!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:8px!important;padding:10px 18px!important;border:2px solid #39ff9a!important;border-radius:30px!important;background:#002b1c!important;color:#8dffb7!important;font-size:28px!important;font-weight:900!important;box-shadow:0 0 22px #00ff78,0 0 50px #00ff78!important;pointer-events:none!important;white-space:nowrap!important;opacity:1!important;';
+   const rewardIcon=fx.querySelector('img');rewardIcon.style.cssText='width:44px!important;height:44px!important;object-fit:contain!important;';
+   document.body.appendChild(fx);
+   fx.animate([{opacity:1,transform:'translate(-50%,-50%) scale(1)'},{opacity:1,transform:'translate(-50%,-85%) scale(1.08)',offset:.65},{opacity:0,transform:'translate(-50%,-115%) scale(1.12)'}],{duration:1400,easing:'ease-out'}).onfinish=()=>fx.remove();
    const clearGlow=(e)=>{if(e.target===wrap){wrap.classList.remove('glow');wrap.removeEventListener('animationend',clearGlow);}};
    wrap.addEventListener('animationend',clearGlow);
  });
