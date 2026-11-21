@@ -222,6 +222,11 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 .wallet-hint.eligible{border-color:rgba(22,228,154,.62);background:rgba(22,228,154,.13);color:#aaffd2;box-shadow:0 0 10px rgba(22,228,154,.25),inset 0 0 8px rgba(22,228,154,.08)}
 .wallet-hint:disabled{opacity:.45;cursor:not-allowed}
 
+
+.account-quick-actions{display:flex;justify-content:center;align-items:center;gap:9px;margin:4px auto 15px}
+.account-quick-chip{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:31px;padding:5px 12px;border-radius:10px;border:1px solid rgba(22,228,154,.32);background:linear-gradient(145deg,rgba(22,228,154,.11),rgba(0,0,0,.18));box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 0 10px rgba(22,228,154,.06);color:#d8ffea;font-size:11px;font-weight:800;white-space:nowrap}
+.account-quick-chip .quick-icon{font-size:13px;line-height:1}
+
 </style>
 </head>
 <body>
@@ -243,6 +248,10 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 
 
 <section class="app account-page" id="accountPage" hidden>
+<div class="account-quick-actions">
+ <span class="account-quick-chip"><span class="quick-icon">🌐</span> AR</span>
+ <span class="account-quick-chip"><span class="quick-icon">💬</span> دعم فني</span>
+</div>
 <header><div class="brand">AUREX <span style="color:#18d58a">◆</span></div><div class="pill">ARX · ACCOUNT</div></header>
 <div class="account-card">
  <div class="account-top"><span class="account-chip">ملفك الشخصي</span><span class="account-chip">AUREX MEMBER</span></div>
