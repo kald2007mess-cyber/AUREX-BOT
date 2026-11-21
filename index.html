@@ -27,7 +27,8 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 .brand{font-weight:900;letter-spacing:3px;color:var(--gold-light);font-size:21px;text-shadow:0 0 18px #b98a35}
 .pill{border:1px solid rgba(232,198,107,.35);background:rgba(3,20,13,.7);border-radius:30px;padding:8px 13px;color:#f3dfa0;font-size:12px}
 .balance{text-align:center;background:linear-gradient(120deg,rgba(4,26,17,.82),rgba(30,69,43,.56));border:1px solid rgba(232,198,107,.3);border-radius:22px;padding:16px 12px;box-shadow:0 10px 35px #0006,inset 0 0 25px #d9ad3b0b;backdrop-filter:blur(8px)}
-.caption{font-size:12px;color:#c8d9c8}.amount{font-size:clamp(30px,8vw,38px);font-weight:900;color:#fff0b4;margin-top:4px;text-shadow:0 0 20px #d6ad52;direction:ltr}
+.caption{font-size:12px;color:#c8d9c8}
+.arx-icon{width:19px;height:19px;object-fit:contain;vertical-align:middle;display:inline-block;filter:drop-shadow(0 0 5px #00ff8a66)}.amount{font-size:clamp(30px,8vw,38px);font-weight:900;color:#fff0b4;margin-top:4px;text-shadow:0 0 20px #d6ad52;direction:ltr}
 .coin-wrap{position:relative;width:min(76vw,330px);aspect-ratio:1;margin:clamp(25px,6vh,44px) auto 20px;display:grid;place-items:center;isolation:isolate}
 .coin-wrap:before{content:"";position:absolute;inset:5%;border-radius:50%;background:#00f5a02c;filter:blur(32px);z-index:-1;animation:aura 3.4s ease-in-out infinite}
 .coin-wrap:after{content:"";position:absolute;inset:-2%;border:1px solid #19f5a055;border-radius:50%;box-shadow:0 0 28px #00e99b2c,inset 0 0 25px #00e99b18;z-index:-1}
@@ -64,14 +65,14 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 <div class="meteor m1"></div><div class="meteor m2"></div><div class="meteor m3"></div>
 <main class="app">
 <header><div class="brand">AUREX <span style="color:#18d58a">◆</span></div><div class="pill">ARX · SPACE NETWORK</div></header>
-<section class="balance" aria-live="polite"><div class="caption">إجمالي رصيدك</div><div class="amount"><span id="balance">0.00</span> <small style="font-size:14px">🪙 ARX</small></div></section>
+<section class="balance" aria-live="polite"><div class="caption">إجمالي رصيدك</div><div class="amount"><span id="balance">0.00</span> <small style="font-size:14px;display:inline-flex;align-items:center;gap:4px"><img class="arx-icon" src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX"> ARX</small></div></section>
 <div class="coin-wrap" id="coinWrap">
 <button class="coin" id="tap" type="button" aria-label="اضغط على عملة AUREX لجمع المكافآت">
 <img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="عملة AUREX ثلاثية الأبعاد">
 </button>
 </div>
 <div class="tap-hint">اضغط على العملة واجمع مكافآت AUREX</div>
-<section class="stats"><div class="stat"><span class="caption">الطاقة المتبقية</span><strong id="energyText">1000 / 1000</strong></div><div class="stat"><span class="caption">قيمة الضغطة</span><strong>+0.01 🪙</strong></div></section>
+<section class="stats"><div class="stat"><span class="caption">الطاقة المتبقية</span><strong id="energyText">1000 / 1000</strong></div><div class="stat"><span class="caption">قيمة الضغطة</span><strong style="display:flex;align-items:center;justify-content:center;gap:5px">+0.01 <img class="arx-icon" src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX"></strong></div></section>
 <section class="energy"><div class="energy-top"><span>⚡ الطاقة</span><span>تتجدد كل 12 ساعة</span></div><div class="track"><div class="fill" id="energyFill"></div></div></section>
 <div class="notice">الرصيد والضغطات محفوظة محلياً على هذا الجهاز في هذه النسخة التجريبية</div>
 </main>
