@@ -3,57 +3,54 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#061a12">
+<meta name="theme-color" content="#03130f">
 <title>AUREX — ARX</title>
 <style>
-:root{--gold:#e8c66b;--gold2:#fff0b4;--green:#19d58a;--deep:#04130e;--panel:rgba(7,30,21,.72)}
+:root{--gold:#f1cb69;--gold-light:#fff0ae;--green:#16e49a;--deep:#03130e;--panel:rgba(5,27,19,.78)}
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#f8f4df}
-body{min-height:100vh;overflow-x:hidden;background:radial-gradient(circle at 82% 17%,rgba(24,110,86,.28) 0 7%,transparent 7.5%),radial-gradient(ellipse at 82% 17%,rgba(25,210,145,.2),transparent 22%),radial-gradient(ellipse at 18% 38%,rgba(15,125,78,.34),transparent 38%),radial-gradient(ellipse at 70% 58%,rgba(5,82,57,.32),transparent 42%),radial-gradient(ellipse at 50% 105%,rgba(25,160,100,.28),transparent 36%),linear-gradient(180deg,#020b09 0%,#061b14 45%,#020806 100%);position:relative}
-body:before,body:after{content:"";position:fixed;inset:-25%;pointer-events:none;z-index:0}
-body:before{background:radial-gradient(ellipse,rgba(238,190,83,.16),transparent 58%);filter:blur(34px);animation:fog 14s ease-in-out infinite alternate}
-body:after{opacity:.5;background-image:radial-gradient(1px 1px at 12% 21%,#fff 99%,transparent),radial-gradient(2px 2px at 72% 15%,#ffe8a0 99%,transparent),radial-gradient(1px 1px at 39% 72%,#fff 99%,transparent),radial-gradient(1px 1px at 88% 61%,#fff 99%,transparent),radial-gradient(2px 2px at 24% 84%,#f6d77a 99%,transparent);background-size:260px 220px;animation:twinkle 5s ease-in-out infinite alternate}
-@keyframes fog{to{transform:translate(5%,3%) scale(1.12);opacity:.65}}@keyframes twinkle{to{opacity:.9;filter:brightness(1.8)}}
-
-/* Real astronomical nebula photograph with cinematic emerald grading */
-.space-photo{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(180deg,rgba(1,9,8,.45),rgba(1,15,10,.36) 45%,rgba(1,8,6,.72)),linear-gradient(90deg,rgba(0,20,13,.34),rgba(0,18,12,.05),rgba(0,15,10,.36)),url("https://commons.wikimedia.org/wiki/Special:FilePath/Bennu%27s_Journey_Resource_Page_(SVS20218_-_Nebula_Supernova).jpg");background-size:cover;background-position:center;background-repeat:no-repeat;filter:saturate(1.12) hue-rotate(24deg)}
+body{min-height:100svh;overflow-x:hidden;background:radial-gradient(ellipse at 50% 43%,#07553a 0,#052b20 28%,#03140f 62%,#010706 100%)}
+body:before,body:after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0}
+body:before{opacity:.65;background-image:radial-gradient(1px 1px at 12% 21%,#fff 99%,transparent),radial-gradient(2px 2px at 72% 15%,#ffe8a0 99%,transparent),radial-gradient(1px 1px at 39% 72%,#fff 99%,transparent),radial-gradient(1px 1px at 88% 61%,#fff 99%,transparent),radial-gradient(2px 2px at 24% 84%,#50ffc1 99%,transparent);background-size:260px 220px;animation:twinkle 5s ease-in-out infinite alternate}
+body:after{background:radial-gradient(ellipse at 50% 100%,#00e99b22,transparent 48%),linear-gradient(180deg,#01080630,transparent 35%,#01080655)}
+@keyframes twinkle{to{opacity:1;filter:brightness(1.8)}}
+.space-photo{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(180deg,rgba(1,9,8,.45),rgba(1,15,10,.34) 45%,rgba(1,8,6,.72)),linear-gradient(90deg,rgba(0,20,13,.3),rgba(0,18,12,.04),rgba(0,15,10,.32)),url("https://commons.wikimedia.org/wiki/Special:FilePath/Bennu%27s_Journey_Resource_Page_(SVS20218_-_Nebula_Supernova).jpg");background-size:cover;background-position:center;background-repeat:no-repeat;filter:saturate(1.18) hue-rotate(24deg)}
 .space-planet{position:fixed;z-index:0;pointer-events:none;border-radius:50%;box-shadow:inset -22px -16px 38px #000b,0 0 34px #27d9a044}
-.planet-a{width:clamp(105px,24vw,230px);height:clamp(105px,24vw,230px);right:-7%;top:9%;background:radial-gradient(circle at 32% 28%,#9dc9b1 0,#3f8777 17%,#174a45 42%,#071b20 72%);opacity:.82}
-.planet-a:after{content:"";position:absolute;width:155%;height:32%;left:-27%;top:35%;border:8px solid #b6d3b077;border-left-color:#d4d8b088;border-right-color:#5e9b8b99;border-radius:50%;transform:rotate(-19deg);box-shadow:0 0 12px #9dd8c855}
-.planet-b{width:clamp(45px,11vw,95px);height:clamp(45px,11vw,95px);left:5%;top:39%;background:radial-gradient(circle at 32% 28%,#b9c9b1,#527b69 35%,#152c28 75%);opacity:.7}
-
+.planet-a{width:clamp(105px,24vw,230px);height:clamp(105px,24vw,230px);right:-7%;top:9%;background:radial-gradient(circle at 32% 28%,#9dc9b1 0,#3f8777 17%,#174a45 42%,#071b20 72%);opacity:.72}
+.planet-a:after{content:"";position:absolute;width:155%;height:32%;left:-27%;top:35%;border:8px solid #b6d3b077;border-left-color:#d4d8b088;border-right-color:#5e9b8b99;border-radius:50%;transform:rotate(-19deg)}
+.planet-b{width:clamp(45px,11vw,95px);height:clamp(45px,11vw,95px);left:5%;top:39%;background:radial-gradient(circle at 32% 28%,#b9c9b1,#527b69 35%,#152c28 75%);opacity:.58}
 .meteor{position:fixed;width:100px;height:2px;z-index:0;pointer-events:none;background:linear-gradient(90deg,transparent,#ffe6a0,transparent);transform:rotate(-35deg);opacity:0;animation:shoot 8s linear infinite}
 .m1{top:12%;left:-15%;animation-delay:1s}.m2{top:44%;left:-20%;animation-delay:5s}.m3{top:72%;left:-15%;animation-delay:9s}
 @keyframes shoot{0%,75%{opacity:0;transform:translate(0,0) rotate(-35deg)}78%{opacity:.9}100%{opacity:0;transform:translate(125vw,65vh) rotate(-35deg)}}
-.app{position:relative;z-index:1;max-width:520px;margin:auto;min-height:100vh;padding:22px 18px 110px}
+.app{position:relative;z-index:1;max-width:520px;margin:auto;min-height:100svh;padding:calc(22px + env(safe-area-inset-top)) 18px calc(110px + env(safe-area-inset-bottom))}
 header{display:flex;align-items:center;justify-content:space-between;margin:4px 2px 24px}
-.brand{font-weight:900;letter-spacing:3px;color:var(--gold2);font-size:21px;text-shadow:0 0 18px #b98a35}
-.pill{border:1px solid rgba(232,198,107,.35);background:rgba(3,20,13,.55);border-radius:30px;padding:8px 13px;color:#f3dfa0;font-size:12px}
-.balance{text-align:center;background:linear-gradient(120deg,rgba(4,26,17,.6),rgba(30,69,43,.34));border:1px solid rgba(232,198,107,.22);border-radius:22px;padding:16px 12px;box-shadow:0 10px 35px #0004,inset 0 0 25px #d9ad3b0b}
-.caption{font-size:12px;color:#c8c4a8}.amount{font-size:30px;font-weight:800;color:#fff0b4;margin-top:4px;text-shadow:0 0 20px #d6ad52}
-.coin-wrap{display:flex;justify-content:center;align-items:center;margin:30px auto 24px;perspective:900px}
-.coin{width:224px;height:224px;border-radius:50%;position:relative;display:grid;place-items:center;cursor:pointer;border:0;color:inherit;background:radial-gradient(circle at 36% 28%,#fff4bd 0 2%,#d5b65f 5%,#7d5b20 11%,#102b1d 18%,#07150f 53%,#b68a32 62%,#f6df8c 67%,#4b3515 72%,#07140e 78%);box-shadow:0 22px 28px #0009,0 0 0 7px #9b762e,0 0 0 11px #e6c86d,0 0 35px #d5a63d88,inset 0 0 18px #fff5b0;transform:rotateX(8deg);transition:transform .12s,filter .12s}
-.coin:before{content:"";position:absolute;inset:14px;border-radius:50%;border:3px solid #d9b85d;box-shadow:inset 0 0 0 3px #1a3a27,inset 0 0 25px #d9a83b55,0 0 16px #d6b25288}
-.coin:after{content:"";position:absolute;inset:27px;border-radius:50%;border:1px solid #a98a43;box-shadow:inset 0 0 20px #17d58a33}
-.coin:active{transform:rotateX(8deg) scale(.94);filter:brightness(1.25)}
-.coin-inner{position:relative;z-index:2;text-align:center;width:100%;padding-top:2px;text-shadow:0 2px 5px #000,0 0 14px #f0ca65}
-.coin-name{font-size:21px;letter-spacing:3px;font-weight:1000;color:#ffe9a0}
-.coin-symbol{font-size:12px;letter-spacing:5px;color:#e6c96e;margin-top:4px}
-.triangle{width:70px;height:64px;margin:8px auto 2px;filter:drop-shadow(0 0 10px #20e49b)}
-.triangle svg{width:100%;height:100%}
-.tap-hint{text-align:center;color:#e8d89e;font-size:13px;margin-top:12px}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+.brand{font-weight:900;letter-spacing:3px;color:var(--gold-light);font-size:21px;text-shadow:0 0 18px #b98a35}
+.pill{border:1px solid rgba(232,198,107,.35);background:rgba(3,20,13,.7);border-radius:30px;padding:8px 13px;color:#f3dfa0;font-size:12px}
+.balance{text-align:center;background:linear-gradient(120deg,rgba(4,26,17,.82),rgba(30,69,43,.56));border:1px solid rgba(232,198,107,.3);border-radius:22px;padding:16px 12px;box-shadow:0 10px 35px #0006,inset 0 0 25px #d9ad3b0b;backdrop-filter:blur(8px)}
+.caption{font-size:12px;color:#c8d9c8}.amount{font-size:clamp(30px,8vw,38px);font-weight:900;color:#fff0b4;margin-top:4px;text-shadow:0 0 20px #d6ad52;direction:ltr}
+.coin-wrap{position:relative;width:min(76vw,330px);aspect-ratio:1;margin:clamp(25px,6vh,44px) auto 20px;display:grid;place-items:center;isolation:isolate}
+.coin-wrap:before{content:"";position:absolute;inset:5%;border-radius:50%;background:#00f5a02c;filter:blur(32px);z-index:-1;animation:aura 3.4s ease-in-out infinite}
+.coin-wrap:after{content:"";position:absolute;inset:-2%;border:1px solid #19f5a055;border-radius:50%;box-shadow:0 0 28px #00e99b2c,inset 0 0 25px #00e99b18;z-index:-1}
+.coin{width:100%;height:100%;border:0;padding:0;background:transparent;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;filter:drop-shadow(0 0 15px #00ffa05c) drop-shadow(0 18px 24px #000b);transition:transform .12s ease;outline:none}
+.coin:active{transform:scale(.95)}.coin svg{width:100%;height:100%;overflow:visible}
+.coin.pulse{animation:tap .27s ease}
+.float{position:absolute;z-index:5;pointer-events:none;font-weight:950;font-size:21px;color:#fff0a8;text-shadow:0 0 10px #ffcb4b,0 2px 12px #000;animation:floatUp 1.05s ease-out forwards;white-space:nowrap}
+.tap-hint{text-align:center;color:#e8d89e;font-size:13px;margin:0 0 20px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
 .stat{background:var(--panel);border:1px solid rgba(232,198,107,.2);border-radius:17px;padding:13px;text-align:center;backdrop-filter:blur(8px)}
 .stat strong{display:block;font-size:19px;color:#f7dfa0;margin-top:4px}
 .energy{margin-top:16px;background:var(--panel);border:1px solid rgba(232,198,107,.18);border-radius:18px;padding:14px}
 .energy-top{display:flex;justify-content:space-between;font-size:13px;color:#e9ddb2;margin-bottom:10px}
-.track{height:9px;border-radius:20px;background:#152a20;overflow:hidden}
-.fill{height:100%;width:100%;background:linear-gradient(90deg,#0c9d65,#b9e57d,#f2d27b);box-shadow:0 0 12px #eac96a;transition:width .2s}
-.nav{position:fixed;z-index:5;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,1fr);gap:5px;background:rgba(3,16,11,.9);border-top:1px solid #c7a44b55;backdrop-filter:blur(18px)}
+.track{height:9px;border-radius:20px;background:#152a20;overflow:hidden}.fill{height:100%;width:100%;background:linear-gradient(90deg,#0c9d65,#b9e57d,#f2d27b);box-shadow:0 0 12px #eac96a;transition:width .2s}
+.nav{position:fixed;z-index:5;bottom:0;left:50%;transform:translateX(-50%);width:min(520px,100%);padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,1fr);gap:5px;background:rgba(3,16,11,.94);border-top:1px solid #c7a44b55;backdrop-filter:blur(18px)}
 .nav button{border:0;background:transparent;color:#a9b9a8;display:flex;flex-direction:column;align-items:center;gap:4px;padding:7px 2px;font-size:10px}
 .nav button.active{color:#ffe39a;text-shadow:0 0 12px #d8ad4c}
 .nav svg{width:23px;height:23px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .notice{text-align:center;color:#8ea08d;font-size:10px;margin-top:12px}
-@media(max-width:360px){.coin{width:195px;height:195px}.app{padding-left:13px;padding-right:13px}}
+@keyframes floatUp{0%{opacity:0;transform:translate(-50%,0) scale(.8)}15%{opacity:1}100%{opacity:0;transform:translate(-50%,-95px) scale(1.12)}}
+@keyframes tap{0%{transform:scale(1)}45%{transform:scale(.94) rotate(-1deg)}100%{transform:scale(1)}}
+@keyframes aura{0%,100%{opacity:.55;transform:scale(.92)}50%{opacity:1;transform:scale(1.08)}}
+@media(max-width:360px){.app{padding-left:13px;padding-right:13px}.coin-wrap{width:min(72vw,285px)}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
@@ -61,12 +58,37 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 <div class="meteor m1"></div><div class="meteor m2"></div><div class="meteor m3"></div>
 <main class="app">
 <header><div class="brand">AUREX <span style="color:#18d58a">◆</span></div><div class="pill">ARX · SPACE NETWORK</div></header>
-<section class="balance"><div class="caption">إجمالي رصيدك</div><div class="amount" id="balance">0.00 <small style="font-size:14px">ARX</small></div></section>
-<div class="coin-wrap"><button class="coin" id="tap" aria-label="اضغط لجمع ARX"><div class="coin-inner"><div class="coin-name">AUREX</div><div class="triangle"><svg viewBox="0 0 100 90" aria-hidden="true"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f9e6a0"/><stop offset=".5" stop-color="#20dc91"/><stop offset="1" stop-color="#08794e"/></linearGradient></defs><path d="M50 5 94 82H6Z" fill="url(#g)" stroke="#f5d77b" stroke-width="4"/><path d="M50 25 73 68H27Z" fill="#09251a" opacity=".85"/></svg></div><div class="coin-symbol">ARX</div></div></button></div>
-<div class="tap-hint">اضغط على عملة AUREX لجمع المكافآت</div>
-<section class="stats"><div class="stat"><span class="caption">الطاقة المتبقية</span><strong id="energyText">1000 / 1000</strong></div><div class="stat"><span class="caption">قيمة الضغطة</span><strong>0.01 ARX</strong></div></section>
+<section class="balance" aria-live="polite"><div class="caption">إجمالي رصيدك</div><div class="amount"><span id="balance">0.00</span> <small style="font-size:14px">🪙 ARX</small></div></section>
+<div class="coin-wrap" id="coinWrap">
+<button class="coin" id="tap" type="button" aria-label="اضغط على عملة AUREX لجمع المكافآت">
+<svg viewBox="0 0 400 400" role="img" aria-label="عملة AUREX الذهبية والخضراء">
+<defs>
+ <linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff3a8"/><stop offset=".2" stop-color="#b87919"/><stop offset=".42" stop-color="#ffe68a"/><stop offset=".65" stop-color="#8e5a12"/><stop offset=".84" stop-color="#ffdf70"/><stop offset="1" stop-color="#75430c"/></linearGradient>
+ <linearGradient id="face" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#075b3c"/><stop offset=".48" stop-color="#021b17"/><stop offset="1" stop-color="#087448"/></linearGradient>
+ <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff5b5"/><stop offset=".35" stop-color="#e5a52d"/><stop offset=".65" stop-color="#fff0a0"/><stop offset="1" stop-color="#9a5d0a"/></linearGradient>
+ <linearGradient id="emerald" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#8dffd0"/><stop offset=".3" stop-color="#00b86c"/><stop offset=".7" stop-color="#00633f"/><stop offset="1" stop-color="#31ffc0"/></linearGradient>
+ <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<circle cx="200" cy="200" r="188" fill="#03100c" stroke="url(#rim)" stroke-width="13"/>
+<circle cx="200" cy="200" r="174" fill="url(#face)" stroke="#f5d16b" stroke-width="3"/>
+<circle cx="200" cy="200" r="158" fill="none" stroke="url(#rim)" stroke-width="5"/>
+<circle cx="200" cy="200" r="145" fill="none" stroke="#00e99b" stroke-opacity=".5" stroke-width="2" stroke-dasharray="3 8"/>
+<path d="M67 145L91 119 76 99 108 84M333 145L309 119 324 99 292 84M67 255L91 281 76 301 108 316M333 255L309 281 324 301 292 316" fill="none" stroke="url(#gold)" stroke-width="5"/>
+<text x="200" y="76" text-anchor="middle" fill="url(#gold)" stroke="#542f08" stroke-width="1" paint-order="stroke" font-size="37" font-weight="900" letter-spacing="5">AUREX</text>
+<text x="200" y="342" text-anchor="middle" fill="url(#gold)" stroke="#542f08" stroke-width="1" paint-order="stroke" font-size="30" font-weight="900" letter-spacing="6">ARX</text>
+<g fill="url(#gold)"><path d="M91 91l5 11 12 1-9 8 3 12-11-6-10 6 2-12-9-8 12-1z"/><path d="M309 91l5 11 12 1-9 8 3 12-11-6-10 6 2-12-9-8 12-1z"/></g>
+<circle cx="200" cy="203" r="101" fill="#02120e" stroke="#00d98b" stroke-width="3"/>
+<path d="M105 244L163 180 196 205 247 139 225 138 283 94 278 158 263 143 199 232 165 207 121 258Z" fill="url(#emerald)" stroke="#7affc5" stroke-width="3" filter="url(#glow)"/>
+<path d="M184 263L235 211 258 230 305 173 283 174 329 137 322 193 308 181 260 247 235 229 205 264Z" fill="url(#gold)" stroke="#fff0a0" stroke-width="2" filter="url(#glow)"/>
+<circle cx="200" cy="200" r="119" fill="none" stroke="#f4c75c" stroke-opacity=".7" stroke-width="2"/>
+<g fill="#fff0a0"><circle cx="200" cy="16" r="3"/><circle cx="200" cy="384" r="3"/><circle cx="16" cy="200" r="3"/><circle cx="384" cy="200" r="3"/></g>
+</svg>
+</button>
+</div>
+<div class="tap-hint">اضغط على العملة واجمع مكافآت AUREX</div>
+<section class="stats"><div class="stat"><span class="caption">الطاقة المتبقية</span><strong id="energyText">1000 / 1000</strong></div><div class="stat"><span class="caption">قيمة الضغطة</span><strong>+0.01 🪙</strong></div></section>
 <section class="energy"><div class="energy-top"><span>⚡ الطاقة</span><span>تتجدد كل 12 ساعة</span></div><div class="track"><div class="fill" id="energyFill"></div></div></section>
-<div class="notice">واجهة أولية للعرض — حفظ الرصيد وربط قاعدة البيانات سيضاف لاحقاً</div>
+<div class="notice">الرصيد والضغطات محفوظة محلياً على هذا الجهاز في هذه النسخة التجريبية</div>
 </main>
 <nav class="nav" aria-label="التنقل">
 <button><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.8-3.3 3.1-5 7-5s6.2 1.7 7 5"/></svg><span>حسابي</span></button>
@@ -76,8 +98,28 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 <button><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18m-13 5h4"/></svg><span>محفظة</span></button>
 </nav>
 <script>
-let balance=0,energy=1000;
-const balanceEl=document.getElementById('balance'),energyEl=document.getElementById('energyText'),fill=document.getElementById('energyFill');
-document.getElementById('tap').addEventListener('click',()=>{if(energy<=0)return;energy--;balance=Math.round((balance+0.01)*100)/100;balanceEl.innerHTML=balance.toFixed(2)+' <small style="font-size:14px">ARX</small>';energyEl.textContent=energy+' / 1000';fill.style.width=(energy/10)+'%'});
+(() => {
+ const reward=0.01, maxEnergy=1000;
+ let balance=Number(localStorage.getItem('aurex_balance')||0);
+ let taps=Number(localStorage.getItem('aurex_taps')||0);
+ let energy=Number(localStorage.getItem('aurex_energy')||maxEnergy);
+ const balanceEl=document.getElementById('balance'),energyEl=document.getElementById('energyText'),fill=document.getElementById('energyFill');
+ const coin=document.getElementById('tap'),wrap=document.getElementById('coinWrap');
+ const render=()=>{balanceEl.textContent=balance.toFixed(2);energyEl.textContent=energy+' / '+maxEnergy;fill.style.width=(energy/maxEnergy*100)+'%';};
+ render();
+ coin.addEventListener('click',(event)=>{
+   if(energy<=0)return;
+   energy--;taps++;balance=Math.round((balance+reward)*100)/100;
+   localStorage.setItem('aurex_balance',balance.toFixed(2));
+   localStorage.setItem('aurex_taps',String(taps));
+   localStorage.setItem('aurex_energy',String(energy));render();
+   coin.classList.remove('pulse');void coin.offsetWidth;coin.classList.add('pulse');
+   const rect=wrap.getBoundingClientRect(),fx=document.createElement('span');
+   fx.className='float';fx.textContent='+0.01 🪙';
+   fx.style.left=((event.clientX||rect.left+rect.width/2)-rect.left)+'px';
+   fx.style.top=((event.clientY||rect.top+rect.height/2)-rect.top)+'px';
+   wrap.appendChild(fx);fx.addEventListener('animationend',()=>fx.remove(),{once:true});
+ });
+})();
 </script>
 </body></html>
