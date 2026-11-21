@@ -132,6 +132,28 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 .lb-slot:nth-child(3) .lb-slot-rank{background:linear-gradient(145deg,#ffb35c,#d85b18);color:#fff;border:2px solid #e99a45}
 .lb-slot-space{height:38px;border-radius:10px;background:rgba(255,255,255,.018)}
 
+
+/* AUREX account profile */
+.account-page{padding-top:calc(22px + env(safe-area-inset-top))}
+.account-card{border-radius:25px;padding:20px 17px;margin:8px 0 16px;background:linear-gradient(145deg,rgba(7,65,43,.88),rgba(4,27,21,.9));border:1px solid rgba(22,228,154,.26);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 14px 34px #0005;backdrop-filter:blur(14px)}
+.account-top{display:flex;justify-content:space-between;align-items:center}
+.account-chip{border:1px solid rgba(22,228,154,.25);background:rgba(22,228,154,.08);border-radius:30px;padding:6px 11px;color:#a8ffd4;font-size:11px}
+.account-emblem{width:94px;height:94px;margin:18px auto 10px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle,rgba(22,228,154,.2),rgba(22,228,154,.035) 68%);border:1px solid rgba(22,228,154,.38);box-shadow:0 0 28px rgba(22,228,154,.14),inset 0 0 18px rgba(22,228,154,.12)}
+.account-emblem img{width:78px;height:78px;object-fit:contain;filter:drop-shadow(0 0 10px #00ff8a55)}
+.account-title{text-align:center;font-size:20px;font-weight:900;color:#eafff3}
+.account-subtitle{text-align:center;font-size:11px;color:#a5cbb7;margin-top:4px}
+.account-balance{margin-top:20px;padding:16px;border:1px solid rgba(22,228,154,.2);border-radius:18px;background:rgba(0,0,0,.18)}
+.account-balance-label{font-size:12px;color:#b4d7c4}
+.account-balance-value{display:flex;align-items:center;gap:8px;margin-top:5px;font-size:29px;font-weight:900;color:#eafff3;direction:ltr;justify-content:flex-end}
+.account-balance-value img{width:35px;height:35px;object-fit:contain}
+.account-section-title{font-size:16px;font-weight:850;color:#eafff3;margin:18px 4px 11px}
+.account-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.account-stat{border-radius:18px;padding:15px 12px;background:var(--panel);border:1px solid rgba(22,228,154,.17);backdrop-filter:blur(10px)}
+.account-stat span{display:block;color:#a9cbbb;font-size:11px}
+.account-stat strong{display:block;color:#dffff0;font-size:19px;margin-top:7px;direction:ltr}
+.account-status{margin-top:14px;border-radius:17px;padding:15px;background:var(--panel);border:1px solid rgba(22,228,154,.17);display:flex;align-items:center;gap:10px;color:#b8d8c7;font-size:12px;line-height:1.7}
+.account-status i{width:9px;height:9px;border-radius:50%;background:#f1cb69;box-shadow:0 0 10px #f1cb69;flex:0 0 9px}
+
 </style>
 </head>
 <body>
@@ -150,6 +172,27 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 <section class="energy"><div class="energy-top"><span>⚡ الطاقة</span><span>تتجدد كل 12 ساعة</span></div><div class="track"><div class="fill" id="energyFill"></div></div></section>
 <div class="notice">الرصيد والضغطات محفوظة محلياً على هذا الجهاز في هذه النسخة التجريبية</div>
 </main>
+
+
+<section class="app account-page" id="accountPage" hidden>
+<header><div class="brand">AUREX <span style="color:#18d58a">◆</span></div><div class="pill">ARX · ACCOUNT</div></header>
+<div class="account-card">
+ <div class="account-top"><span class="account-chip">ملفك الشخصي</span><span class="account-chip">AUREX MEMBER</span></div>
+ <div class="account-emblem"><img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="عملة AUREX"></div>
+ <div class="account-title">حساب AUREX</div>
+ <div class="account-subtitle">ملخص نشاطك ورصيدك</div>
+ <div class="account-balance"><div class="account-balance-label">إجمالي رصيدك</div><div class="account-balance-value"><span id="accountBalance">0.00</span><img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX"><small style="font-size:12px;color:#a8ffd4">ARX</small></div></div>
+</div>
+<div class="account-section-title">إحصائيات الحساب</div>
+<div class="account-grid">
+ <div class="account-stat"><span>إجمالي الضغطات</span><strong id="accountTaps">0</strong></div>
+ <div class="account-stat"><span>الطاقة المتبقية</span><strong id="accountEnergy">1000 / 1000</strong></div>
+ <div class="account-stat"><span>قيمة الضغطة</span><strong>0.01 ARX</strong></div>
+ <div class="account-stat"><span>المكافآت من الدعوات</span><strong>0 ARX</strong></div>
+</div>
+<div class="account-section-title">حالة الحساب</div>
+<div class="account-status"><i></i><span>الحساب يعمل محلياً على هذا الجهاز. ربط الحساب والتحقق من بياناته سيتاحان عند تجهيز نظام المستخدمين.</span></div>
+</section>
 
 <section class="app referral-page" id="referralPage" hidden>
 <header><div class="brand">AUREX <span style="color:#18d58a">◆</span></div><div class="pill">ARX · REFERRALS</div></header>
@@ -211,15 +254,22 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
  const render=()=>{balanceEl.textContent=balance.toFixed(2);energyEl.textContent=energy+' / '+maxEnergy;fill.style.width=(energy/maxEnergy*100)+'%';};
  render();
  const homePage=document.getElementById('homePage');
+ const accountPage=document.getElementById('accountPage');
  const referralPage=document.getElementById('referralPage');
  const navButtons=[...document.querySelectorAll('.nav button')];
  const leaderboardPage=document.getElementById('leaderboardPage');
- const inviteIndex=1, homeIndex=2, rankingIndex=3;
+ const accountIndex=0, inviteIndex=1, homeIndex=2, rankingIndex=3;
  const showTab=(index)=>{
-   if(index!==homeIndex&&index!==inviteIndex&&index!==rankingIndex)return;
+   if(index!==accountIndex&&index!==homeIndex&&index!==inviteIndex&&index!==rankingIndex)return;
+   accountPage.hidden=index!==accountIndex;
    homePage.hidden=index!==homeIndex;
    referralPage.hidden=index!==inviteIndex;
    leaderboardPage.hidden=index!==rankingIndex;
+   if(index===accountIndex){
+     document.getElementById('accountBalance').textContent=balance.toFixed(2);
+     document.getElementById('accountTaps').textContent=taps.toLocaleString('en-US');
+     document.getElementById('accountEnergy').textContent=energy+' / '+maxEnergy;
+   }
    navButtons.forEach((button,i)=>button.classList.toggle('active',i===index));
    window.scrollTo({top:0,behavior:'smooth'});
  };
