@@ -224,13 +224,6 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
   ['I','Player 07','11.2M'],['N','Player 08','10.0M'],['P','Player 09','9.7M'],['Q','Player 10','9.2M']
  ];
  document.getElementById('leaderboardList').innerHTML=demoPlayers.map((p,i)=>'<div class="lb-row"><div class="lb-rank">'+(i+1)+'</div><div class="lb-avatar">'+p[0]+'</div><div class="lb-name">'+p[1]+'</div><div class="lb-score">'+p[2]+'</div></div>').join('');
- const showTab=(index)=>{
-   if(index===inviteIndex){homePage.hidden=true;referralPage.hidden=false;}
-   else if(index===homeIndex){referralPage.hidden=true;homePage.hidden=false;}
-   else {return;}
-   navButtons.forEach((button,i)=>button.classList.toggle('active',i===index));
-   window.scrollTo({top:0,behavior:'smooth'});
- };
  navButtons.forEach((button,index)=>button.addEventListener('click',()=>showTab(index)));
  const referralCode=localStorage.getItem('aurex_ref_code')||('ARX'+Math.random().toString(36).slice(2,9).toUpperCase());
  localStorage.setItem('aurex_ref_code',referralCode);
