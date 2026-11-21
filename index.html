@@ -339,7 +339,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 </section>
 <div class="wallet-summary">
  <div class="wallet-mini"><div class="wallet-mini-label">رصيد ARX الحالي</div><div class="wallet-mini-value"><span id="walletAvailable">0.00</span><img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX"></div><small>متاح داخل التطبيق</small></div>
- <div class="wallet-mini"><div class="wallet-mini-label">حالة السحب</div><div class="wallet-mini-value">غير مفعّل</div><small>سيُتاح بعد تجهيز نظام السحب</small></div>
+ <div class="wallet-mini"><div class="wallet-mini-label">قيمة رصيدك بـ TON</div><div class="wallet-mini-value"><span id="walletTonValue">0.0000</span> <small>TON</small></div><small>القيمة المقابلة لرصيد ARX</small></div>
 </div>
 <section class="wallet-action-card">
  <div class="wallet-warning">
@@ -401,6 +401,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
    if(index===walletIndex){
      document.getElementById('walletBalance').textContent=balance.toFixed(2);
      document.getElementById('walletAvailable').textContent=balance.toFixed(2);
+     document.getElementById('walletTonValue').textContent=(balance/100000).toFixed(4);
      updateWithdrawPresets();
    }
    navButtons.forEach((button,i)=>button.classList.toggle('active',i===index));
