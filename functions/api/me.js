@@ -11,6 +11,10 @@ export async function onRequest({ request, env }) {
   const params = new URL(request.url).searchParams;
   const startParam = params.get("start_param") || "";
   const user = await getOrCreateUser(env.AUREX_DB, auth.user, startParam);
+  if (auth.user.photo_url) {
+    await env.AUREX_DB.prepare("UPDATE users SET photo_url = ? WHERE telegram_id = ?")
+      .bind(auth.user.photo_url, String(auth.user.id)).run();
+  }
   const energy = withEnergyRegen(user);
 
   await env.AUREX_DB.prepare(
