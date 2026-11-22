@@ -493,6 +493,8 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
   <span>تنبيه: ربط محفظة ARX الخارجية غير متاح حالياً.</span>
  </div>
  <div class="wallet-warning-spacer" aria-hidden="true"></div>
+ <button class="wallet-connect-btn" id="connectTonWallet" type="button" style="margin-top:14px">🔗　ربط محفظة TON</button>
+ <div id="tonWalletStatus" class="wallet-action-desc" style="margin:9px 2px 0;text-align:center" aria-live="polite"></div>
 </section>
 <section class="wallet-action-card">
  <div class="wallet-action-title">طلب سحب ARX</div>
@@ -520,8 +522,35 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 <button><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18m-13 5h4"/></svg><span>محفظة</span></button>
 </nav>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 <script>
 (() => {
+ const tonConnectButton=document.getElementById('connectTonWallet');
+ const tonWalletStatus=document.getElementById('tonWalletStatus');
+ let tonConnectUI=null;
+ try{
+   if(window.TON_CONNECT_UI&&window.TON_CONNECT_UI.TonConnectUI){
+     tonConnectUI=new window.TON_CONNECT_UI.TonConnectUI({
+       manifestUrl:window.location.origin+'/tonconnect-manifest.json',
+       actionsConfiguration:{twaReturnUrl:'https://t.me/'}
+     });
+     tonConnectUI.onStatusChange(wallet=>{
+       if(wallet&&wallet.account){
+         const address=wallet.account.address;
+         tonConnectButton.textContent='✓　المحفظة متصلة';
+         tonWalletStatus.textContent='عنوان TON: '+address.slice(0,6)+'…'+address.slice(-6);
+       }else{
+         tonConnectButton.textContent='🔗　ربط محفظة TON';
+         tonWalletStatus.textContent='';
+       }
+     });
+   }
+ }catch(error){tonWalletStatus.textContent='تعذر تهيئة ربط المحفظة.';}
+ tonConnectButton.addEventListener('click',async()=>{
+   if(!tonConnectUI){tonWalletStatus.textContent='تعذر تحميل خدمة ربط المحافظ. أعد المحاولة.';return;}
+   try{await tonConnectUI.openModal();}
+   catch(error){tonWalletStatus.textContent='تعذر فتح قائمة المحافظ. حاول مجدداً.';}
+ });
  const upgradeValues=[0.01,0.02,0.03,0.05,0.08,0.12];
  const upgradeCosts=[100,300,750,1500,3000];
  let upgradeLevel=0,reward=upgradeValues[0];
