@@ -571,8 +571,11 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
      return;
    }
    if(!tonConnectUI){tonWalletStatus.textContent='تعذر تحميل خدمة ربط المحافظ. أعد المحاولة.';return;}
-   try{await tonConnectUI.openModal();}
-   catch(error){tonWalletStatus.textContent='تعذر فتح قائمة المحافظ. حاول مجدداً.';}
+   try{
+     if(typeof tonConnectUI.openSingleWalletModal!=='function')throw new Error('wallet_picker_unavailable');
+     await tonConnectUI.openSingleWalletModal('telegram-wallet');
+   }
+   catch(error){tonWalletStatus.textContent='تعذر فتح محفظة Walt. حاول مجدداً.';}
  });
  if(disconnectTonWalletButton){
    disconnectTonWalletButton.addEventListener('click',async()=>{
