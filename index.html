@@ -411,6 +411,8 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 
 /* Exact frame 1 from the user's original five-frame sheet. No background changes. */
 
+
+.copy-profile-id{display:flex;align-items:center;justify-content:center;gap:7px;margin:4px auto 0;padding:4px 9px;border:0;background:transparent;color:#a5cbb7;font:inherit;cursor:pointer;border-radius:9px}.copy-profile-id:active{background:rgba(22,228,154,.12)}.copy-id-hint{font-size:13px;color:#18d58a}
 </style>
 </head>
 <body>
@@ -467,7 +469,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
  <div class="account-top"><span class="account-chip">ملفك الشخصي</span><span class="account-chip">AUREX MEMBER</span></div>
  <div class="account-avatar-row"><div class="account-emblem aurex-normal-avatar"><img id="accountProfilePhoto" src="" alt="Profile photo"></div></div>
  <div class="account-title" id="accountProfileName">مستخدم تيليجرام</div>
- <div class="account-subtitle" id="accountProfileId">ID —</div>
+ <button type="button" class="account-subtitle copy-profile-id" id="copyProfileId" aria-label="نسخ المعرّف"><span id="accountProfileId">ID —</span><span class="copy-id-hint">⧉</span></button>
  <div class="account-balance"><div class="account-balance-label">إجمالي رصيدك</div><div class="account-balance-value"><span id="accountBalance">0.00</span><img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX"><small style="font-size:12px;color:#a8ffd4">ARX</small></div></div>
 </div>
 <section class="vip-status-card">
@@ -693,6 +695,10 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
  if(tg){tg.ready();if(typeof tg.expand==='function')tg.expand();}
  const apiFetch=async(path,options={})=>{
    if(!initData)throw new Error('telegram_required');
+   if(path==='/api/me'){
+     const startParam=(tg&&tg.initDataUnsafe&&tg.initDataUnsafe.start_param)||new URLSearchParams(location.search).get('startapp')||'';
+     if(startParam)path+='?start_param='+encodeURIComponent(startParam);
+   }
    const response=await fetch(path,{...options,headers:{'X-Telegram-Init-Data':initData,...(options.headers||{})},cache:'no-store'});
    const data=await response.json().catch(()=>({error:'invalid_response'}));
    if(!response.ok){const error=new Error(data.error||'request_failed');error.status=response.status;error.data=data;throw error;}
@@ -738,6 +744,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
      const profileName=[user.firstName,user.lastName].filter(Boolean).join(' ')||user.username||'مستخدم تيليجرام';
      document.getElementById('accountProfileName').textContent=profileName;
      document.getElementById('accountProfileId').textContent='ID '+String(user.telegramId||'—');
+     setReferralLink(user.referralCode);
      const profilePhoto=document.getElementById('accountProfilePhoto');
      const referralProfilePhoto=document.getElementById('referralProfilePhoto');
      if(user.photoUrl){profilePhoto.src=user.photoUrl;referralProfilePhoto.src=user.photoUrl;referralProfilePhoto.hidden=false;document.getElementById('referralDefaultIcon').hidden=true;}else{profilePhoto.style.display='none';referralProfilePhoto.hidden=true;document.getElementById('referralDefaultIcon').hidden=false;}
@@ -885,20 +892,36 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
  }));
  withdrawInput.addEventListener('input',updateWithdrawPresets);
  updateWithdrawPresets();
- const referralCode=localStorage.getItem('aurex_ref_code')||('ARX'+Math.random().toString(36).slice(2,9).toUpperCase());
- localStorage.setItem('aurex_ref_code',referralCode);
- const referralLink=window.location.origin+window.location.pathname+'?ref='+referralCode;
- document.getElementById('referralUrl').textContent=referralLink;
+ let referralLink='';
  const feedback=document.getElementById('refFeedback');
+ const setReferralLink=(code)=>{
+   if(!code)return;
+   referralLink='https://t.me/AUREX_ARX_bot?startapp='+encodeURIComponent('ref_'+code);
+   document.getElementById('referralUrl').textContent=referralLink;
+ };
+ const copyText=async(value)=>{
+   if(navigator.clipboard&&navigator.clipboard.writeText){await navigator.clipboard.writeText(value);return;}
+   const field=document.createElement('textarea');field.value=value;field.style.position='fixed';field.style.opacity='0';document.body.appendChild(field);field.select();
+   const ok=document.execCommand('copy');field.remove();if(!ok)throw new Error('copy_failed');
+ };
  const copyLink=async()=>{
-   try{await navigator.clipboard.writeText(referralLink);feedback.textContent='تم نسخ رابط الدعوة';}
+   if(!referralLink){feedback.textContent='يتم تجهيز رابطك...';return;}
+   try{await copyText(referralLink);feedback.textContent='تم نسخ رابط الدعوة';}
    catch(e){feedback.textContent='تعذر النسخ تلقائياً، اضغط مطولاً على الرابط لنسخه.';}
  };
  document.getElementById('copyReferral').addEventListener('click',copyLink);
+ document.getElementById('copyProfileId').addEventListener('click',async()=>{
+   const value=String((document.getElementById('accountProfileId').textContent||'').replace(/^ID\\s*/,''));
+   if(!value||value==='—')return;
+   try{await copyText(value);const hint=document.querySelector('#copyProfileId .copy-id-hint');if(hint){hint.textContent='✓';setTimeout(()=>hint.textContent='⧉',1100);}}
+   catch(e){connectionStatus.textContent='تعذر نسخ ID.';}
+ });
  ['copyReferral','shareReferral'].forEach(id=>{const button=document.getElementById(id);button.addEventListener('click',()=>{button.classList.remove('is-glowing');void button.offsetWidth;button.classList.add('is-glowing');setTimeout(()=>button.classList.remove('is-glowing'),700);});});
- document.getElementById('shareReferral').addEventListener('click',async()=>{
-   if(navigator.share){try{await navigator.share({title:'انضم إلى AUREX',text:'استخدم رابط دعوتي للانضمام إلى AUREX',url:referralLink});}catch(e){}}
-   else{await copyLink();}
+ document.getElementById('shareReferral').addEventListener('click',()=>{
+   if(!referralLink){feedback.textContent='يتم تجهيز رابطك...';return;}
+   const shareUrl='https://t.me/share/url?url='+encodeURIComponent(referralLink)+'&text='+encodeURIComponent('انضم إلى AUREX عبر رابط دعوتي');
+   if(tg&&typeof tg.openTelegramLink==='function')tg.openTelegramLink(shareUrl);
+   else window.open(shareUrl,'_blank','noopener');
  });
  const flushTapQueue=async()=>{
    if(tapPending||!apiReady)return;
