@@ -8,11 +8,12 @@ export async function onRequest({ request, env }) {
   const auth = await requireTelegramUser(request, env);
   if (auth.error) return auth.error;
 
+  const body = await request.json().catch(() => ({}));
+  const count = Math.max(1, Math.min(10, Math.floor(Number(body.count) || 1)));
   const telegramId = String(auth.user.id);
   const user = await getOrCreateUser(env.AUREX_DB, auth.user);
   const energy = withEnergyRegen(user);
 
-  // Persist regeneration first, then consume energy with an atomic conditional update.
   await env.AUREX_DB.prepare(
     "UPDATE users SET energy = ?, energy_updated_at = ? WHERE telegram_id = ?"
   ).bind(energy.energy, energy.energyUpdatedAt, telegramId).run();
@@ -21,11 +22,11 @@ export async function onRequest({ request, env }) {
   const reward = TAP_REWARDS[level];
   const updated = await env.AUREX_DB.prepare(`
     UPDATE users
-    SET balance = ROUND(balance + ?, 2), energy = energy - 1,
-        taps = taps + 1, updated_at = datetime('now')
-    WHERE telegram_id = ? AND energy >= 1
+    SET balance = ROUND(balance + ?, 2), energy = energy - ?,
+        taps = taps + ?, updated_at = datetime('now')
+    WHERE telegram_id = ? AND energy >= ?
     RETURNING balance, energy, taps
-  `).bind(reward, telegramId).first();
+  `).bind(reward * count, count, count, telegramId, count).first();
 
   if (!updated) {
     const latest = await env.AUREX_DB.prepare(
@@ -34,12 +35,16 @@ export async function onRequest({ request, env }) {
     return json({ error: "not_enough_energy", energy: Number(latest?.energy || 0), maxEnergy: energy.capacity }, 409);
   }
 
-  await env.AUREX_DB.prepare(
-    "INSERT INTO tap_events (telegram_id, amount) VALUES (?, ?)"
-  ).bind(telegramId, reward).run();
+  const eventStatements = Array.from({ length: count }, () =>
+    env.AUREX_DB.prepare(
+      "INSERT INTO tap_events (telegram_id, amount) VALUES (?, ?)"
+    ).bind(telegramId, reward)
+  );
+  await env.AUREX_DB.batch(eventStatements);
 
   return json({
     success: true,
+    count,
     reward,
     balance: Number(updated.balance),
     taps: Number(updated.taps),
