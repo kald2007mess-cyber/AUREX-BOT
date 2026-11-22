@@ -435,8 +435,9 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 <div class="lb-heading">
 <h2><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M5 4h14v4a7 7 0 0 1-14 0V4Z"/><path d="M5 6H2v2a5 5 0 0 0 5 5m12-7h3v2a5 5 0 0 1-5 5"/></svg>أفضل اللاعبين</h2>
 </div>
-<div class="lb-list" id="leaderboardList"></div>
-<div class="lb-demo-note">سيتم ملء المراكز تلقائياً عند توفر بيانات اللاعبين الحقيقية.</div>
+<div class="lb-list" id="leaderboardList"><div class="lb-demo-note">جارٍ تحميل الترتيب...</div></div>
+<div class="lb-heading" style="margin-top:18px"><h2>مركزك الحالي</h2></div>
+<div id="leaderboardMe" class="lb-you"><div class="lb-demo-note">جارٍ تحميل مركزك...</div></div>
 </div>
 </section>
 
@@ -611,7 +612,39 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
    navButtons.forEach((button,i)=>button.classList.toggle('active',i===index));
    window.scrollTo({top:0,behavior:'smooth'});
  };
- document.getElementById('leaderboardList').innerHTML=Array.from({length:10},(_,i)=>'<div class="lb-slot"><div class="lb-slot-rank">'+(i+1)+'</div><div class="lb-slot-space"></div></div>').join('');
+ const leaderboardList=document.getElementById('leaderboardList');
+ const leaderboardMe=document.getElementById('leaderboardMe');
+ const renderLeaderboardRow=(item,own=false)=>{
+   const row=document.createElement('div');row.className=own?'lb-you':'lb-row';
+   const rank=document.createElement('div');rank.className='lb-rank';rank.textContent=item.rank;
+   const avatar=document.createElement('div');avatar.className='lb-avatar';avatar.textContent=(item.name||'A').trim().charAt(0).toUpperCase();
+   const details=document.createElement('div');details.style.minWidth='0';
+   const name=document.createElement('div');name.className='lb-name';name.textContent=item.name;
+   const id=document.createElement('div');id.style.cssText='font-size:10px;color:#a8c6b7;margin-top:4px;direction:ltr;text-align:right';id.textContent=item.maskedId;
+   details.append(name,id);
+   const score=document.createElement('div');score.className='lb-score';score.style.display='flex';score.style.alignItems='center';score.style.gap='4px';
+   const coinIcon=document.createElement('img');coinIcon.src='./file_000000004f0881f4bf06cf2ba2b34e38.png';coinIcon.alt='ARX';coinIcon.style.cssText='width:17px;height:17px;object-fit:contain';
+   const value=document.createElement('span');value.textContent=item.balance.toFixed(2);
+   const unit=document.createElement('small');unit.textContent='ARX';unit.style.fontSize='9px';
+   score.append(coinIcon,value,unit);row.append(rank,avatar,details,score);
+   if(own){const tag=document.createElement('span');tag.className='lb-you-tag';tag.textContent='أنت';name.append(' ',tag);}
+   return row;
+ };
+ const loadLeaderboard=async()=>{
+   if(!apiReady)return;
+   leaderboardList.textContent='جارٍ تحميل الترتيب...';
+   leaderboardMe.textContent='جارٍ تحميل مركزك...';
+   try{
+     const data=await apiFetch('/api/leaderboard');
+     leaderboardList.replaceChildren();
+     (data.top||[]).forEach(item=>leaderboardList.appendChild(renderLeaderboardRow(item)));
+     if(!data.top||!data.top.length)leaderboardList.textContent='لا يوجد لاعبون حتى الآن.';
+     leaderboardMe.replaceChildren(renderLeaderboardRow(data.me,true));
+   }catch(error){
+     leaderboardList.textContent='تعذر تحميل الترتيب. حاول مجدداً.';
+     leaderboardMe.textContent='تعذر تحميل مركزك الحالي.';
+   }
+ };
  document.querySelectorAll('.task-go').forEach(btn=>btn.addEventListener('click',()=>{const note=document.querySelector('.task-admin-note');note.textContent='سيتم ربط هذه المهمة برابطها ومكافأتها من لوحة التحكم عند تجهيزها.';btn.classList.add('is-glowing');setTimeout(()=>btn.classList.remove('is-glowing'),650);}));
  const historyTabs=[...document.querySelectorAll('.task-history-tab')];
  const historyEmpty=document.getElementById('taskHistoryEmpty');
@@ -623,6 +656,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
  const hubTasks=document.getElementById('hubTasks'),hubRanking=document.getElementById('hubRanking');
  hubTabs.forEach(btn=>btn.addEventListener('click',()=>{
    const showRanking=btn.dataset.hub==='ranking';
+   if(showRanking)loadLeaderboard();
    hubTasks.hidden=showRanking;
    hubRanking.hidden=!showRanking;
    hubTabs.forEach(tab=>{
