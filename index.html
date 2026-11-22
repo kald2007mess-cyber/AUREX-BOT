@@ -634,7 +634,8 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
  };
  try{
    if(window.TON_CONNECT_UI&&window.TON_CONNECT_UI.TonConnectUI){
-     const telegramUserId=tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user&&tg.initDataUnsafe.user.id;
+     const telegramWebApp=window.Telegram&&window.Telegram.WebApp;
+     const telegramUserId=telegramWebApp&&telegramWebApp.initDataUnsafe&&telegramWebApp.initDataUnsafe.user&&telegramWebApp.initDataUnsafe.user.id;
      if(!telegramUserId)throw new Error('telegram_user_missing');
      const walletStoragePrefix='aurex_tonconnect_user_'+String(telegramUserId)+'_';
      const walletStorage={
