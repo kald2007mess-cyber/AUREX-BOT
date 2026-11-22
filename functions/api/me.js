@@ -15,6 +15,9 @@ export async function onRequest({ request, env }) {
     await env.AUREX_DB.prepare("UPDATE users SET photo_url = ? WHERE telegram_id = ?")
       .bind(auth.user.photo_url, String(auth.user.id)).run();
   }
+  const referralStats = await env.AUREX_DB.prepare("SELECT COUNT(*) AS count FROM users WHERE referred_by = ?")
+    .bind(String(auth.user.id)).first();
+
   const energy = withEnergyRegen(user);
 
   await env.AUREX_DB.prepare(
@@ -35,7 +38,8 @@ export async function onRequest({ request, env }) {
       maxEnergy: energy.capacity,
       energyLevel: energy.energyLevel,
       energyRegenSeconds: energy.regenSeconds,
-      referralCode: user.referral_code
+      referralCode: user.referral_code,
+      referralsCount: Number(referralStats?.count) || 0
     }
   });
 }
