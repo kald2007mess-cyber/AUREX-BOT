@@ -11,35 +11,40 @@ export async function onRequest({ request, env }) {
   const telegramId = String(auth.user.id);
   const user = await getOrCreateUser(env.AUREX_DB, auth.user);
   const energy = withEnergyRegen(user);
-  if (energy.energy < 1) {
-    await env.AUREX_DB.prepare(
-      "UPDATE users SET energy = ?, energy_updated_at = ? WHERE telegram_id = ?"
-    ).bind(energy.energy, energy.energyUpdatedAt, telegramId).run();
-    return json({ error: "not_enough_energy", energy: energy.energy, maxEnergy: energy.capacity }, 409);
-  }
+
+  // Persist regeneration first, then consume energy with an atomic conditional update.
+  await env.AUREX_DB.prepare(
+    "UPDATE users SET energy = ?, energy_updated_at = ? WHERE telegram_id = ?"
+  ).bind(energy.energy, energy.energyUpdatedAt, telegramId).run();
 
   const level = Math.max(0, Math.min(5, Number(user.tap_level) || 0));
   const reward = TAP_REWARDS[level];
-  const nextEnergy = energy.energy - 1;
-  const nextBalance = Math.round((Number(user.balance) + reward) * 100) / 100;
-  const now = Date.now();
+  const updated = await env.AUREX_DB.prepare(`
+    UPDATE users
+    SET balance = ROUND(balance + ?, 2), energy = energy - 1,
+        taps = taps + 1, updated_at = datetime('now')
+    WHERE telegram_id = ? AND energy >= 1
+    RETURNING balance, energy, taps
+  `).bind(reward, telegramId).first();
 
-  await env.AUREX_DB.batch([
-    env.AUREX_DB.prepare(
-      "UPDATE users SET balance = ?, energy = ?, energy_updated_at = ?, taps = taps + 1, updated_at = datetime('now') WHERE telegram_id = ?"
-    ).bind(nextBalance, nextEnergy, energy.energyUpdatedAt, telegramId),
-    env.AUREX_DB.prepare(
-      "INSERT INTO tap_events (telegram_id, amount) VALUES (?, ?)"
-    ).bind(telegramId, reward)
-  ]);
+  if (!updated) {
+    const latest = await env.AUREX_DB.prepare(
+      "SELECT energy FROM users WHERE telegram_id = ?"
+    ).bind(telegramId).first();
+    return json({ error: "not_enough_energy", energy: Number(latest?.energy || 0), maxEnergy: energy.capacity }, 409);
+  }
+
+  await env.AUREX_DB.prepare(
+    "INSERT INTO tap_events (telegram_id, amount) VALUES (?, ?)"
+  ).bind(telegramId, reward).run();
 
   return json({
     success: true,
     reward,
-    balance: nextBalance,
-    taps: Number(user.taps) + 1,
-    energy: nextEnergy,
+    balance: Number(updated.balance),
+    taps: Number(updated.taps),
+    energy: Number(updated.energy),
     maxEnergy: energy.capacity,
-    serverTime: now
+    serverTime: Date.now()
   });
 }
