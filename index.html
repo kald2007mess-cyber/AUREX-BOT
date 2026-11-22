@@ -368,7 +368,30 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 .avatar-frame-option:active{transform:scale(.95)}
 .avatar-frame-option.active{border-color:#a8ffda;box-shadow:0 0 16px #18e99188,inset 0 0 15px #18e9912b}
 
-\n.account-profile-tools{display:flex;align-items:center;gap:7px}\n.account-profile-tools .avatar-frame-picker{width:29px;height:29px;border-radius:9px}\n.account-profile-tools .avatar-frame-picker svg{width:17px;height:17px}\n</style>
+\n.account-profile-tools{display:flex;align-items:center;gap:7px}\n.account-profile-tools .avatar-frame-picker{width:29px;height:29px;border-radius:9px}\n.account-profile-tools .avatar-frame-picker svg{width:17px;height:17px}\n
+/* Ornate jewel-grade avatar frames */
+@keyframes jewelOrbit{to{transform:rotate(360deg)}}
+@keyframes jewelPulse{0%,100%{opacity:.72;filter:brightness(1)}50%{opacity:1;filter:brightness(1.65)}}
+.account-emblem[class*="frame-"]{position:relative!important;z-index:0}
+.account-emblem[class*="frame-"]::before{inset:-11px!important;padding:7px!important;border-radius:50%;background:repeating-conic-gradient(from 0deg,#eafff7 0deg 2deg,#16d88b 3deg 9deg,#075c40 10deg 13deg,#8affc9 14deg 16deg)!important;animation:jewelOrbit 18s linear infinite,jewelPulse 3s ease-in-out infinite!important;filter:drop-shadow(0 0 5px #21ffae) drop-shadow(0 0 12px #00c982)!important}
+.account-emblem[class*="frame-"]::after{inset:-5px!important;border:2px solid rgba(220,255,239,.95)!important;box-shadow:0 0 7px #38ffb7,0 0 18px #08bd7b,inset 0 0 8px #38ffb766!important}
+.account-emblem.frame-2::before{background:repeating-conic-gradient(#fff8d4 0deg 2deg,#d9a52c 3deg 8deg,#744c0c 9deg 12deg,#ffe9a0 13deg 16deg)!important;filter:drop-shadow(0 0 6px #ffd66c) drop-shadow(0 0 16px #bc841e)!important}
+.account-emblem.frame-2::after{border-color:#fff0b3!important;box-shadow:0 0 8px #f7cf67,0 0 18px #d59a26,inset 0 0 9px #ffe8a055!important}
+.account-emblem.frame-3::before{inset:-12px!important;background:repeating-conic-gradient(#e1ffff 0deg 2deg,#36e7df 3deg 8deg,#086d7b 9deg 12deg,#a9fff5 13deg 16deg)!important;filter:drop-shadow(0 0 6px #55fff0) drop-shadow(0 0 17px #00aeb8)!important}
+.account-emblem.frame-3::after{border:3px double #c8fffa!important;box-shadow:0 0 8px #3af4eb,0 0 20px #0bb8c4,inset 0 0 9px #42e9df66!important}
+.account-emblem.frame-4::before{inset:-11px!important;background:repeating-conic-gradient(#f9e7ff 0deg 2deg,#b47aff 3deg 8deg,#482080 9deg 12deg,#e6c5ff 13deg 16deg)!important;filter:drop-shadow(0 0 6px #c38aff) drop-shadow(0 0 17px #793cff)!important}
+.account-emblem.frame-4::after{border-color:#f0d8ff!important;box-shadow:0 0 8px #bd83ff,0 0 20px #8849eb,inset 0 0 9px #b47aff66!important}
+.account-emblem.frame-5::before{inset:-12px!important;background:repeating-conic-gradient(#fff0dc 0deg 2deg,#ff9b4c 3deg 8deg,#7c2c16 9deg 12deg,#ffd19b 13deg 16deg)!important;filter:drop-shadow(0 0 6px #ff9b4c) drop-shadow(0 0 17px #e45121)!important}
+.account-emblem.frame-5::after{border:3px double #ffe0b8!important;box-shadow:0 0 8px #ff9b4c,0 0 20px #e65c2a,inset 0 0 9px #ff9b4c66!important}
+.frame-preview{width:43px!important;height:43px!important;border-radius:50%;background:transparent!important;position:relative}
+.frame-preview::before{inset:-4px!important;padding:4px!important;border-radius:50%;background:repeating-conic-gradient(#eafff7 0deg 2deg,#16d88b 3deg 9deg,#075c40 10deg 13deg,#8affc9 14deg 16deg)!important;animation:jewelOrbit 18s linear infinite!important;filter:drop-shadow(0 0 4px #21ffae)!important}
+.frame-preview::after{content:"";position:absolute;inset:-1px;border:1px solid #eafff7;border-radius:50%;box-shadow:0 0 6px #21ffae;pointer-events:none}
+.frame-preview.f2::before{background:repeating-conic-gradient(#fff8d4 0deg 2deg,#d9a52c 3deg 8deg,#744c0c 9deg 12deg,#ffe9a0 13deg 16deg)!important;filter:drop-shadow(0 0 4px #ffd66c)!important}
+.frame-preview.f3::before{background:repeating-conic-gradient(#e1ffff 0deg 2deg,#36e7df 3deg 8deg,#086d7b 9deg 12deg,#a9fff5 13deg 16deg)!important;filter:drop-shadow(0 0 4px #55fff0)!important}
+.frame-preview.f4::before{background:repeating-conic-gradient(#f9e7ff 0deg 2deg,#b47aff 3deg 8deg,#482080 9deg 12deg,#e6c5ff 13deg 16deg)!important;filter:drop-shadow(0 0 4px #c38aff)!important}
+.frame-preview.f5::before{background:repeating-conic-gradient(#fff0dc 0deg 2deg,#ff9b4c 3deg 8deg,#7c2c16 9deg 12deg,#ffd19b 13deg 16deg)!important;filter:drop-shadow(0 0 4px #ff9b4c)!important}
+
+</style>
 </head>
 <body>
 <div class="space-photo"></div><div class="sparkles"></div><div class="space-planet planet-a"></div><div class="space-planet planet-b"></div>
