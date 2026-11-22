@@ -12,6 +12,7 @@ function player(row, rank) {
     rank: rank > 99 ? "99+" : String(rank),
     name: row.first_name || row.username || "مستخدم AUREX",
     maskedId: maskId(row.telegram_id),
+    photoUrl: row.photo_url || null,
     balance: Number(row.balance || 0)
   };
 }
@@ -25,11 +26,11 @@ export async function onRequest({ request, env }) {
 
   const telegramId = String(auth.user.id);
   const topRows = await env.AUREX_DB.prepare(
-    "SELECT telegram_id, username, first_name, balance FROM users ORDER BY balance DESC, taps DESC, telegram_id ASC LIMIT 10"
+    "SELECT telegram_id, username, first_name, balance, photo_url FROM users ORDER BY balance DESC, taps DESC, telegram_id ASC LIMIT 10"
   ).all();
 
   const current = await env.AUREX_DB.prepare(
-    "SELECT telegram_id, username, first_name, balance, taps FROM users WHERE telegram_id = ?"
+    "SELECT telegram_id, username, first_name, balance, taps, photo_url FROM users WHERE telegram_id = ?"
   ).bind(telegramId).first();
 
   if (!current) return json({ error: "user_not_found" }, 404);
