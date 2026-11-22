@@ -235,6 +235,22 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 .account-quick-chip{min-height:36px;padding:6px 9px;gap:6px;border-radius:11px;font-size:12px;flex:0 0 auto}
 .account-quick-chip svg{width:17px;height:17px;fill:none;stroke:#8dffc0;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 
+
+/* AUREX missions */
+.task-list{display:flex;flex-direction:column;gap:12px;padding-bottom:12px}
+.task-card{min-height:88px;border-radius:19px;padding:13px 12px;display:grid;grid-template-columns:43px minmax(0,1fr) auto;align-items:center;gap:11px;border-color:rgba(22,228,154,.25);background:linear-gradient(110deg,rgba(5,43,29,.82),rgba(4,22,17,.78))}
+.task-telegram{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:rgba(22,228,154,.12);border:1px solid rgba(22,228,154,.28);box-shadow:inset 0 0 12px rgba(22,228,154,.08)}
+.task-telegram svg{width:24px;height:24px;fill:#8dffca}
+.task-info{min-width:0;display:flex;flex-direction:column;gap:7px}
+.task-info>strong{font-size:13px;color:#e8fff2;font-weight:800}
+.task-reward{display:flex;align-items:center;gap:5px;color:#b8d8c8;font-size:11px}
+.task-reward b{color:#a8ffd4;font-size:12px}
+.task-reward img{width:19px;height:19px;object-fit:contain;filter:drop-shadow(0 0 4px #00ff8a55)}
+.task-go{min-width:72px;min-height:39px;padding:0 10px;display:flex;align-items:center;justify-content:center;gap:5px;border:1px solid rgba(22,228,154,.62);border-radius:12px;background:linear-gradient(135deg,rgba(22,228,154,.28),rgba(5,112,72,.38));color:#dffff0;font:800 12px system-ui;box-shadow:0 0 13px rgba(22,228,154,.12),inset 0 1px rgba(255,255,255,.13)}
+.task-go:active{transform:scale(.96);background:rgba(22,228,154,.4);box-shadow:0 0 18px rgba(22,228,154,.5)}
+.task-go svg{width:19px;height:19px;stroke:#9fffd0;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.task-admin-note{text-align:center;color:#8fa99a;font-size:10px;line-height:1.7;margin:5px 8px 14px}
+.task-feedback{margin:5px 0;text-align:center;color:#a8ffd4;font-size:11px;min-height:16px}
 </style>
 </head>
 <body>
@@ -327,11 +343,30 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 </div>
 <div id="hubTasks">
 <div class="lb-heading"><h2>المهمات</h2></div>
-<div class="glass" style="padding:24px 18px;border:1px solid #35d99a44;border-radius:18px;text-align:center;background:rgba(3,24,17,.58);backdrop-filter:blur(14px)">
-<div style="font-size:30px;margin-bottom:10px">✦</div>
-<strong style="display:block;color:#e4fff1;margin-bottom:7px">المهمات قادمة قريباً</strong>
-<span style="color:#a8cbbb;font-size:13px">ستظهر هنا المهمات ومكافآت ARX عند تفعيلها.</span>
+<div class="task-list" id="taskList">
+<article class="task-card glass" data-task="1">
+<div class="task-telegram" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21.5 3.5 18.2 20c-.25 1.16-.9 1.45-1.82.9l-5.05-3.72-2.44 2.35c-.27.27-.5.5-1.02.5l.36-5.14 9.36-8.45c.41-.36-.09-.56-.64-.2L5.38 13.5.4 11.94c-1.08-.34-1.1-1.08.23-1.6L20.1 2.8c.9-.33 1.68.22 1.4.7Z"/></svg></div>
+<div class="task-info"><strong>مهمة 1</strong><span class="task-reward">المكافأة: <b>0</b> <img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX"></span></div>
+<button type="button" class="task-go" data-go="1">Go <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15.5 9.5 13 5 14l2-4.5L5.5 5 10 6l3-3 1 5 4 2-4 2.5-2 3Z"/><path d="M12 15.5 10 21l4-3 3 1-2-4"/></svg></button>
+</article><article class="task-card glass" data-task="2">
+<div class="task-telegram" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21.5 3.5 18.2 20c-.25 1.16-.9 1.45-1.82.9l-5.05-3.72-2.44 2.35c-.27.27-.5.5-1.02.5l.36-5.14 9.36-8.45c.41-.36-.09-.56-.64-.2L5.38 13.5.4 11.94c-1.08-.34-1.1-1.08.23-1.6L20.1 2.8c.9-.33 1.68.22 1.4.7Z"/></svg></div>
+<div class="task-info"><strong>مهمة 2</strong><span class="task-reward">المكافأة: <b>0</b> <img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX"></span></div>
+<button type="button" class="task-go" data-go="2">Go <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15.5 9.5 13 5 14l2-4.5L5.5 5 10 6l3-3 1 5 4 2-4 2.5-2 3Z"/><path d="M12 15.5 10 21l4-3 3 1-2-4"/></svg></button>
+</article><article class="task-card glass" data-task="3">
+<div class="task-telegram" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21.5 3.5 18.2 20c-.25 1.16-.9 1.45-1.82.9l-5.05-3.72-2.44 2.35c-.27.27-.5.5-1.02.5l.36-5.14 9.36-8.45c.41-.36-.09-.56-.64-.2L5.38 13.5.4 11.94c-1.08-.34-1.1-1.08.23-1.6L20.1 2.8c.9-.33 1.68.22 1.4.7Z"/></svg></div>
+<div class="task-info"><strong>مهمة 3</strong><span class="task-reward">المكافأة: <b>0</b> <img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX"></span></div>
+<button type="button" class="task-go" data-go="3">Go <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15.5 9.5 13 5 14l2-4.5L5.5 5 10 6l3-3 1 5 4 2-4 2.5-2 3Z"/><path d="M12 15.5 10 21l4-3 3 1-2-4"/></svg></button>
+</article><article class="task-card glass" data-task="4">
+<div class="task-telegram" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21.5 3.5 18.2 20c-.25 1.16-.9 1.45-1.82.9l-5.05-3.72-2.44 2.35c-.27.27-.5.5-1.02.5l.36-5.14 9.36-8.45c.41-.36-.09-.56-.64-.2L5.38 13.5.4 11.94c-1.08-.34-1.1-1.08.23-1.6L20.1 2.8c.9-.33 1.68.22 1.4.7Z"/></svg></div>
+<div class="task-info"><strong>مهمة 4</strong><span class="task-reward">المكافأة: <b>0</b> <img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX"></span></div>
+<button type="button" class="task-go" data-go="4">Go <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15.5 9.5 13 5 14l2-4.5L5.5 5 10 6l3-3 1 5 4 2-4 2.5-2 3Z"/><path d="M12 15.5 10 21l4-3 3 1-2-4"/></svg></button>
+</article><article class="task-card glass" data-task="5">
+<div class="task-telegram" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21.5 3.5 18.2 20c-.25 1.16-.9 1.45-1.82.9l-5.05-3.72-2.44 2.35c-.27.27-.5.5-1.02.5l.36-5.14 9.36-8.45c.41-.36-.09-.56-.64-.2L5.38 13.5.4 11.94c-1.08-.34-1.1-1.08.23-1.6L20.1 2.8c.9-.33 1.68.22 1.4.7Z"/></svg></div>
+<div class="task-info"><strong>مهمة 5</strong><span class="task-reward">المكافأة: <b>0</b> <img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX"></span></div>
+<button type="button" class="task-go" data-go="5">Go <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15.5 9.5 13 5 14l2-4.5L5.5 5 10 6l3-3 1 5 4 2-4 2.5-2 3Z"/><path d="M12 15.5 10 21l4-3 3 1-2-4"/></svg></button>
+</article>
 </div>
+<div class="task-admin-note">يمكن تعديل أسماء المهمات ومكافآتها وربط روابطها عند تجهيز لوحة التحكم.</div>
 </div>
 <div id="hubRanking" hidden>
 <div class="lb-heading">
@@ -421,6 +456,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
    window.scrollTo({top:0,behavior:'smooth'});
  };
  document.getElementById('leaderboardList').innerHTML=Array.from({length:10},(_,i)=>'<div class="lb-slot"><div class="lb-slot-rank">'+(i+1)+'</div><div class="lb-slot-space"></div></div>').join('');
+ document.querySelectorAll('.task-go').forEach(btn=>btn.addEventListener('click',()=>{const note=document.querySelector('.task-admin-note');note.textContent='سيتم ربط هذه المهمة برابطها ومكافأتها من لوحة التحكم عند تجهيزها.';btn.classList.add('is-glowing');setTimeout(()=>btn.classList.remove('is-glowing'),650);}));
  const hubTabs=[...document.querySelectorAll('.hub-tab')];
  const hubTasks=document.getElementById('hubTasks'),hubRanking=document.getElementById('hubRanking');
  hubTabs.forEach(btn=>btn.addEventListener('click',()=>{
