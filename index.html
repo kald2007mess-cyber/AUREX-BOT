@@ -532,7 +532,6 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
    if(window.TON_CONNECT_UI&&window.TON_CONNECT_UI.TonConnectUI){
      tonConnectUI=new window.TON_CONNECT_UI.TonConnectUI({
        manifestUrl:window.location.origin+'/tonconnect-manifest.json',
-       actionsConfiguration:{twaReturnUrl:'https://t.me/'}
      });
      tonConnectUI.onStatusChange(wallet=>{
        if(wallet&&wallet.account){
