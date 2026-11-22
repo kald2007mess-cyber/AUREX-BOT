@@ -449,6 +449,27 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 }
 .account-avatar-row:has(.aurex-normal-avatar.frame-1){min-height:112px!important}
 
+
+/* Exact frame 1 from the user's original five-frame sheet. No background changes. */
+.account-emblem.aurex-normal-avatar.frame-1{
+  position:relative!important;isolation:isolate!important;
+  width:116px!important;height:130px!important;min-width:116px!important;min-height:130px!important;
+  overflow:visible!important;border:0!important;border-radius:0!important;background:transparent!important;
+  box-shadow:none!important;
+}
+.account-emblem.aurex-normal-avatar.frame-1 #accountProfilePhoto{
+  position:absolute!important;left:50%!important;top:50%!important;transform:translate(-50%,-50%)!important;
+  width:66px!important;height:66px!important;min-width:66px!important;min-height:66px!important;
+  border-radius:50%!important;object-fit:cover!important;z-index:2!important;
+}
+.account-emblem.aurex-normal-avatar.frame-1::before{
+  content:""!important;display:block!important;position:absolute!important;inset:0!important;z-index:3!important;
+  background-image:url("https://raw.githubusercontent.com/kald2007mess-cyber/AUREX-BOT/fb6d64650ad2f4405ac5fea0b19ede141523b5ed/file_00000000c80081f4abdd203afbb1885d.png")!important;
+  background-repeat:no-repeat!important;background-size:500% 285%!important;background-position:0% 50%!important;
+  pointer-events:none!important;
+}
+.account-avatar-row:has(.aurex-normal-avatar.frame-1){min-height:136px!important}
+
 </style>
 </head>
 <body>
