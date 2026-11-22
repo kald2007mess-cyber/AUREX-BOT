@@ -19,9 +19,11 @@ body:after{background:radial-gradient(ellipse at 50% 100%,#00e99b22,transparent 
 .planet-a{width:clamp(105px,24vw,230px);height:clamp(105px,24vw,230px);right:-7%;top:9%;background:radial-gradient(circle at 32% 28%,#9dc9b1 0,#3f8777 17%,#174a45 42%,#071b20 72%);opacity:.72}
 .planet-a:after{content:"";position:absolute;width:155%;height:32%;left:-27%;top:35%;border:8px solid #b6d3b077;border-left-color:#d4d8b088;border-right-color:#5e9b8b99;border-radius:50%;transform:rotate(-19deg)}
 .planet-b{width:clamp(45px,11vw,95px);height:clamp(45px,11vw,95px);left:5%;top:39%;background:radial-gradient(circle at 32% 28%,#b9c9b1,#527b69 35%,#152c28 75%);opacity:.58}
-.meteor{display:none;position:fixed;width:100px;height:2px;z-index:0;pointer-events:none;background:linear-gradient(90deg,transparent,#ffe6a0,transparent);transform:rotate(-35deg);opacity:0;animation:shoot 8s linear infinite}
-.m1{top:12%;left:-15%;animation-delay:1s}.m2{top:44%;left:-20%;animation-delay:5s}.m3{top:72%;left:-15%;animation-delay:9s}
-@keyframes shoot{0%,75%{opacity:0;transform:translate(0,0) rotate(-35deg)}78%{opacity:.9}100%{opacity:0;transform:translate(125vw,65vh) rotate(-35deg)}}
+.meteor{display:block;position:fixed;width:4px;height:4px;z-index:0;pointer-events:none;border-radius:50%;background:#fff2bd;box-shadow:0 0 5px 2px #ffd66b,0 0 13px 4px #d99b32aa;opacity:0;animation:shoot 14s ease-in-out infinite;will-change:transform,opacity}
+.meteor:after{content:"";position:absolute;right:1px;top:1px;width:76px;height:1.5px;border-radius:50%;background:linear-gradient(90deg,transparent,#f3c45b66,#fff0b4);transform:rotate(-35deg);transform-origin:right center;filter:blur(.25px)}
+.m1{top:7%;left:-8%;animation-delay:1s}.m2{top:29%;left:-12%;animation-delay:4.5s}.m3{top:52%;left:-9%;animation-delay:8s}.m4{top:69%;left:-14%;animation-delay:11.5s}.m5{top:17%;left:-10%;animation-delay:6.2s}.m6{top:83%;left:-13%;animation-delay:2.8s}
+@keyframes shoot{0%,68%{opacity:0;transform:translate3d(0,0,0) rotate(-35deg)}73%{opacity:.85}80%{opacity:.72}100%{opacity:0;transform:translate3d(112vw,62vh,0) rotate(-35deg)}}
+@media(prefers-reduced-motion:reduce){.meteor{animation:none;display:none}}
 .app{position:relative;z-index:1;max-width:520px;margin:auto;min-height:100svh;padding:calc(22px + env(safe-area-inset-top)) 18px calc(110px + env(safe-area-inset-bottom))}
 header{display:flex;align-items:center;justify-content:space-between;margin:4px 2px 24px}
 .brand{font-weight:900;letter-spacing:3px;color:var(--gold-light);font-size:21px;text-shadow:0 0 18px #b98a35}
@@ -417,7 +419,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 </head>
 <body>
 <div class="space-photo"></div><div class="sparkles"></div><div class="space-planet planet-a"></div><div class="space-planet planet-b"></div>
-<div class="meteor m1"></div><div class="meteor m2"></div><div class="meteor m3"></div>
+<div class="meteor m1"></div><div class="meteor m2"></div><div class="meteor m3"></div><div class="meteor m4"></div><div class="meteor m5"></div><div class="meteor m6"></div>
 <main class="app" id="homePage">
 <header><div class="brand">AUREX <span style="color:#18d58a">◆</span></div><div class="pill">ARX · SPACE NETWORK</div></header>
 <section class="balance" aria-live="polite"><div class="caption">إجمالي رصيدك</div><div class="amount"><span id="balance">0.00</span> <small style="font-size:14px;display:inline-flex;align-items:center;gap:4px"><img class="arx-icon" src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX"> ARX</small></div></section>
