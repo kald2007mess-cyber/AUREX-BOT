@@ -323,7 +323,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
  </div>
 </div>
 <section class="energy"><div class="energy-top"><span>⚡ الطاقة</span><span id="energyRateText">+1 طاقة كل 7.2 ثانية</span></div><div class="track"><div class="fill" id="energyFill"></div></div></section>
-<div class="notice">الرصيد والضغطات محفوظة محلياً على هذا الجهاز في هذه النسخة التجريبية</div>
+<div class="notice" id="connectionStatus">جارٍ الاتصال بحسابك...</div>
 </main>
 
 
@@ -482,38 +482,90 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 <button><svg viewBox="0 0 24 24"><path d="m12 3 2.7 5.5 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1-4.4-4.3 6.1-.9Z"/></svg><span>مهمات</span></button>
 <button><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18m-13 5h4"/></svg><span>محفظة</span></button>
 </nav>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
 (() => {
  const upgradeValues=[0.01,0.02,0.03,0.05,0.08,0.12];
  const upgradeCosts=[100,300,750,1500,3000];
- let upgradeLevel=Math.max(0,Math.min(5,Number(localStorage.getItem('aurex_tap_level')||0)));
- let reward=upgradeValues[upgradeLevel];
+ let upgradeLevel=0,reward=upgradeValues[0];
  const energyCapacities=[500,1000,1500,2000,3000];
  const energyUpgradeCosts=[100,300,750,1500];
- let energyLevel=Math.max(0,Math.min(4,Number(localStorage.getItem('aurex_energy_level')??1)));
- let maxEnergy=energyCapacities[energyLevel];
- let balance=Number(localStorage.getItem('aurex_balance')||0);
- let taps=Number(localStorage.getItem('aurex_taps')||0);
- let energy=Math.max(0,Math.min(maxEnergy,Number(localStorage.getItem('aurex_energy')??maxEnergy)||0));
- let energyRegenMs=7200000/maxEnergy;
- let energyUpdatedAt=Number(localStorage.getItem('aurex_energy_updated')||Date.now());
+ let energyLevel=0,maxEnergy=500,balance=0,taps=0,energy=500;
+ let energyRegenMs=7200000/maxEnergy,energyUpdatedAt=Date.now();
+ let apiReady=false,tapPending=false;
+ const tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;
+ const initData=tg&&tg.initData?tg.initData:'';
+ const connectionStatus=document.getElementById('connectionStatus');
+ if(tg){tg.ready();if(typeof tg.expand==='function')tg.expand();}
+ const apiFetch=async(path,options={})=>{
+   if(!initData)throw new Error('telegram_required');
+   const response=await fetch(path,{...options,headers:{'X-Telegram-Init-Data':initData,...(options.headers||{})},cache:'no-store'});
+   const data=await response.json().catch(()=>({error:'invalid_response'}));
+   if(!response.ok){const error=new Error(data.error||'request_failed');error.status=response.status;error.data=data;throw error;}
+   return data;
+ };
  const refreshEnergy=()=>{
    const now=Date.now();
    if(energy>=maxEnergy){energy=maxEnergy;energyUpdatedAt=now;}
    else{
-     const elapsed=Math.max(0,now-energyUpdatedAt);
-     const gained=Math.floor(elapsed/energyRegenMs);
+     const gained=Math.floor(Math.max(0,now-energyUpdatedAt)/energyRegenMs);
      if(gained>0){energy=Math.min(maxEnergy,energy+gained);energyUpdatedAt+=gained*energyRegenMs;}
    }
-   localStorage.setItem('aurex_energy',String(energy));
-   localStorage.setItem('aurex_energy_updated',String(energyUpdatedAt));
  };
- refreshEnergy();
  const balanceEl=document.getElementById('balance'),energyEl=document.getElementById('energyText'),fill=document.getElementById('energyFill');
  const coin=document.getElementById('tap'),wrap=document.getElementById('coinWrap');
- const render=()=>{balanceEl.textContent=balance.toFixed(2);energyEl.textContent=energy+' / '+maxEnergy;fill.style.width=(energy/maxEnergy*100)+'%';document.getElementById('energyRateText').textContent='+1 طاقة كل '+(energyRegenMs/1000).toLocaleString('en-US',{maximumFractionDigits:2})+' ثانية';document.getElementById('currentTapStat').childNodes[0].textContent='+'+reward.toFixed(2)+' ';document.getElementById('currentTapValue').textContent='+'+reward.toFixed(2);document.getElementById('upgradeLevel').textContent=upgradeLevel===0?'المستوى الأساسي':'LVL '+upgradeLevel+' / 5';const next=upgradeLevel<5;document.getElementById('nextTapValue').textContent=next?'+'+upgradeValues[upgradeLevel+1].toFixed(2):'MAX';document.getElementById('upgradeCost').textContent=next?upgradeCosts[upgradeLevel].toLocaleString('en-US'):'—';document.getElementById('upgradeProgress').style.width=(upgradeLevel/5*100)+'%';const btn=document.getElementById('upgradeButton');btn.disabled=!next||balance<upgradeCosts[upgradeLevel];btn.textContent=next?'تطوير ⚡':'اكتمل التطوير';document.getElementById('energyUpgradeLevel').textContent='LVL '+(energyLevel+1)+' / 5';document.getElementById('currentEnergyCapacity').textContent=maxEnergy.toLocaleString('en-US');const energyNext=energyLevel<4;document.getElementById('nextEnergyCapacity').textContent=energyNext?energyCapacities[energyLevel+1].toLocaleString('en-US'):'MAX';document.getElementById('energyUpgradeCost').textContent=energyNext?energyUpgradeCosts[energyLevel].toLocaleString('en-US'):'—';document.getElementById('energyUpgradeProgress').style.width=(energyLevel/4*100)+'%';const energyBtn=document.getElementById('energyUpgradeButton');energyBtn.disabled=!energyNext||balance<energyUpgradeCosts[energyLevel];energyBtn.textContent=energyNext?'تطوير ⚡':'وصلت للحد الأقصى';};
- render();
- setInterval(()=>{refreshEnergy();render();},1000);
+ const render=()=>{
+   balanceEl.textContent=balance.toFixed(2);energyEl.textContent=energy+' / '+maxEnergy;fill.style.width=(energy/maxEnergy*100)+'%';
+   document.getElementById('energyRateText').textContent='+1 طاقة كل '+(energyRegenMs/1000).toLocaleString('en-US',{maximumFractionDigits:2})+' ثانية';
+   document.getElementById('currentTapStat').childNodes[0].textContent='+'+reward.toFixed(2)+' ';
+   document.getElementById('currentTapValue').textContent='+'+reward.toFixed(2);
+   document.getElementById('upgradeLevel').textContent=upgradeLevel===0?'المستوى الأساسي':'LVL '+upgradeLevel+' / 5';
+   const next=upgradeLevel<5;
+   document.getElementById('nextTapValue').textContent=next?'+'+upgradeValues[upgradeLevel+1].toFixed(2):'MAX';
+   document.getElementById('upgradeCost').textContent=next?upgradeCosts[upgradeLevel].toLocaleString('en-US'):'—';
+   document.getElementById('upgradeProgress').style.width=(upgradeLevel/5*100)+'%';
+   document.getElementById('upgradeButton').disabled=true;
+   document.getElementById('energyUpgradeLevel').textContent='LVL '+(energyLevel+1)+' / 5';
+   document.getElementById('currentEnergyCapacity').textContent=maxEnergy.toLocaleString('en-US');
+   const energyNext=energyLevel<4;
+   document.getElementById('nextEnergyCapacity').textContent=energyNext?energyCapacities[energyLevel+1].toLocaleString('en-US'):'MAX';
+   document.getElementById('energyUpgradeCost').textContent=energyNext?energyUpgradeCosts[energyLevel].toLocaleString('en-US'):'—';
+   document.getElementById('energyUpgradeProgress').style.width=(energyLevel/4*100)+'%';
+   document.getElementById('energyUpgradeButton').disabled=true;
+   document.getElementById('accountBalance').textContent=balance.toFixed(2);
+   document.getElementById('walletBalance').textContent=balance.toFixed(2);
+   document.getElementById('walletAvailable').textContent=balance.toFixed(2);
+   document.getElementById('walletTonValue').textContent=(balance/100000).toFixed(4);
+ };
+ const loadProfile=async()=>{
+   if(!initData){connectionStatus.textContent='افتح AUREX من داخل بوت تيليجرام لربط حسابك.';coin.disabled=true;render();return;}
+   try{
+     const result=await apiFetch('/api/me'),user=result.user;
+     balance=Number(user.balance)||0;taps=Number(user.taps)||0;
+     upgradeLevel=Math.max(0,Math.min(5,Number(user.tapLevel)||0));
+     reward=Number(user.tapReward)||upgradeValues[upgradeLevel];
+     energy=Math.max(0,Number(user.energy)||0);maxEnergy=Math.max(1,Number(user.maxEnergy)||500);
+     energyLevel=Math.max(0,Math.min(4,Number(user.energyLevel)||0));
+     energyRegenMs=Number(user.energyRegenSeconds)*1000||7200000/maxEnergy;
+     energyUpdatedAt=Date.now();apiReady=true;coin.disabled=false;
+     connectionStatus.textContent='تم ربط حسابك وحفظ بياناتك بأمان.';render();
+   }catch(error){
+     apiReady=false;coin.disabled=true;
+     connectionStatus.textContent=error.status===401?'تعذر التحقق من تيليجرام. افتح التطبيق من البوت مجدداً.':'تعذر الاتصال بالخادم. تحقق من إعداد TELEGRAM_BOT_TOKEN ثم أعد المحاولة.';
+     render();
+   }
+ };
+ const showTapReward=(event,amount)=>{
+   const fx=document.createElement('div');
+   fx.innerHTML='<span>+'+Number(amount).toFixed(2)+'</span><img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX">';
+   fx.style.cssText='position:fixed!important;left:'+event.clientX+'px!important;top:'+event.clientY+'px!important;transform:translate(-50%,-50%);z-index:2147483647!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:4px!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;color:#9bffc4!important;font-size:18px!important;font-weight:900!important;text-shadow:0 0 6px #00ff78,0 0 12px #00ff78!important;box-shadow:none!important;pointer-events:none!important;white-space:nowrap!important;';
+   const icon=fx.querySelector('img');icon.style.cssText='width:22px!important;height:22px!important;object-fit:contain!important;filter:drop-shadow(0 0 5px #00ff78)!important;';
+   document.body.appendChild(fx);
+   if(typeof fx.animate==='function'){fx.animate([{opacity:1,transform:'translate(-50%,-50%) scale(1)'},{opacity:.85,transform:'translate(-50%,-105%) scale(1.04)',offset:.55},{opacity:0,transform:'translate(-50%,-175%) scale(1.08)'}],{duration:1900,easing:'ease-out',fill:'forwards'}).onfinish=()=>fx.remove();}
+   else{fx.style.animation='aurexRewardFloat 1900ms ease-out forwards';fx.addEventListener('animationend',()=>fx.remove(),{once:true});}
+ };
+ render();loadProfile();
+ setInterval(()=>{if(apiReady){refreshEnergy();render();}},1000);
  document.getElementById('currentTapStat').addEventListener('click',()=>{document.getElementById('upgradeOverlay').hidden=false;});
  document.getElementById('closeUpgrade').addEventListener('click',()=>{document.getElementById('upgradeOverlay').hidden=true;});
  document.getElementById('upgradeOverlay').addEventListener('click',e=>{if(e.target.id==='upgradeOverlay')e.currentTarget.hidden=true;});
@@ -521,28 +573,10 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
  document.getElementById('closeEnergyUpgrade').addEventListener('click',()=>{document.getElementById('energyUpgradeOverlay').hidden=true;});
  document.getElementById('energyUpgradeOverlay').addEventListener('click',e=>{if(e.target.id==='energyUpgradeOverlay')e.currentTarget.hidden=true;});
  document.getElementById('energyUpgradeButton').addEventListener('click',()=>{
-   if(energyLevel>=4)return;
-   const cost=energyUpgradeCosts[energyLevel];
-   if(balance<cost){document.getElementById('energyUpgradeFeedback').textContent='رصيدك غير كافٍ لهذا التطوير.';return;}
-   const oldCapacity=maxEnergy;
-   balance=Math.round((balance-cost)*100)/100;
-   energyLevel++;maxEnergy=energyCapacities[energyLevel];energyRegenMs=7200000/maxEnergy;
-   energy=Math.min(maxEnergy,energy+(maxEnergy-oldCapacity));
-   localStorage.setItem('aurex_balance',balance.toFixed(2));
-   localStorage.setItem('aurex_energy_level',String(energyLevel));
-   localStorage.setItem('aurex_energy',String(energy));
-   localStorage.setItem('aurex_energy_updated',String(Date.now()));
-   document.getElementById('energyUpgradeFeedback').textContent='تم تطوير سعة الطاقة بنجاح!';
-   render();
+   document.getElementById('energyUpgradeFeedback').textContent='سيتم تفعيل التطوير بعد ربطه بالخادم.';
  });
  document.getElementById('upgradeButton').addEventListener('click',()=>{
-   if(upgradeLevel>=5)return;
-   const cost=upgradeCosts[upgradeLevel];
-   if(balance<cost){document.getElementById('upgradeFeedback').textContent='رصيدك غير كافٍ لهذا التطوير.';return;}
-   balance=Math.round((balance-cost)*100)/100;upgradeLevel++;reward=upgradeValues[upgradeLevel];
-   localStorage.setItem('aurex_balance',balance.toFixed(2));localStorage.setItem('aurex_tap_level',String(upgradeLevel));
-   document.getElementById('upgradeFeedback').textContent='تم التطوير بنجاح! قيمة الضغطة أصبحت +'+reward.toFixed(2);
-   render();
+   document.getElementById('upgradeFeedback').textContent='سيتم تفعيل التطوير بعد ربطه بالخادم.';
  });
  const homePage=document.getElementById('homePage');
  const accountPage=document.getElementById('accountPage');
@@ -625,24 +659,25 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
    if(navigator.share){try{await navigator.share({title:'انضم إلى AUREX',text:'استخدم رابط دعوتي للانضمام إلى AUREX',url:referralLink});}catch(e){}}
    else{await copyLink();}
  });
- coin.addEventListener('click',(event)=>{
-   refreshEnergy();
-   if(energy<=0){render();return;}
-   if(energy>=maxEnergy)energyUpdatedAt=Date.now();
-   energy--;taps++;balance=Math.round((balance+reward)*100)/100;
-   localStorage.setItem('aurex_balance',balance.toFixed(2));
-   localStorage.setItem('aurex_taps',String(taps));
-   localStorage.setItem('aurex_energy',String(energy));
-   localStorage.setItem('aurex_energy_updated',String(energyUpdatedAt));render();
-   coin.classList.remove('pulse');wrap.classList.remove('glow');void coin.offsetWidth;coin.classList.add('pulse');wrap.classList.add('glow');
-   const fx=document.createElement('div');
-   fx.innerHTML='<span>+0.01</span><img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX">';
-   fx.style.cssText='position:fixed!important;left:'+event.clientX+'px!important;top:'+event.clientY+'px!important;transform:translate(-50%,-50%);z-index:2147483647!important;display:flex!important;align-items:center!important;justify-content:center!important;gap:4px!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;color:#9bffc4!important;font-size:18px!important;font-weight:900!important;text-shadow:0 0 6px #00ff78,0 0 12px #00ff78!important;box-shadow:none!important;pointer-events:none!important;white-space:nowrap!important;';
-   const rewardIcon=fx.querySelector('img');rewardIcon.style.cssText='width:22px!important;height:22px!important;object-fit:contain!important;filter:drop-shadow(0 0 5px #00ff78)!important;';
-   document.body.appendChild(fx);
-   if(typeof fx.animate==='function'){fx.animate([{opacity:1,transform:'translate(-50%,-50%) scale(1)'},{opacity:.85,transform:'translate(-50%,-105%) scale(1.04)',offset:.55},{opacity:0,transform:'translate(-50%,-175%) scale(1.08)'}],{duration:1900,easing:'ease-out',fill:'forwards'}).onfinish=()=>fx.remove();}else{fx.style.animation='aurexRewardFloat 1900ms ease-out forwards';fx.addEventListener('animationend',()=>fx.remove(),{once:true});}
-   const clearGlow=(e)=>{if(e.target===wrap){wrap.classList.remove('glow');wrap.removeEventListener('animationend',clearGlow);}};
-   wrap.addEventListener('animationend',clearGlow);
+ coin.addEventListener('click',async(event)=>{
+   if(!apiReady||tapPending)return;
+   const point={clientX:event.clientX,clientY:event.clientY};
+   tapPending=true;coin.disabled=true;
+   try{
+     const result=await apiFetch('/api/tap',{method:'POST'});
+     balance=Number(result.balance)||0;taps=Number(result.taps)||0;
+     energy=Math.max(0,Number(result.energy)||0);maxEnergy=Math.max(1,Number(result.maxEnergy)||maxEnergy);
+     energyRegenMs=7200000/maxEnergy;energyUpdatedAt=Number(result.serverTime)||Date.now();
+     reward=Number(result.reward)||reward;render();
+     coin.classList.remove('pulse');wrap.classList.remove('glow');void coin.offsetWidth;coin.classList.add('pulse');wrap.classList.add('glow');
+     showTapReward(point,result.reward);
+     const clearGlow=(e)=>{if(e.target===wrap){wrap.classList.remove('glow');wrap.removeEventListener('animationend',clearGlow);}};
+     wrap.addEventListener('animationend',clearGlow);
+   }catch(error){
+     if(error.status===409){energy=Math.max(0,Number(error.data&&error.data.energy)||0);render();connectionStatus.textContent='انتهت الطاقة حالياً، انتظر حتى تتجدد.';}
+     else if(error.status===401){apiReady=false;connectionStatus.textContent='انتهت جلسة تيليجرام. أعد فتح التطبيق من البوت.';}
+     else{connectionStatus.textContent='تعذر تسجيل الضغطة. حاول مجدداً.';}
+   }finally{tapPending=false;coin.disabled=!apiReady;}
  });
 })();
 </script>
