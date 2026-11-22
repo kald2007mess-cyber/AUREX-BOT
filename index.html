@@ -925,7 +925,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
  };
  document.getElementById('copyReferral').addEventListener('click',copyLink);
  document.getElementById('copyProfileId').addEventListener('click',async()=>{
-   const value=String((document.getElementById('accountProfileId').textContent||'').replace(/^ID\\s*/,''));
+   const value=String((document.getElementById('accountProfileId').textContent||'').replace(/^ID\s*/,''));
    if(!value||value==='—')return;
    try{await copyText(value);const hint=document.querySelector('#copyProfileId .copy-id-hint');if(hint){hint.textContent='✓';setTimeout(()=>hint.textContent='⧉',1100);}}
    catch(e){connectionStatus.textContent='تعذر نسخ ID.';}
