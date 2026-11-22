@@ -284,6 +284,13 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 .task-history-tab.active{color:#dffff0;border-color:rgba(22,228,154,.48);background:rgba(22,228,154,.14);box-shadow:0 0 12px rgba(22,228,154,.1)}
 .task-history-empty{min-height:76px;margin-top:11px;display:flex;align-items:center;justify-content:center;gap:8px;text-align:center;border:1px dashed rgba(22,228,154,.17);border-radius:12px;color:#9bb9a8;font-size:11px;padding:12px;line-height:1.7}
 .task-history-empty svg{width:19px;height:19px;flex:0 0 19px;stroke:#7debb4;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+
+/* Telegram user identity */
+.telegram-user-card{display:flex;align-items:center;gap:12px;margin:0 0 15px;padding:12px 14px;border:1px solid rgba(22,228,154,.25);border-radius:18px;background:rgba(4,28,19,.72);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.telegram-user-avatar{width:48px;height:48px;flex:0 0 48px;border-radius:50%;object-fit:cover;border:2px solid #35e6a080;background:linear-gradient(145deg,#168b68,#354b72)}
+.telegram-user-meta{min-width:0;display:flex;flex-direction:column;gap:4px}.telegram-user-name{font-size:14px;font-weight:850;color:#f3ffeF;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.telegram-user-handle{font-size:11px;color:#9bcab2;direction:ltr;text-align:right}
+.telegram-id-copy{display:flex;align-items:center;gap:8px;width:100%;margin-top:8px;padding:9px 11px;border:1px solid rgba(232,198,107,.25);border-radius:12px;background:rgba(255,255,255,.045);color:#ffe8a5;font:700 12px system-ui;direction:ltr;justify-content:space-between}
+.telegram-id-copy small{color:#a9d8bd;font-size:10px;direction:rtl}
 </style>
 </head>
 <body>
@@ -336,6 +343,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
  </div>
  <div class="pill">ARX · ACCOUNT</div>
 </header>
+<div class="telegram-user-card"><img class="telegram-user-avatar" id="accountAvatar" alt="صورة تيليجرام"><div class="telegram-user-meta"><div class="telegram-user-name" id="accountName">جارٍ تحميل حسابك...</div><div class="telegram-user-handle" id="accountUsername"></div><button type="button" class="telegram-id-copy" id="copyTelegramId"><span id="accountTelegramId">ID —</span><small>اضغط لنسخ المعرّف</small></button></div></div>
 <div class="account-card">
  <div class="account-top"><span class="account-chip">ملفك الشخصي</span><span class="account-chip">AUREX MEMBER</span></div>
  <div class="account-emblem"><img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="عملة AUREX"></div>
@@ -361,6 +369,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 
 <section class="app referral-page" id="referralPage" hidden>
 <header><div class="brand">AUREX <span style="color:#18d58a">◆</span></div><div class="pill">ARX · REFERRALS</div></header>
+<div class="telegram-user-card"><img class="telegram-user-avatar" id="referralAvatar" alt="صورة تيليجرام"><div class="telegram-user-meta"><div class="telegram-user-name" id="referralName">جارٍ تحميل حسابك...</div><div class="telegram-user-handle" id="referralUsername"></div></div></div>
 <div class="ref-hero glass">
 <div class="ref-orbit"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="23" cy="22" r="8"/><circle cx="43" cy="25" r="7"/><path d="M7 52c1.5-10 7-15 16-15s14.5 5 16 15M34 40c9-3 19 2 22 12"/></svg></div>
 <h2>ادعُ أصدقاءك واربح</h2><p>شارك رابطك واكسب 30 ARX عن كل دعوة ناجحة.</p>
@@ -393,6 +402,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 
 <section class="app leaderboard-page" id="leaderboardPage" hidden>
 <header><div class="brand">AUREX <span style="color:#18d58a">◆</span></div><div class="pill">ARX · HUB</div></header>
+<div class="telegram-user-card"><img class="telegram-user-avatar" id="rankingAvatar" alt="صورة تيليجرام"><div class="telegram-user-meta"><div class="telegram-user-name" id="rankingName">جارٍ تحميل حسابك...</div><div class="telegram-user-handle" id="rankingUsername"></div></div></div>
 <div class="hub-tabs" style="display:flex;gap:10px;margin:18px 0 22px;padding:6px;border:1px solid #35d99a44;border-radius:18px;background:rgba(3,24,17,.62);backdrop-filter:blur(14px)">
 <button type="button" class="hub-tab active" data-hub="tasks" style="flex:1;border:1px solid #35e6a080;border-radius:13px;padding:12px 8px;color:#dffff0;background:linear-gradient(135deg,#0b8b5a66,#063d2c88);font:inherit;font-weight:700">المهمات</button>
 <button type="button" class="hub-tab" data-hub="ranking" style="flex:1;border:1px solid transparent;border-radius:13px;padding:12px 8px;color:#b9d9ca;background:transparent;font:inherit;font-weight:700">الترتيب</button>
@@ -493,6 +503,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
  let energyLevel=0,maxEnergy=500,balance=0,taps=0,energy=500;
  let energyRegenMs=7200000/maxEnergy,energyUpdatedAt=Date.now();
  let apiReady=false,tapPending=false;
+ let telegramProfile={id:'',name:'',username:'',photoUrl:''};
  const tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;
  const initData=tg&&tg.initData?tg.initData:'';
  const connectionStatus=document.getElementById('connectionStatus');
@@ -514,6 +525,16 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
  };
  const balanceEl=document.getElementById('balance'),energyEl=document.getElementById('energyText'),fill=document.getElementById('energyFill');
  const coin=document.getElementById('tap'),wrap=document.getElementById('coinWrap');
+ const updateTelegramProfile=(user)=>{
+   telegramProfile={id:String(user.telegramId||''),name:user.firstName||user.username||'مستخدم تيليجرام',username:user.username?'@'+user.username:'',photoUrl:user.photoUrl||''};
+   ['account','referral','ranking'].forEach(prefix=>{
+     const name=document.getElementById(prefix+'Name'),handle=document.getElementById(prefix+'Username'),avatar=document.getElementById(prefix+'Avatar');
+     if(name)name.textContent=telegramProfile.name;
+     if(handle)handle.textContent=telegramProfile.username;
+     if(avatar){avatar.src=telegramProfile.photoUrl||'';avatar.onerror=()=>{avatar.removeAttribute('src');avatar.style.background='linear-gradient(145deg,#168b68,#354b72)';};}
+   });
+   const idEl=document.getElementById('accountTelegramId');if(idEl)idEl.textContent='ID '+telegramProfile.id;
+ };
  const render=()=>{
    balanceEl.textContent=balance.toFixed(2);energyEl.textContent=energy+' / '+maxEnergy;fill.style.width=(energy/maxEnergy*100)+'%';
    document.getElementById('energyRateText').textContent='+1 طاقة كل '+(energyRegenMs/1000).toLocaleString('en-US',{maximumFractionDigits:2})+' ثانية';
@@ -541,6 +562,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
    if(!initData){connectionStatus.textContent='افتح AUREX من داخل بوت تيليجرام لربط حسابك.';coin.disabled=true;render();return;}
    try{
      const result=await apiFetch('/api/me'),user=result.user;
+     updateTelegramProfile(user);
      balance=Number(user.balance)||0;taps=Number(user.taps)||0;
      upgradeLevel=Math.max(0,Math.min(5,Number(user.tapLevel)||0));
      reward=Number(user.tapReward)||upgradeValues[upgradeLevel];
@@ -551,7 +573,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
      connectionStatus.textContent='تم ربط حسابك وحفظ بياناتك بأمان.';render();
    }catch(error){
      apiReady=false;coin.disabled=true;
-     connectionStatus.textContent=error.status===401?'تعذر التحقق من تيليجرام. افتح التطبيق من البوت مجدداً.':'تعذر الاتصال بالخادم. تحقق من إعداد TELEGRAM_BOT_TOKEN ثم أعد المحاولة.';
+     connectionStatus.textContent=error.status===401?'تعذر التحقق من تيليجرام (401). أعد فتح Mini App من البوت.':error.status===503?(error.data&&error.data.error==='database_not_bound'?'قاعدة البيانات غير مربوطة في Cloudflare.':'الخادم غير مهيأ (503). تحقق من TELEGRAM_BOT_TOKEN ثم أعد النشر.'):'فشل تحميل الحساب ('+(error.status||'شبكة')+'). '+(error.data&&error.data.error?error.data.error:'تحقق من اتصال الإنترنت والنشر.');
      render();
    }
  };
@@ -565,6 +587,12 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
    else{fx.style.animation='aurexRewardFloat 1900ms ease-out forwards';fx.addEventListener('animationend',()=>fx.remove(),{once:true});}
  };
  render();loadProfile();
+ document.getElementById('copyTelegramId').addEventListener('click',async()=>{
+   if(!telegramProfile.id)return;
+   try{if(navigator.clipboard&&navigator.clipboard.writeText)await navigator.clipboard.writeText(telegramProfile.id);else{const temp=document.createElement('textarea');temp.value=telegramProfile.id;document.body.appendChild(temp);temp.select();document.execCommand('copy');temp.remove();}document.querySelector('#copyTelegramId small').textContent='تم النسخ ✓';}
+   catch(e){document.querySelector('#copyTelegramId small').textContent='تعذر النسخ';}
+ });
+
  setInterval(()=>{if(apiReady){refreshEnergy();render();}},1000);
  document.getElementById('currentTapStat').addEventListener('click',()=>{document.getElementById('upgradeOverlay').hidden=false;});
  document.getElementById('closeUpgrade').addEventListener('click',()=>{document.getElementById('upgradeOverlay').hidden=true;});
