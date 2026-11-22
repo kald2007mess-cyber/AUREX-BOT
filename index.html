@@ -182,6 +182,15 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 .lb-you-tag{display:inline-block;vertical-align:middle}
 @media(max-width:360px){.lb-row,.lb-you{grid-template-columns:32px 36px minmax(0,1fr) auto;gap:7px;padding:9px}.lb-rank{width:31px;height:31px;font-size:12px}.lb-avatar{width:35px;height:35px}.lb-score{min-width:78px;gap:3px;padding:8px 5px;font-size:11px}.lb-score img{width:16px!important;height:16px!important}}
 
+/* Leaderboard player profile photos and clear name/ID spacing */
+.lb-avatar{overflow:hidden;border-radius:50%;background:linear-gradient(145deg,#245c48,#172f2a)!important;border:2px solid rgba(232,198,107,.42)}
+.lb-avatar img{display:block;width:100%;height:100%;object-fit:cover;border-radius:50%}
+.lb-player-details{display:flex;flex-direction:column;align-items:flex-start;gap:9px;min-width:0}
+.lb-name{max-width:100%;margin:0;line-height:1.35}
+.lb-player-id{display:block;margin:0!important;padding-top:2px;font-size:10px;color:#a8c6b7;direction:ltr;text-align:left;letter-spacing:.25px}
+.lb-row,.lb-you{grid-template-columns:38px 42px minmax(0,1fr) auto;min-height:88px}
+@media(max-width:360px){.lb-player-details{gap:8px}.lb-row,.lb-you{grid-template-columns:32px 36px minmax(0,1fr) auto;min-height:84px}}
+
 /* Replace purple leaderboard score styling with gold */
 .lb-score{background:linear-gradient(135deg,rgba(164,119,25,.24),rgba(91,64,13,.22));border-color:rgba(232,190,75,.34);color:#f3d47c}
 .lb-score small{color:#e8c66b!important}
@@ -642,10 +651,15 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
  const renderLeaderboardRow=(item,own=false)=>{
    const row=document.createElement('div');row.className=own?'lb-you':'lb-row';
    const rank=document.createElement('div');rank.className='lb-rank';rank.textContent=item.rank;
-   const avatar=document.createElement('div');avatar.className='lb-avatar';avatar.textContent=(item.name||'A').trim().charAt(0).toUpperCase();
-   const details=document.createElement('div');details.style.minWidth='0';
+   const avatar=document.createElement('div');avatar.className='lb-avatar';
+   const fallback=document.createElement('span');fallback.textContent=(item.name||'A').trim().charAt(0).toUpperCase();avatar.append(fallback);
+   if(item.photoUrl){
+     const photo=document.createElement('img');photo.src=item.photoUrl;photo.alt='صورة '+(item.name||'المستخدم');
+     photo.onerror=()=>{photo.remove();};avatar.append(photo);
+   }
+   const details=document.createElement('div');details.className='lb-player-details';
    const name=document.createElement('div');name.className='lb-name';name.textContent=item.name;
-   const id=document.createElement('div');id.style.cssText='font-size:10px;color:#a8c6b7;margin-top:4px;direction:ltr;text-align:right';id.textContent=item.maskedId;
+   const id=document.createElement('div');id.className='lb-player-id';id.textContent=item.maskedId;
    details.append(name,id);
    const score=document.createElement('div');score.className='lb-score';score.style.display='flex';score.style.alignItems='center';score.style.gap='4px';
    const coinIcon=document.createElement('img');coinIcon.src='./file_000000004f0881f4bf06cf2ba2b34e38.png';coinIcon.alt='ARX';coinIcon.style.cssText='width:17px;height:17px;object-fit:contain';
