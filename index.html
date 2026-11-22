@@ -40,6 +40,18 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 .float{position:absolute;left:50%;top:5%;z-index:8;pointer-events:none;display:flex;align-items:center;justify-content:center;gap:7px;padding:7px 13px;border:1px solid #39ff9a99;border-radius:24px;background:rgba(0,30,18,.94);box-shadow:0 0 18px #00ff78aa,0 0 38px #00ff7855;font-weight:950;font-size:23px;color:#8dffb7;text-shadow:0 0 10px #00ff78,0 0 22px #00ff78;animation:floatUp 1.4s ease-out forwards;white-space:nowrap}
 .float img{width:44px;height:44px;object-fit:contain;filter:drop-shadow(0 0 7px #00ff83)}.stats .arx-icon{width:44px;height:44px}
 .tap-hint{text-align:center;color:#e8d89e;font-size:13px;margin:0 0 20px}
+.tap-value-trigger{display:flex;align-items:center;justify-content:center;gap:5px;margin:4px auto 0;padding:5px 10px;border:1px solid rgba(22,228,154,.42);border-radius:12px;background:rgba(22,228,154,.09);color:#8dffba;font:900 19px system-ui;direction:ltr;box-shadow:inset 0 0 12px #00ff7810,0 0 12px #00ff7815}
+.tap-value-trigger:active{background:rgba(22,228,154,.22);box-shadow:0 0 18px #00ff7866;transform:scale(.97)}
+.upgrade-overlay{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:22px;background:rgba(0,8,5,.76);backdrop-filter:blur(9px)}
+.upgrade-overlay[hidden]{display:none!important}.upgrade-popup{width:min(100%,360px);padding:17px;border-radius:20px;border-color:#20df9670;background:linear-gradient(145deg,rgba(5,47,31,.98),rgba(2,18,13,.98));box-shadow:0 18px 55px #000b,0 0 25px #00ff7822}
+.upgrade-popup-head,.upgrade-popup-cost,.upgrade-popup-values{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.upgrade-popup-head strong{font-size:15px;color:#e5fff0}.upgrade-popup-head button{width:30px;height:30px;border:1px solid #ffffff24;border-radius:50%;background:#ffffff0b;color:#eafff2;font-size:22px}
+.upgrade-popup-level{text-align:center;margin:14px 0 10px;color:#9effc8;font-size:11px;font-weight:800}
+.upgrade-popup-values>div{flex:1;padding:12px 8px;border-radius:12px;background:#ffffff08;border:1px solid #ffffff12;text-align:center}.upgrade-popup-values span,.upgrade-popup-cost>span{display:block;color:#a9cdb9;font-size:10px}.upgrade-popup-values strong{display:block;margin-top:5px;color:#8affb9;font-size:21px;direction:ltr}
+.upgrade-popup-cost{margin:13px 0;padding:11px;border-radius:12px;background:#0003}.upgrade-popup-cost strong{display:flex;align-items:center;gap:6px;color:#fff0b4;font-size:15px}.upgrade-popup-cost img{width:25px;height:25px;object-fit:contain}
+.upgrade-popup-progress{height:6px;border-radius:10px;background:#18392a;overflow:hidden;margin:12px 0}.upgrade-popup-progress>div{height:100%;width:0;background:linear-gradient(90deg,#0c9e65,#69ffb0);box-shadow:0 0 12px #00ff8a;transition:width .25s}
+.upgrade-button{width:100%;min-height:44px;border:1px solid #26e49a99;border-radius:12px;background:linear-gradient(120deg,#087d50,#0eaa6a);color:white;font:850 14px system-ui;box-shadow:inset 0 1px #ffffff33,0 0 16px #00e98722}
+.upgrade-button:disabled{opacity:.4;filter:grayscale(.7)}.upgrade-feedback{min-height:17px;text-align:center;margin-top:9px;font-size:10px;color:#9bbbaa}
 .upgrade-card{margin:8px 0 18px;padding:15px;border-radius:20px;border-color:rgba(22,228,154,.28);background:linear-gradient(145deg,rgba(4,35,24,.88),rgba(3,20,15,.84));box-shadow:inset 0 1px rgba(255,255,255,.06),0 10px 28px #0004}
 .upgrade-head,.upgrade-line,.upgrade-next-head,.upgrade-cost-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .upgrade-title{font-size:14px;font-weight:900;letter-spacing:1.5px;color:#caffdf}
@@ -285,16 +297,19 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 </button>
 </div>
 <div class="tap-hint">اضغط على العملة واجمع مكافآت AUREX</div>
-<section class="upgrade-card glass" id="tapUpgrade">
- <div class="upgrade-head"><div><div class="upgrade-title">TAP UPGRADE</div><div class="caption">طوّر قيمة كل ضغطة</div></div><span class="upgrade-level" id="upgradeLevel">BASE</span></div>
- <div class="upgrade-current"><div class="upgrade-line"><span>قيمة الضغطة الحالية</span><strong id="currentTapValue">+0.01</strong></div><div class="upgrade-track"><div class="upgrade-progress" id="upgradeProgress"></div></div><div class="upgrade-next-label" id="upgradeNextLabel">المستوى القادم: LVL 1</div></div>
- <div class="upgrade-next"><div class="upgrade-next-head"><strong id="nextLevelTitle">التطوير القادم · LVL 1</strong><span class="upgrade-next-value" id="nextTapValue">+0.02</span></div>
-  <div class="upgrade-cost-row"><span>تكلفة التطوير</span><strong><span id="upgradeCost">100</span><img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX"></strong></div>
-  <button class="upgrade-button" id="upgradeButton" type="button">تطوير <span aria-hidden="true">⚡</span></button>
-  <div class="upgrade-feedback" id="upgradeFeedback" aria-live="polite">يتم خصم التكلفة من رصيدك عند التطوير.</div>
+
+<section class="stats"><div class="stat"><span class="caption">الطاقة المتبقية</span><strong id="energyText">1000 / 1000</strong></div><div class="stat"><span class="caption">قيمة الضغطة</span><button id="currentTapStat" class="tap-value-trigger" type="button" aria-label="تطوير قيمة الضغطة">+0.01 <img class="arx-icon" src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX"></button></div></section>
+<div class="upgrade-overlay" id="upgradeOverlay" hidden>
+ <div class="upgrade-popup glass" role="dialog" aria-modal="true" aria-labelledby="upgradePopupTitle">
+  <div class="upgrade-popup-head"><strong id="upgradePopupTitle">تطوير قيمة الضغطة</strong><button type="button" id="closeUpgrade" aria-label="إغلاق">×</button></div>
+  <div class="upgrade-popup-level" id="upgradeLevel">المستوى الأساسي</div>
+  <div class="upgrade-popup-values"><div><span>القيمة الحالية</span><strong id="currentTapValue">+0.01</strong></div><div><span>بعد التطوير</span><strong id="nextTapValue">+0.02</strong></div></div>
+  <div class="upgrade-popup-cost"><span>تكلفة التطوير</span><strong><span id="upgradeCost">100</span><img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX"></strong></div>
+  <div class="upgrade-popup-progress"><div id="upgradeProgress"></div></div>
+  <button class="upgrade-button" id="upgradeButton" type="button">تطوير ⚡</button>
+  <div class="upgrade-feedback" id="upgradeFeedback" aria-live="polite">اختر تطويرك التالي.</div>
  </div>
-</section>
-<section class="stats"><div class="stat"><span class="caption">الطاقة المتبقية</span><strong id="energyText">1000 / 1000</strong></div><div class="stat"><span class="caption">قيمة الضغطة</span><strong id="currentTapStat" style="display:flex;align-items:center;justify-content:center;gap:5px">+0.01 <img class="arx-icon" src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX"></strong></div></section>
+</div>
 <section class="energy"><div class="energy-top"><span>⚡ الطاقة</span><span>تتجدد كل 12 ساعة</span></div><div class="track"><div class="fill" id="energyFill"></div></div></section>
 <div class="notice">الرصيد والضغطات محفوظة محلياً على هذا الجهاز في هذه النسخة التجريبية</div>
 </main>
@@ -467,8 +482,11 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
  let energy=Number(localStorage.getItem('aurex_energy')||maxEnergy);
  const balanceEl=document.getElementById('balance'),energyEl=document.getElementById('energyText'),fill=document.getElementById('energyFill');
  const coin=document.getElementById('tap'),wrap=document.getElementById('coinWrap');
- const render=()=>{balanceEl.textContent=balance.toFixed(2);energyEl.textContent=energy+' / '+maxEnergy;fill.style.width=(energy/maxEnergy*100)+'%';document.getElementById('currentTapValue').textContent='+'+reward.toFixed(2);document.getElementById('currentTapStat').childNodes[0].textContent='+'+reward.toFixed(2)+' ';document.getElementById('upgradeLevel').textContent=upgradeLevel===0?'BASE':'LVL '+upgradeLevel+' / 5';document.getElementById('upgradeProgress').style.width=(upgradeLevel/5*100)+'%';const next=upgradeLevel<5;document.getElementById('upgradeNextLabel').textContent=next?'المستوى القادم: LVL '+(upgradeLevel+1):'وصلت إلى أعلى مستوى';document.getElementById('nextLevelTitle').textContent=next?'التطوير القادم · LVL '+(upgradeLevel+1):'MAX LEVEL';document.getElementById('nextTapValue').textContent=next?'+'+upgradeValues[upgradeLevel+1].toFixed(2):'MAX';document.getElementById('upgradeCost').textContent=next?upgradeCosts[upgradeLevel].toLocaleString('en-US'):'—';const upgradeBtn=document.getElementById('upgradeButton');upgradeBtn.disabled=!next||balance<upgradeCosts[upgradeLevel];upgradeBtn.innerHTML=next?'تطوير <span aria-hidden="true">⚡</span>':'اكتمل التطوير';};
+ const render=()=>{balanceEl.textContent=balance.toFixed(2);energyEl.textContent=energy+' / '+maxEnergy;fill.style.width=(energy/maxEnergy*100)+'%';document.getElementById('currentTapStat').childNodes[0].textContent='+'+reward.toFixed(2)+' ';document.getElementById('currentTapValue').textContent='+'+reward.toFixed(2);document.getElementById('upgradeLevel').textContent=upgradeLevel===0?'المستوى الأساسي':'LVL '+upgradeLevel+' / 5';const next=upgradeLevel<5;document.getElementById('nextTapValue').textContent=next?'+'+upgradeValues[upgradeLevel+1].toFixed(2):'MAX';document.getElementById('upgradeCost').textContent=next?upgradeCosts[upgradeLevel].toLocaleString('en-US'):'—';document.getElementById('upgradeProgress').style.width=(upgradeLevel/5*100)+'%';const btn=document.getElementById('upgradeButton');btn.disabled=!next||balance<upgradeCosts[upgradeLevel];btn.textContent=next?'تطوير ⚡':'اكتمل التطوير';};
  render();
+ document.getElementById('currentTapStat').addEventListener('click',()=>{document.getElementById('upgradeOverlay').hidden=false;});
+ document.getElementById('closeUpgrade').addEventListener('click',()=>{document.getElementById('upgradeOverlay').hidden=true;});
+ document.getElementById('upgradeOverlay').addEventListener('click',e=>{if(e.target.id==='upgradeOverlay')e.currentTarget.hidden=true;});
  document.getElementById('upgradeButton').addEventListener('click',()=>{
    if(upgradeLevel>=5)return;
    const cost=upgradeCosts[upgradeLevel];
@@ -476,7 +494,6 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
    balance=Math.round((balance-cost)*100)/100;upgradeLevel++;reward=upgradeValues[upgradeLevel];
    localStorage.setItem('aurex_balance',balance.toFixed(2));localStorage.setItem('aurex_tap_level',String(upgradeLevel));
    document.getElementById('upgradeFeedback').textContent='تم التطوير بنجاح! قيمة الضغطة أصبحت +'+reward.toFixed(2);
-   const card=document.getElementById('tapUpgrade');card.classList.add('upgrade-success');setTimeout(()=>card.classList.remove('upgrade-success'),850);
    render();
  });
  const homePage=document.getElementById('homePage');
