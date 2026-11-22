@@ -40,6 +40,19 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 .float{position:absolute;left:50%;top:5%;z-index:8;pointer-events:none;display:flex;align-items:center;justify-content:center;gap:7px;padding:7px 13px;border:1px solid #39ff9a99;border-radius:24px;background:rgba(0,30,18,.94);box-shadow:0 0 18px #00ff78aa,0 0 38px #00ff7855;font-weight:950;font-size:23px;color:#8dffb7;text-shadow:0 0 10px #00ff78,0 0 22px #00ff78;animation:floatUp 1.4s ease-out forwards;white-space:nowrap}
 .float img{width:44px;height:44px;object-fit:contain;filter:drop-shadow(0 0 7px #00ff83)}.stats .arx-icon{width:44px;height:44px}
 .tap-hint{text-align:center;color:#e8d89e;font-size:13px;margin:0 0 20px}
+.upgrade-card{margin:8px 0 18px;padding:15px;border-radius:20px;border-color:rgba(22,228,154,.28);background:linear-gradient(145deg,rgba(4,35,24,.88),rgba(3,20,15,.84));box-shadow:inset 0 1px rgba(255,255,255,.06),0 10px 28px #0004}
+.upgrade-head,.upgrade-line,.upgrade-next-head,.upgrade-cost-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.upgrade-title{font-size:14px;font-weight:900;letter-spacing:1.5px;color:#caffdf}
+.upgrade-level{font-size:10px;font-weight:850;color:#9bffd0;border:1px solid #22d99577;background:#12b97818;border-radius:20px;padding:6px 10px}
+.upgrade-current,.upgrade-next{margin-top:12px;padding:12px;border-radius:14px;background:rgba(0,0,0,.2);border:1px solid rgba(22,228,154,.15)}
+.upgrade-line{font-size:12px;color:#c3ddcf}.upgrade-line strong{font-size:22px;color:#83ffb8;text-shadow:0 0 12px #00ff7844;direction:ltr}
+.upgrade-track{height:7px;background:#17382a;border-radius:20px;overflow:hidden;margin:10px 0 7px}.upgrade-progress{height:100%;width:0;background:linear-gradient(90deg,#0b9b63,#5bffad);box-shadow:0 0 12px #00ff8a;transition:width .3s}
+.upgrade-next-label{font-size:10px;color:#91b7a1}.upgrade-next-head strong{font-size:12px;color:#e1f8eb}.upgrade-next-value{font-size:18px;font-weight:900;color:#80ffb5;direction:ltr}
+.upgrade-cost-row{margin:12px 0;font-size:12px;color:#c4dbce}.upgrade-cost-row strong{display:flex;align-items:center;gap:6px;color:#fff0b4;font-size:15px}.upgrade-cost-row img{width:24px;height:24px;object-fit:contain;filter:drop-shadow(0 0 5px #00ff8a55)}
+.upgrade-button{width:100%;min-height:44px;border:1px solid #26e49a99;border-radius:12px;background:linear-gradient(120deg,#087d50,#0eaa6a);color:white;font:850 14px system-ui;box-shadow:inset 0 1px #ffffff33,0 0 16px #00e98722}
+.upgrade-button:disabled{opacity:.4;filter:grayscale(.7)}.upgrade-button:not(:disabled):active{box-shadow:0 0 20px #00ff8a99;transform:scale(.985)}
+.upgrade-feedback{min-height:16px;text-align:center;margin-top:8px;font-size:10px;color:#9bbbaa}
+.upgrade-card.upgrade-success{box-shadow:inset 0 0 22px #00ff7822,0 0 24px #00ff7844;border-color:#35ff9b}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:90px}
 .stat{background:var(--panel);border:1px solid rgba(232,198,107,.2);border-radius:17px;padding:13px;text-align:center;backdrop-filter:blur(8px)}
 .stat strong{display:block;font-size:19px;color:#f7dfa0;margin-top:4px}
@@ -272,6 +285,15 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 </button>
 </div>
 <div class="tap-hint">اضغط على العملة واجمع مكافآت AUREX</div>
+<section class="upgrade-card glass" id="tapUpgrade">
+ <div class="upgrade-head"><div><div class="upgrade-title">TAP UPGRADE</div><div class="caption">طوّر قيمة كل ضغطة</div></div><span class="upgrade-level" id="upgradeLevel">BASE</span></div>
+ <div class="upgrade-current"><div class="upgrade-line"><span>قيمة الضغطة الحالية</span><strong id="currentTapValue">+0.01</strong></div><div class="upgrade-track"><div class="upgrade-progress" id="upgradeProgress"></div></div><div class="upgrade-next-label" id="upgradeNextLabel">المستوى القادم: LVL 1</div></div>
+ <div class="upgrade-next"><div class="upgrade-next-head"><strong id="nextLevelTitle">التطوير القادم · LVL 1</strong><span class="upgrade-next-value" id="nextTapValue">+0.02</span></div>
+  <div class="upgrade-cost-row"><span>تكلفة التطوير</span><strong><span id="upgradeCost">100</span><img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX"></strong></div>
+  <button class="upgrade-button" id="upgradeButton" type="button">تطوير <span aria-hidden="true">⚡</span></button>
+  <div class="upgrade-feedback" id="upgradeFeedback" aria-live="polite">يتم خصم التكلفة من رصيدك عند التطوير.</div>
+ </div>
+</section>
 <section class="stats"><div class="stat"><span class="caption">الطاقة المتبقية</span><strong id="energyText">1000 / 1000</strong></div><div class="stat"><span class="caption">قيمة الضغطة</span><strong style="display:flex;align-items:center;justify-content:center;gap:5px">+0.01 <img class="arx-icon" src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX"></strong></div></section>
 <section class="energy"><div class="energy-top"><span>⚡ الطاقة</span><span>تتجدد كل 12 ساعة</span></div><div class="track"><div class="fill" id="energyFill"></div></div></section>
 <div class="notice">الرصيد والضغطات محفوظة محلياً على هذا الجهاز في هذه النسخة التجريبية</div>
@@ -435,14 +457,28 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 </nav>
 <script>
 (() => {
- const reward=0.01, maxEnergy=1000;
+ const upgradeValues=[0.01,0.02,0.03,0.05,0.08,0.12];
+ const upgradeCosts=[100,300,750,1500,3000];
+ let upgradeLevel=Math.max(0,Math.min(5,Number(localStorage.getItem('aurex_tap_level')||0)));
+ let reward=upgradeValues[upgradeLevel];
+ const maxEnergy=1000;
  let balance=Number(localStorage.getItem('aurex_balance')||0);
  let taps=Number(localStorage.getItem('aurex_taps')||0);
  let energy=Number(localStorage.getItem('aurex_energy')||maxEnergy);
  const balanceEl=document.getElementById('balance'),energyEl=document.getElementById('energyText'),fill=document.getElementById('energyFill');
  const coin=document.getElementById('tap'),wrap=document.getElementById('coinWrap');
- const render=()=>{balanceEl.textContent=balance.toFixed(2);energyEl.textContent=energy+' / '+maxEnergy;fill.style.width=(energy/maxEnergy*100)+'%';};
+ const render=()=>{balanceEl.textContent=balance.toFixed(2);energyEl.textContent=energy+' / '+maxEnergy;fill.style.width=(energy/maxEnergy*100)+'%';document.getElementById('currentTapValue').textContent='+'+reward.toFixed(2);document.getElementById('upgradeLevel').textContent=upgradeLevel===0?'BASE':'LVL '+upgradeLevel+' / 5';document.getElementById('upgradeProgress').style.width=(upgradeLevel/5*100)+'%';const next=upgradeLevel<5;document.getElementById('upgradeNextLabel').textContent=next?'المستوى القادم: LVL '+(upgradeLevel+1):'وصلت إلى أعلى مستوى';document.getElementById('nextLevelTitle').textContent=next?'التطوير القادم · LVL '+(upgradeLevel+1):'MAX LEVEL';document.getElementById('nextTapValue').textContent=next?'+'+upgradeValues[upgradeLevel+1].toFixed(2):'MAX';document.getElementById('upgradeCost').textContent=next?upgradeCosts[upgradeLevel].toLocaleString('en-US'):'—';const upgradeBtn=document.getElementById('upgradeButton');upgradeBtn.disabled=!next||balance<upgradeCosts[upgradeLevel];upgradeBtn.innerHTML=next?'تطوير <span aria-hidden="true">⚡</span>':'اكتمل التطوير';};
  render();
+ document.getElementById('upgradeButton').addEventListener('click',()=>{
+   if(upgradeLevel>=5)return;
+   const cost=upgradeCosts[upgradeLevel];
+   if(balance<cost){document.getElementById('upgradeFeedback').textContent='رصيدك غير كافٍ لهذا التطوير.';return;}
+   balance=Math.round((balance-cost)*100)/100;upgradeLevel++;reward=upgradeValues[upgradeLevel];
+   localStorage.setItem('aurex_balance',balance.toFixed(2));localStorage.setItem('aurex_tap_level',String(upgradeLevel));
+   document.getElementById('upgradeFeedback').textContent='تم التطوير بنجاح! قيمة الضغطة أصبحت +'+reward.toFixed(2);
+   const card=document.getElementById('tapUpgrade');card.classList.add('upgrade-success');setTimeout(()=>card.classList.remove('upgrade-success'),850);
+   render();
+ });
  const homePage=document.getElementById('homePage');
  const accountPage=document.getElementById('accountPage');
  const referralPage=document.getElementById('referralPage');
