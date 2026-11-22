@@ -22,7 +22,6 @@ export async function verifyTelegramInitData(initData, botToken) {
   if (authDate > now + 30 || now - authDate > 86400) return null;
 
   params.delete("hash");
-  params.delete("signature");
   const dataCheckString = [...params.entries()]
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([key, value]) => key + "=" + value)
