@@ -402,6 +402,24 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 }
 .account-avatar-row{margin:22px auto 18px!important;min-height:92px!important}
 
+
+/* AUREX frame 01 - original blue crystal frame */
+.account-emblem.aurex-normal-avatar.frame-1{
+  width:116px!important;height:116px!important;min-width:116px!important;min-height:116px!important;
+  display:block!important;position:relative!important;overflow:visible!important;
+}
+.account-emblem.aurex-normal-avatar.frame-1 #accountProfilePhoto{
+  position:absolute!important;left:50%!important;top:50%!important;transform:translate(-50%,-50%)!important;
+  width:66px!important;height:66px!important;min-width:66px!important;min-height:66px!important;
+  border-radius:50%!important;object-fit:cover!important;z-index:2!important;
+}
+.account-emblem.aurex-normal-avatar.frame-1 .aurex-frame-art{
+  position:absolute!important;left:0!important;top:-7px!important;width:116px!important;height:130px!important;
+  display:block!important;object-fit:fill!important;border-radius:0!important;z-index:3!important;
+  pointer-events:none!important;filter:drop-shadow(0 0 7px #19aaff88)!important;
+}
+.account-avatar-row:has(.aurex-normal-avatar.frame-1){min-height:130px!important}
+
 </style>
 </head>
 <body>
@@ -456,7 +474,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 </header>
 <div class="account-card">
  <div class="account-top"><span class="account-chip">ملفك الشخصي</span><span class="account-chip">AUREX MEMBER</span></div>
- <div class="account-avatar-row"><div class="account-emblem aurex-normal-avatar"><img id="accountProfilePhoto" src="" alt="Profile photo"></div></div>
+ <div class="account-avatar-row"><div class="account-emblem aurex-normal-avatar frame-1"><img id="accountProfilePhoto" src="" alt="Profile photo"><img class="aurex-frame-art" alt="" aria-hidden="true" src="data:image/webp;base64,__FRAME_BASE64__"></div></div>
  <div class="account-title" id="accountProfileName">مستخدم تيليجرام</div>
  <div class="account-subtitle" id="accountProfileId">ID —</div>
  <div class="account-balance"><div class="account-balance-label">إجمالي رصيدك</div><div class="account-balance-value"><span id="accountBalance">0.00</span><img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX"><small style="font-size:12px;color:#a8ffd4">ARX</small></div></div>
