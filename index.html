@@ -82,6 +82,8 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 .referral-page{padding-top:calc(22px + env(safe-area-inset-top))}
 .referral-page header{margin-bottom:22px}
 .ref-hero{border-radius:24px;padding:24px 18px;text-align:center}
+.ref-profile-photo{width:68px;height:68px;display:block;margin:0 auto 13px;border-radius:50%;object-fit:cover;border:2px solid rgba(186,255,223,.8);box-shadow:0 0 18px rgba(22,228,154,.28)}
+.ref-profile-photo[hidden]{display:none!important}
 .ref-orbit{width:68px;height:68px;border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.32);background:rgba(255,255,255,.07);box-shadow:inset 0 0 22px rgba(255,255,255,.08),0 0 25px rgba(22,228,154,.12)}
 .ref-orbit svg{width:36px;height:36px;fill:none;stroke:#baffdf;stroke-width:2;stroke-linecap:round}
 .ref-hero h2{margin:0 0 7px;color:#fff1bd;font-size:21px}
@@ -362,6 +364,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 <section class="app referral-page" id="referralPage" hidden>
 <header><div class="brand">AUREX <span style="color:#18d58a">◆</span></div><div class="pill">ARX · REFERRALS</div></header>
 <div class="ref-hero glass">
+<img id="referralProfilePhoto" class="ref-profile-photo" src="" alt="صورتك الشخصية" hidden>
 <div class="ref-orbit"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="23" cy="22" r="8"/><circle cx="43" cy="25" r="7"/><path d="M7 52c1.5-10 7-15 16-15s14.5 5 16 15M34 40c9-3 19 2 22 12"/></svg></div>
 <h2>ادعُ أصدقاءك واربح</h2><p>شارك رابطك واكسب 30 ARX عن كل دعوة ناجحة.</p>
 </div>
@@ -545,7 +548,8 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
      document.getElementById('accountProfileName').textContent=profileName;
      document.getElementById('accountProfileId').textContent='ID '+String(user.telegramId||'—');
      const profilePhoto=document.getElementById('accountProfilePhoto');
-     if(user.photoUrl){profilePhoto.src=user.photoUrl;}else{profilePhoto.style.display='none';}
+     const referralProfilePhoto=document.getElementById('referralProfilePhoto');
+     if(user.photoUrl){profilePhoto.src=user.photoUrl;referralProfilePhoto.src=user.photoUrl;referralProfilePhoto.hidden=false;}else{profilePhoto.style.display='none';referralProfilePhoto.hidden=true;}
      profilePhoto.onerror=()=>{profilePhoto.style.display='none';};
      balance=Number(user.balance)||0;taps=Number(user.taps)||0;
      upgradeLevel=Math.max(0,Math.min(5,Number(user.tapLevel)||0));
