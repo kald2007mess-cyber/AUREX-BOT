@@ -368,7 +368,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 .avatar-frame-option:active{transform:scale(.95)}
 .avatar-frame-option.active{border-color:#a8ffda;box-shadow:0 0 16px #18e99188,inset 0 0 15px #18e9912b}
 
-</style>
+\n.account-profile-tools{display:flex;align-items:center;gap:7px}\n.account-profile-tools .avatar-frame-picker{width:29px;height:29px;border-radius:9px}\n.account-profile-tools .avatar-frame-picker svg{width:17px;height:17px}\n</style>
 </head>
 <body>
 <div class="space-photo"></div><div class="sparkles"></div><div class="space-planet planet-a"></div><div class="space-planet planet-b"></div>
@@ -421,8 +421,8 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
  <div class="pill">ARX · ACCOUNT</div>
 </header>
 <div class="account-card">
- <div class="account-top"><span class="account-chip">ملفك الشخصي</span><span class="account-chip">AUREX MEMBER</span></div>
- <div class="account-avatar-row"><div class="account-emblem" id="accountAvatarFrame"><img id="accountProfilePhoto" src="" alt="الصورة الشخصية" style="border-radius:50%;object-fit:cover"></div><button class="avatar-frame-picker" id="openAvatarFrames" type="button" aria-label="Choose avatar frame" title="Avatar frames"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 5 5 5M4 20l4.2-1 10.6-10.6a2.1 2.1 0 0 0-3-3L5.2 16 4 20Z"/><path d="m12.5 6.5 5 5"/></svg></button></div><div class="avatar-frame-grid" id="avatarFrameGrid" hidden><button class="avatar-frame-option" type="button" data-frame="1" aria-label="Frame 1"><span class="frame-preview"></span></button><button class="avatar-frame-option" type="button" data-frame="2" aria-label="Frame 2"><span class="frame-preview f2"></span></button><button class="avatar-frame-option" type="button" data-frame="3" aria-label="Frame 3"><span class="frame-preview f3"></span></button><button class="avatar-frame-option" type="button" data-frame="4" aria-label="Frame 4"><span class="frame-preview f4"></span></button><button class="avatar-frame-option" type="button" data-frame="5" aria-label="Frame 5"><span class="frame-preview f5"></span></button></div>
+ <div class="account-top"><div class="account-profile-tools"><span class="account-chip">ملفك الشخصي</span><button class="avatar-frame-picker" id="openAvatarFrames" type="button" aria-label="Choose avatar frame" title="Avatar frames"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 5 5 5M4 20l4.2-1 10.6-10.6a2.1 2.1 0 0 0-3-3L5.2 16 4 20Z"/><path d="m12.5 6.5 5 5"/></svg></button></div><span class="account-chip">AUREX MEMBER</span></div>
+ <div class="account-avatar-row"><div class="account-emblem" id="accountAvatarFrame"><img id="accountProfilePhoto" src="" alt="الصورة الشخصية" style="border-radius:50%;object-fit:cover"></div></div><div class="avatar-frame-grid" id="avatarFrameGrid" hidden><button class="avatar-frame-option" type="button" data-frame="1" aria-label="Frame 1"><span class="frame-preview"></span></button><button class="avatar-frame-option" type="button" data-frame="2" aria-label="Frame 2"><span class="frame-preview f2"></span></button><button class="avatar-frame-option" type="button" data-frame="3" aria-label="Frame 3"><span class="frame-preview f3"></span></button><button class="avatar-frame-option" type="button" data-frame="4" aria-label="Frame 4"><span class="frame-preview f4"></span></button><button class="avatar-frame-option" type="button" data-frame="5" aria-label="Frame 5"><span class="frame-preview f5"></span></button></div>
  <div class="account-title" id="accountProfileName">مستخدم تيليجرام</div>
  <div class="account-subtitle" id="accountProfileId">ID —</div>
  <div class="account-balance"><div class="account-balance-label">إجمالي رصيدك</div><div class="account-balance-value"><span id="accountBalance">0.00</span><img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX"><small style="font-size:12px;color:#a8ffd4">ARX</small></div></div>
