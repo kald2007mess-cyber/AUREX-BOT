@@ -420,6 +420,35 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 }
 .account-avatar-row:has(.aurex-normal-avatar.frame-1){min-height:130px!important}
 
+
+/* AUREX FRAME 01 - blue crystal royal style */
+.account-emblem.aurex-normal-avatar.frame-1{
+ width:112px!important;height:112px!important;min-width:112px!important;min-height:112px!important;
+ display:block!important;position:relative!important;overflow:visible!important;isolation:isolate!important;
+}
+.account-emblem.aurex-normal-avatar.frame-1::before{
+ content:""!important;display:block!important;position:absolute!important;inset:-5px!important;
+ border-radius:50%!important;z-index:1!important;padding:7px!important;
+ background:conic-gradient(from 0deg,#eafcff,#078bff,#062d78,#bdf8ff,#00baff,#fff,#073e9c,#39dfff,#eafcff)!important;
+ -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0)!important;
+ -webkit-mask-composite:xor!important;mask-composite:exclude!important;
+ filter:drop-shadow(0 0 7px #13bfff) drop-shadow(0 0 16px #075dff)!important;
+ animation:aurexFrameAura 2.5s ease-in-out infinite!important;
+}
+.account-emblem.aurex-normal-avatar.frame-1::after{
+ content:"✦"!important;display:grid!important;place-items:start center!important;
+ position:absolute!important;inset:-10px!important;border:0!important;border-radius:50%!important;
+ z-index:4!important;pointer-events:none!important;color:#dffaff!important;
+ font-size:24px!important;text-shadow:0 0 5px #00caff,0 0 12px #006dff!important;
+ box-shadow:none!important;
+}
+.account-emblem.aurex-normal-avatar.frame-1 #accountProfilePhoto{
+ position:absolute!important;left:50%!important;top:50%!important;transform:translate(-50%,-50%)!important;
+ width:70px!important;height:70px!important;min-width:70px!important;min-height:70px!important;
+ border-radius:50%!important;object-fit:cover!important;z-index:2!important;
+}
+.account-avatar-row:has(.aurex-normal-avatar.frame-1){min-height:112px!important}
+
 </style>
 </head>
 <body>
@@ -474,7 +503,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 </header>
 <div class="account-card">
  <div class="account-top"><span class="account-chip">ملفك الشخصي</span><span class="account-chip">AUREX MEMBER</span></div>
- <div class="account-avatar-row"><div class="account-emblem aurex-normal-avatar frame-1"><img id="accountProfilePhoto" src="" alt="Profile photo"><img class="aurex-frame-art" alt="" aria-hidden="true" src="data:image/webp;base64,BASE64_HERE"></div></div>
+ <div class="account-avatar-row"><div class="account-emblem aurex-normal-avatar frame-1"><img id="accountProfilePhoto" src="" alt="Profile photo"></div></div>
  <div class="account-title" id="accountProfileName">مستخدم تيليجرام</div>
  <div class="account-subtitle" id="accountProfileId">ID —</div>
  <div class="account-balance"><div class="account-balance-label">إجمالي رصيدك</div><div class="account-balance-value"><span id="accountBalance">0.00</span><img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX"><small style="font-size:12px;color:#a8ffd4">ARX</small></div></div>
