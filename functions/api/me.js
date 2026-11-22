@@ -22,6 +22,7 @@ export async function onRequest({ request, env }) {
       telegramId: String(user.telegram_id),
       username: user.username,
       firstName: user.first_name,
+      photoUrl: auth.user.photo_url || null,
       balance: Number(user.balance),
       taps: Number(user.taps),
       tapLevel: Number(user.tap_level),
