@@ -269,6 +269,8 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 .wallet-connect-btn{width:min(100%,310px);height:58px;margin-left:auto;margin-right:auto;border-radius:32px;border:0;background:#079fe3;color:#fff;font-size:17px;font-weight:850;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:none;transition:box-shadow .25s,transform .2s,opacity .2s}
 .wallet-connect-btn.is-connected{background:linear-gradient(110deg,#159b55,#20bd70);color:#fff}
 .wallet-connect-btn.is-ready{box-shadow:0 0 12px rgba(32,189,112,.65),0 0 28px rgba(32,189,112,.38)}
+.wallet-disconnect-btn{display:none;margin:8px auto 0;padding:7px 15px;border:1px solid rgba(255,125,125,.38);border-radius:20px;background:rgba(120,25,25,.12);color:#ffb5b5;font:650 11px system-ui;}
+.wallet-disconnect-btn.visible{display:block}
 .wallet-connect-btn:disabled:not(.is-connected){opacity:.55;box-shadow:none}
 .wallet-input{width:100%;height:54px;border-radius:15px;border:1px solid rgba(22,228,154,.18);background:rgba(0,0,0,.22);color:#effff5;padding:0 15px;font-size:18px;outline:none}
 .wallet-input::placeholder{color:#789485}
@@ -506,6 +508,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
  <div class="wallet-hints"><span class="wallet-hint">الحد الأدنى: 10.000 ARX</span><span class="wallet-hint">العملة: ARX</span></div>
  <button class="wallet-connect-btn" id="connectTonWallet" type="button" style="margin-top:14px">💎　ربط محفظة TON</button>
  <div id="tonWalletStatus" class="wallet-action-desc" style="margin:9px 2px 0;text-align:center" aria-live="polite"></div>
+ <button class="wallet-disconnect-btn" id="disconnectTonWallet" type="button">إلغاء ربط المحفظة</button>
 </section>
 <div class="wallet-section-title">سجل العمليات</div>
 <div class="wallet-empty">لا توجد عمليات محفظة حالياً.<br>ستظهر هنا عمليات الإيداع والسحب بعد تفعيلها.</div>
@@ -524,6 +527,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 (() => {
  const tonConnectButton=document.getElementById('connectTonWallet');
  const tonWalletStatus=document.getElementById('tonWalletStatus');
+ const disconnectTonWalletButton=document.getElementById('disconnectTonWallet');
  let tonConnectUI=null;
  let tonWalletConnected=false;
  const updateWithdrawButton=()=>{
@@ -534,6 +538,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
    tonConnectButton.classList.toggle('is-ready',eligible);
    tonConnectButton.disabled=tonWalletConnected&&!eligible;
    tonConnectButton.textContent=tonWalletConnected?'💎　السحب':'💎　ربط محفظة TON';
+   if(disconnectTonWalletButton)disconnectTonWalletButton.classList.toggle('visible',tonWalletConnected);
  };
  try{
    if(window.TON_CONNECT_UI&&window.TON_CONNECT_UI.TonConnectUI){
@@ -569,6 +574,19 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
    try{await tonConnectUI.openModal();}
    catch(error){tonWalletStatus.textContent='تعذر فتح قائمة المحافظ. حاول مجدداً.';}
  });
+ if(disconnectTonWalletButton){
+   disconnectTonWalletButton.addEventListener('click',async()=>{
+     if(!tonConnectUI)return;
+     try{
+       await tonConnectUI.disconnect();
+       tonWalletConnected=false;
+       tonWalletStatus.textContent='';
+       updateWithdrawButton();
+     }catch(error){
+       tonWalletStatus.textContent='تعذر إلغاء ربط المحفظة. حاول مجدداً.';
+     }
+   });
+ }
  const upgradeValues=[0.01,0.02,0.03,0.05,0.08,0.12];
  const upgradeCosts=[100,300,750,1500,3000];
  let upgradeLevel=0,reward=upgradeValues[0];
