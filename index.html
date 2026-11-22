@@ -369,27 +369,34 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 .avatar-frame-option.active{border-color:#a8ffda;box-shadow:0 0 16px #18e99188,inset 0 0 15px #18e9912b}
 
 \n.account-profile-tools{display:flex;align-items:center;gap:7px}\n.account-profile-tools .avatar-frame-picker{width:29px;height:29px;border-radius:9px}\n.account-profile-tools .avatar-frame-picker svg{width:17px;height:17px}\n
-/* Ornate jewel-grade avatar frames */
-@keyframes jewelOrbit{to{transform:rotate(360deg)}}
-@keyframes jewelPulse{0%,100%{opacity:.72;filter:brightness(1)}50%{opacity:1;filter:brightness(1.65)}}
-.account-emblem[class*="frame-"]{position:relative!important;z-index:0}
-.account-emblem[class*="frame-"]::before{inset:-11px!important;padding:7px!important;border-radius:50%;background:repeating-conic-gradient(from 0deg,#eafff7 0deg 2deg,#16d88b 3deg 9deg,#075c40 10deg 13deg,#8affc9 14deg 16deg)!important;animation:jewelOrbit 18s linear infinite,jewelPulse 3s ease-in-out infinite!important;filter:drop-shadow(0 0 5px #21ffae) drop-shadow(0 0 12px #00c982)!important}
-.account-emblem[class*="frame-"]::after{inset:-5px!important;border:2px solid rgba(220,255,239,.95)!important;box-shadow:0 0 7px #38ffb7,0 0 18px #08bd7b,inset 0 0 8px #38ffb766!important}
-.account-emblem.frame-2::before{background:repeating-conic-gradient(#fff8d4 0deg 2deg,#d9a52c 3deg 8deg,#744c0c 9deg 12deg,#ffe9a0 13deg 16deg)!important;filter:drop-shadow(0 0 6px #ffd66c) drop-shadow(0 0 16px #bc841e)!important}
-.account-emblem.frame-2::after{border-color:#fff0b3!important;box-shadow:0 0 8px #f7cf67,0 0 18px #d59a26,inset 0 0 9px #ffe8a055!important}
-.account-emblem.frame-3::before{inset:-12px!important;background:repeating-conic-gradient(#e1ffff 0deg 2deg,#36e7df 3deg 8deg,#086d7b 9deg 12deg,#a9fff5 13deg 16deg)!important;filter:drop-shadow(0 0 6px #55fff0) drop-shadow(0 0 17px #00aeb8)!important}
-.account-emblem.frame-3::after{border:3px double #c8fffa!important;box-shadow:0 0 8px #3af4eb,0 0 20px #0bb8c4,inset 0 0 9px #42e9df66!important}
-.account-emblem.frame-4::before{inset:-11px!important;background:repeating-conic-gradient(#f9e7ff 0deg 2deg,#b47aff 3deg 8deg,#482080 9deg 12deg,#e6c5ff 13deg 16deg)!important;filter:drop-shadow(0 0 6px #c38aff) drop-shadow(0 0 17px #793cff)!important}
-.account-emblem.frame-4::after{border-color:#f0d8ff!important;box-shadow:0 0 8px #bd83ff,0 0 20px #8849eb,inset 0 0 9px #b47aff66!important}
-.account-emblem.frame-5::before{inset:-12px!important;background:repeating-conic-gradient(#fff0dc 0deg 2deg,#ff9b4c 3deg 8deg,#7c2c16 9deg 12deg,#ffd19b 13deg 16deg)!important;filter:drop-shadow(0 0 6px #ff9b4c) drop-shadow(0 0 17px #e45121)!important}
-.account-emblem.frame-5::after{border:3px double #ffe0b8!important;box-shadow:0 0 8px #ff9b4c,0 0 20px #e65c2a,inset 0 0 9px #ff9b4c66!important}
-.frame-preview{width:43px!important;height:43px!important;border-radius:50%;background:transparent!important;position:relative}
-.frame-preview::before{inset:-4px!important;padding:4px!important;border-radius:50%;background:repeating-conic-gradient(#eafff7 0deg 2deg,#16d88b 3deg 9deg,#075c40 10deg 13deg,#8affc9 14deg 16deg)!important;animation:jewelOrbit 18s linear infinite!important;filter:drop-shadow(0 0 4px #21ffae)!important}
-.frame-preview::after{content:"";position:absolute;inset:-1px;border:1px solid #eafff7;border-radius:50%;box-shadow:0 0 6px #21ffae;pointer-events:none}
-.frame-preview.f2::before{background:repeating-conic-gradient(#fff8d4 0deg 2deg,#d9a52c 3deg 8deg,#744c0c 9deg 12deg,#ffe9a0 13deg 16deg)!important;filter:drop-shadow(0 0 4px #ffd66c)!important}
-.frame-preview.f3::before{background:repeating-conic-gradient(#e1ffff 0deg 2deg,#36e7df 3deg 8deg,#086d7b 9deg 12deg,#a9fff5 13deg 16deg)!important;filter:drop-shadow(0 0 4px #55fff0)!important}
-.frame-preview.f4::before{background:repeating-conic-gradient(#f9e7ff 0deg 2deg,#b47aff 3deg 8deg,#482080 9deg 12deg,#e6c5ff 13deg 16deg)!important;filter:drop-shadow(0 0 4px #c38aff)!important}
-.frame-preview.f5::before{background:repeating-conic-gradient(#fff0dc 0deg 2deg,#ff9b4c 3deg 8deg,#7c2c16 9deg 12deg,#ffd19b 13deg 16deg)!important;filter:drop-shadow(0 0 4px #ff9b4c)!important}
+/* Premium smoky fantasy avatar frames */
+@keyframes aurexSmokeDrift{0%,100%{transform:rotate(0deg) scale(1);opacity:.62}50%{transform:rotate(5deg) scale(1.08);opacity:.95}}
+@keyframes aurexGemPulse{0%,100%{filter:brightness(1) drop-shadow(0 0 5px currentColor)}50%{filter:brightness(1.65) drop-shadow(0 0 15px currentColor)}}
+@keyframes aurexSparkle{0%,100%{opacity:.18;transform:scale(.7)}45%{opacity:1;transform:scale(1.2)}}
+.account-emblem[class*="frame-"]{position:relative!important;isolation:isolate!important;border:0!important;background:radial-gradient(circle,rgba(0,0,0,.12) 55%,transparent 70%)!important;box-shadow:none!important}
+.account-emblem[class*="frame-"] img{position:relative;z-index:3;width:78px;height:78px;border-radius:50%;object-fit:cover}
+.account-emblem[class*="frame-"]::before{content:"";position:absolute;inset:-12px;border-radius:50%;z-index:1;padding:6px;background:conic-gradient(from 0deg,#e9ffff 0deg 4deg,#00bfff 9deg,#063b91 18deg,#e8ffff 27deg,#00eaff 42deg,#164c9e 55deg,#eaffff 68deg,#00bfff 90deg,#e9ffff 110deg,#00bfff 145deg,#092d69 180deg,#dffcff 220deg,#00bfff 270deg,#e9ffff 315deg,#00bfff 360deg);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;animation:aurexSmokeDrift 5s ease-in-out infinite,aurexGemPulse 3s ease-in-out infinite;filter:drop-shadow(0 0 7px #1adfff) drop-shadow(0 0 17px #007dff)}
+.account-emblem[class*="frame-"]::after{content:"";position:absolute;inset:-18px;border-radius:50%;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 20% 28%,rgba(0,190,255,.32),transparent 33%),radial-gradient(ellipse at 80% 72%,rgba(0,120,255,.27),transparent 35%),radial-gradient(ellipse at 52% 2%,rgba(160,230,255,.22),transparent 29%);filter:blur(8px);animation:aurexSmokeDrift 7s ease-in-out infinite}
+.account-emblem.frame-2::before{background:conic-gradient(#fff7d6,#e6a72d,#75400d,#fff0a0,#ffbf38,#fff8d6,#9b5b10,#ffe8a0,#fff7d6);filter:drop-shadow(0 0 8px #ffc64a) drop-shadow(0 0 19px #db8b12)}
+.account-emblem.frame-2::after{background:radial-gradient(ellipse at 18% 30%,rgba(255,166,35,.34),transparent 34%),radial-gradient(ellipse at 82% 70%,rgba(255,205,70,.3),transparent 36%),radial-gradient(ellipse at 50% 0%,rgba(255,245,190,.24),transparent 28%);filter:blur(9px)}
+.account-emblem.frame-3::before{background:conic-gradient(#f2e5ff,#b76aff,#371071,#edbaff,#7023e8,#e8d6ff,#29105c,#bd78ff,#f2e5ff);filter:drop-shadow(0 0 8px #c05cff) drop-shadow(0 0 20px #7c20ff)}
+.account-emblem.frame-3::after{background:radial-gradient(ellipse at 20% 25%,rgba(180,55,255,.4),transparent 35%),radial-gradient(ellipse at 80% 75%,rgba(91,25,255,.34),transparent 35%);filter:blur(9px)}
+.account-emblem.frame-4::before{background:conic-gradient(#ffe2e2,#ff3b43,#5d0610,#ff9c9c,#e00024,#28030b,#ff5960,#a40019,#ffe2e2);filter:drop-shadow(0 0 8px #ff334b) drop-shadow(0 0 20px #bd001f)}
+.account-emblem.frame-4::after{background:radial-gradient(ellipse at 18% 25%,rgba(255,25,55,.4),transparent 35%),radial-gradient(ellipse at 82% 72%,rgba(190,0,35,.35),transparent 35%);filter:blur(9px)}
+.account-emblem.frame-5::before{background:conic-gradient(#e5ffe6,#3cff80,#07522b,#caffd0,#00d65b,#073d21,#b4ffbe,#0b8b3c,#e5ffe6);filter:drop-shadow(0 0 8px #39ff79) drop-shadow(0 0 20px #00bd52)}
+.account-emblem.frame-5::after{background:radial-gradient(ellipse at 18% 25%,rgba(30,255,105,.4),transparent 35%),radial-gradient(ellipse at 82% 72%,rgba(0,170,70,.35),transparent 35%);filter:blur(9px)}
+.frame-preview{width:44px!important;height:44px!important;border-radius:50%!important;display:block;position:relative;background:transparent!important;border:0!important;box-shadow:none!important}
+.frame-preview::before{content:"";position:absolute;inset:-5px;border-radius:50%;padding:4px;background:conic-gradient(#e9ffff,#00bfff,#063b91,#e8ffff,#00eaff,#164c9e,#e9ffff);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;filter:drop-shadow(0 0 5px #1adfff);animation:aurexSmokeDrift 5s ease-in-out infinite}
+.frame-preview::after{content:"";position:absolute;inset:-9px;border-radius:50%;background:radial-gradient(ellipse at 20% 25%,rgba(0,190,255,.35),transparent 40%),radial-gradient(ellipse at 80% 75%,rgba(0,120,255,.3),transparent 40%);filter:blur(5px);animation:aurexSparkle 2.6s ease-in-out infinite}
+.frame-preview.f2::before{background:conic-gradient(#fff7d6,#e6a72d,#75400d,#fff0a0,#ffbf38,#fff8d6)}
+.frame-preview.f2::after{background:radial-gradient(ellipse at 20% 25%,rgba(255,166,35,.4),transparent 40%),radial-gradient(ellipse at 80% 75%,rgba(255,205,70,.32),transparent 40%)}
+.frame-preview.f3::before{background:conic-gradient(#f2e5ff,#b76aff,#371071,#edbaff,#7023e8,#e8d6ff)}
+.frame-preview.f3::after{background:radial-gradient(ellipse at 20% 25%,rgba(180,55,255,.4),transparent 40%),radial-gradient(ellipse at 80% 75%,rgba(91,25,255,.34),transparent 40%)}
+.frame-preview.f4::before{background:conic-gradient(#ffe2e2,#ff3b43,#5d0610,#ff9c9c,#e00024,#28030b)}
+.frame-preview.f4::after{background:radial-gradient(ellipse at 20% 25%,rgba(255,25,55,.4),transparent 40%),radial-gradient(ellipse at 80% 75%,rgba(190,0,35,.35),transparent 40%)}
+.frame-preview.f5::before{background:conic-gradient(#e5ffe6,#3cff80,#07522b,#caffd0,#00d65b,#073d21)}
+.frame-preview.f5::after{background:radial-gradient(ellipse at 20% 25%,rgba(30,255,105,.4),transparent 40%),radial-gradient(ellipse at 80% 75%,rgba(0,170,70,.35),transparent 40%)}
+.avatar-frame-option{overflow:visible}
 
 </style>
 </head>
