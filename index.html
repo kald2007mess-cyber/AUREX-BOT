@@ -310,7 +310,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
   <div class="upgrade-feedback" id="upgradeFeedback" aria-live="polite">اختر تطويرك التالي.</div>
  </div>
 </div>
-<section class="energy"><div class="energy-top"><span>⚡ الطاقة</span><span>تتجدد كل 12 ساعة</span></div><div class="track"><div class="fill" id="energyFill"></div></div></section>
+<section class="energy"><div class="energy-top"><span>⚡ الطاقة</span><span>+1 طاقة كل 7.2 ثانية</span></div><div class="track"><div class="fill" id="energyFill"></div></div></section>
 <div class="notice">الرصيد والضغطات محفوظة محلياً على هذا الجهاز في هذه النسخة التجريبية</div>
 </main>
 
@@ -479,11 +479,26 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
  const maxEnergy=1000;
  let balance=Number(localStorage.getItem('aurex_balance')||0);
  let taps=Number(localStorage.getItem('aurex_taps')||0);
- let energy=Number(localStorage.getItem('aurex_energy')||maxEnergy);
+ let energy=Math.max(0,Math.min(maxEnergy,Number(localStorage.getItem('aurex_energy')??maxEnergy)||0));
+ const energyRegenMs=7200000/maxEnergy;
+ let energyUpdatedAt=Number(localStorage.getItem('aurex_energy_updated')||Date.now());
+ const refreshEnergy=()=>{
+   const now=Date.now();
+   if(energy>=maxEnergy){energy=maxEnergy;energyUpdatedAt=now;}
+   else{
+     const elapsed=Math.max(0,now-energyUpdatedAt);
+     const gained=Math.floor(elapsed/energyRegenMs);
+     if(gained>0){energy=Math.min(maxEnergy,energy+gained);energyUpdatedAt+=gained*energyRegenMs;}
+   }
+   localStorage.setItem('aurex_energy',String(energy));
+   localStorage.setItem('aurex_energy_updated',String(energyUpdatedAt));
+ };
+ refreshEnergy();
  const balanceEl=document.getElementById('balance'),energyEl=document.getElementById('energyText'),fill=document.getElementById('energyFill');
  const coin=document.getElementById('tap'),wrap=document.getElementById('coinWrap');
  const render=()=>{balanceEl.textContent=balance.toFixed(2);energyEl.textContent=energy+' / '+maxEnergy;fill.style.width=(energy/maxEnergy*100)+'%';document.getElementById('currentTapStat').childNodes[0].textContent='+'+reward.toFixed(2)+' ';document.getElementById('currentTapValue').textContent='+'+reward.toFixed(2);document.getElementById('upgradeLevel').textContent=upgradeLevel===0?'المستوى الأساسي':'LVL '+upgradeLevel+' / 5';const next=upgradeLevel<5;document.getElementById('nextTapValue').textContent=next?'+'+upgradeValues[upgradeLevel+1].toFixed(2):'MAX';document.getElementById('upgradeCost').textContent=next?upgradeCosts[upgradeLevel].toLocaleString('en-US'):'—';document.getElementById('upgradeProgress').style.width=(upgradeLevel/5*100)+'%';const btn=document.getElementById('upgradeButton');btn.disabled=!next||balance<upgradeCosts[upgradeLevel];btn.textContent=next?'تطوير ⚡':'اكتمل التطوير';};
  render();
+ setInterval(()=>{refreshEnergy();render();},1000);
  document.getElementById('currentTapStat').addEventListener('click',()=>{document.getElementById('upgradeOverlay').hidden=false;});
  document.getElementById('closeUpgrade').addEventListener('click',()=>{document.getElementById('upgradeOverlay').hidden=true;});
  document.getElementById('upgradeOverlay').addEventListener('click',e=>{if(e.target.id==='upgradeOverlay')e.currentTarget.hidden=true;});
@@ -578,11 +593,14 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
    else{await copyLink();}
  });
  coin.addEventListener('click',(event)=>{
-   if(energy<=0)return;
+   refreshEnergy();
+   if(energy<=0){render();return;}
+   if(energy>=maxEnergy)energyUpdatedAt=Date.now();
    energy--;taps++;balance=Math.round((balance+reward)*100)/100;
    localStorage.setItem('aurex_balance',balance.toFixed(2));
    localStorage.setItem('aurex_taps',String(taps));
-   localStorage.setItem('aurex_energy',String(energy));render();
+   localStorage.setItem('aurex_energy',String(energy));
+   localStorage.setItem('aurex_energy_updated',String(energyUpdatedAt));render();
    coin.classList.remove('pulse');wrap.classList.remove('glow');void coin.offsetWidth;coin.classList.add('pulse');wrap.classList.add('glow');
    const fx=document.createElement('div');
    fx.innerHTML='<span>+0.01</span><img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX">';
