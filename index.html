@@ -472,7 +472,8 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
  <button type="button" class="account-subtitle copy-profile-id" id="copyProfileId" aria-label="نسخ المعرّف"><span id="accountProfileId">ID —</span><span class="copy-id-hint">⧉</span></button>
  <div class="account-balance"><div class="account-balance-label">إجمالي رصيدك</div><div class="account-balance-value"><span id="accountBalance">0.00</span><img src="./file_000000004f0881f4bf06cf2ba2b34e38.png" alt="ARX"><small style="font-size:12px;color:#a8ffd4">ARX</small></div></div>
 </div>
-<section class="vip-status-card">
+<button type="button" class="glass-button" id="openWalletFromProfile" style="width:100%;margin:0 0 14px">ربط محفظة TON</button>
+ <section class="vip-status-card">
  <div class="vip-status-head"><div class="vip-gem">◆</div><div><small>VIP STATUS</small><strong>لا يوجد مستوى بعد</strong></div><span class="vip-info">i</span></div>
  <div class="vip-progress-label"><strong>0 / 1,000 ARX</strong><span>للوصول إلى <b>Iron</b></span></div>
  <div class="vip-progress-track"><span></span></div>
@@ -611,6 +612,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
 <button><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18m-13 5h4"/></svg><span>محفظة</span></button>
 </nav>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://unpkg.com/@tonconnect/sdk@latest/dist/tonconnect-sdk.min.js"></script>
 <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
 <script>
 (() => {
@@ -632,9 +634,19 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
  };
  try{
    if(window.TON_CONNECT_UI&&window.TON_CONNECT_UI.TonConnectUI){
-     tonConnectUI=new window.TON_CONNECT_UI.TonConnectUI({
+     const telegramUserId=tg&&tg.initDataUnsafe&&tg.initDataUnsafe.user&&tg.initDataUnsafe.user.id;
+     if(!telegramUserId)throw new Error('telegram_user_missing');
+     const walletStoragePrefix='aurex_tonconnect_user_'+String(telegramUserId)+'_';
+     const walletStorage={
+       setItem:async(key,value)=>localStorage.setItem(walletStoragePrefix+key,value),
+       getItem:async(key)=>localStorage.getItem(walletStoragePrefix+key),
+       removeItem:async(key)=>localStorage.removeItem(walletStoragePrefix+key)
+     };
+     const walletConnector=new window.TonConnectSDK.TonConnect({
        manifestUrl:window.location.origin+'/tonconnect-manifest.json',
+       storage:walletStorage
      });
+     tonConnectUI=new window.TON_CONNECT_UI.TonConnectUI({connector:walletConnector});
      tonConnectUI.uiOptions = {
        actionsConfiguration: {
          twaReturnUrl: 'https://t.me/AUREX_ARX_bot'
@@ -790,6 +802,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
  const accountPage=document.getElementById('accountPage');
  const referralPage=document.getElementById('referralPage');
  const navButtons=[...document.querySelectorAll('.nav button')];
+ document.getElementById('openWalletFromProfile').addEventListener('click',()=>showTab(walletIndex));
  const leaderboardPage=document.getElementById('leaderboardPage');
  const walletPage=document.getElementById('walletPage');
  const accountIndex=0, inviteIndex=1, homeIndex=2, rankingIndex=3, walletIndex=4;
