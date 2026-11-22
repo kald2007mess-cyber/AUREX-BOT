@@ -494,7 +494,7 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
  const energyUpgradeCosts=[100,300,750,1500];
  let energyLevel=0,maxEnergy=500,balance=0,taps=0,energy=500;
  let energyRegenMs=7200000/maxEnergy,energyUpdatedAt=Date.now();
- let apiReady=false,tapPending=false;
+ let apiReady=false,tapPending=false,queuedTaps=0,tapFlushTimer=null;
  const tg=window.Telegram&&window.Telegram.WebApp?window.Telegram.WebApp:null;
  const initData=tg&&tg.initData?tg.initData:'';
  const connectionStatus=document.getElementById('connectionStatus');
@@ -668,25 +668,40 @@ header{display:flex;align-items:center;justify-content:space-between;margin:4px 
    if(navigator.share){try{await navigator.share({title:'انضم إلى AUREX',text:'استخدم رابط دعوتي للانضمام إلى AUREX',url:referralLink});}catch(e){}}
    else{await copyLink();}
  });
- coin.addEventListener('click',async(event)=>{
-   if(!apiReady||tapPending)return;
-   const point={clientX:event.clientX,clientY:event.clientY};
-   tapPending=true;coin.disabled=true;
+ const flushTapQueue=async()=>{
+   if(tapPending||!apiReady)return;
+   tapPending=true;
    try{
-     const result=await apiFetch('/api/tap',{method:'POST'});
-     balance=Number(result.balance)||0;taps=Number(result.taps)||0;
-     energy=Math.max(0,Number(result.energy)||0);maxEnergy=Math.max(1,Number(result.maxEnergy)||maxEnergy);
-     energyRegenMs=7200000/maxEnergy;energyUpdatedAt=Number(result.serverTime)||Date.now();
-     reward=Number(result.reward)||reward;render();
-     coin.classList.remove('pulse');wrap.classList.remove('glow');void coin.offsetWidth;coin.classList.add('pulse');wrap.classList.add('glow');
-     showTapReward(point,result.reward);
-     const clearGlow=(e)=>{if(e.target===wrap){wrap.classList.remove('glow');wrap.removeEventListener('animationend',clearGlow);}};
-     wrap.addEventListener('animationend',clearGlow);
-   }catch(error){
-     if(error.status===409){energy=Math.max(0,Number(error.data&&error.data.energy)||0);render();connectionStatus.textContent='انتهت الطاقة حالياً، انتظر حتى تتجدد.';}
-     else if(error.status===401){apiReady=false;connectionStatus.textContent='انتهت جلسة تيليجرام. أعد فتح التطبيق من البوت.';}
-     else{connectionStatus.textContent='تعذر تسجيل الضغطة. حاول مجدداً.';}
-   }finally{tapPending=false;coin.disabled=!apiReady;}
+     while(queuedTaps>0&&apiReady){
+       refreshEnergy();
+       const count=Math.min(10,queuedTaps,Math.floor(energy));
+       if(count<1){queuedTaps=0;connectionStatus.textContent='انتهت الطاقة حالياً، انتظر حتى تتجدد.';render();break;}
+       queuedTaps-=count;
+       try{
+         const result=await apiFetch('/api/tap',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({count})});
+         balance=Number(result.balance)||0;taps=Number(result.taps)||0;
+         energy=Math.max(0,Number(result.energy)||0);maxEnergy=Math.max(1,Number(result.maxEnergy)||maxEnergy);
+         energyRegenMs=7200000/maxEnergy;energyUpdatedAt=Number(result.serverTime)||Date.now();
+         reward=Number(result.reward)||reward;render();
+       }catch(error){
+         if(error.status===409){energy=Math.max(0,Number(error.data&&error.data.energy)||0);queuedTaps=0;render();connectionStatus.textContent='انتهت الطاقة حالياً، انتظر حتى تتجدد.';}
+         else if(error.status===401){apiReady=false;queuedTaps=0;connectionStatus.textContent='انتهت جلسة تيليجرام. أعد فتح التطبيق من البوت.';}
+         else{queuedTaps+=count;connectionStatus.textContent='تعذر تسجيل الضغطات. حاول مجدداً.';}
+         break;
+       }
+     }
+   }finally{tapPending=false;}
+ };
+ coin.addEventListener('click',(event)=>{
+   if(!apiReady)return;
+   const point={clientX:event.clientX,clientY:event.clientY};
+   queuedTaps=Math.min(100,queuedTaps+1);
+   coin.classList.remove('pulse');wrap.classList.remove('glow');void coin.offsetWidth;coin.classList.add('pulse');wrap.classList.add('glow');
+   showTapReward(point,reward);
+   const clearGlow=(e)=>{if(e.target===wrap){wrap.classList.remove('glow');wrap.removeEventListener('animationend',clearGlow);}};
+   wrap.addEventListener('animationend',clearGlow);
+   if(tapFlushTimer)clearTimeout(tapFlushTimer);
+   tapFlushTimer=setTimeout(()=>{tapFlushTimer=null;flushTapQueue();},100);
  });
 })();
 </script>
